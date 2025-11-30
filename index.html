@@ -174,6 +174,16 @@
             transform: scale(1.02);
             transition: transform 0.3s ease;
         }
+
+        /* Green status beacon */
+        .status-beacon {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+        
+        .status-dot {
+            background-color: #22c55e;
+        }
     </style>
 </head>
 <body class="min-h-screen space-dark text-white overflow-x-hidden">
@@ -247,8 +257,8 @@
         <section id="about" class="relative min-h-screen flex items-center justify-center px-6 pt-20">
             <div class="max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-8 z-10" id="hero-left">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border space-border text-white text-xs font-mono tracking-wide">
-                        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full status-beacon border text-white text-xs font-mono tracking-wide">
+                        <span class="w-2 h-2 rounded-full status-dot animate-ping"></span>
                         AVAILABLE FOR WORK
                     </div>
                     
@@ -334,7 +344,7 @@
                         <div class="space-card p-6 md:p-8 rounded-xl transition-all duration-300 hover:bg-white/5 shadow-lg group-hover:shadow-white/10 interactive">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
                                 <div>
-                                    <h3 class="text-xl font-bold text-white">Web Developer</h3>
+                                    <h3 class="text-xl font-bold text-white">Web Developer Intern</h3>
                                     <p class="space-accent font-medium">Abstract</p>
                                 </div>
                                 <span class="text-sm font-mono space-text bg-white/5 px-3 py-1 rounded-full whitespace-nowrap">
@@ -388,7 +398,7 @@
                         <div class="space-card p-6 md:p-8 rounded-xl transition-all duration-300 hover:bg-white/5 shadow-lg group-hover:shadow-white/10 interactive">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
                                 <div>
-                                    <h3 class="text-xl font-bold text-white">BCA</h3>
+                                    <h3 class="text-xl font-bold text-white">Bachelors in Computer Applications (BCA)</h3>
                                     <p class="space-accent font-medium">St. Vincent Pallotti, Raipur</p>
                                 </div>
                                 <span class="text-sm font-mono space-text bg-white/5 px-3 py-1 rounded-full whitespace-nowrap">
@@ -547,7 +557,7 @@
                     
                     <div class="flex flex-col md:flex-row gap-6 justify-center items-center mt-12">
                         <a 
-                            href="mailto:adisng@gmail.com"
+                            href="mailto:www.adisng@gmail.com"
                             class="group relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden interactive"
                         >
                             <span class="relative z-10 group-hover:text-white transition-colors duration-300">Say Hello</span>
@@ -577,7 +587,7 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // Enhanced Particle System with Repulsion
+        // Enhanced Particle System with Individual Particles and Return Behavior
         function setupParticles() {
             const canvas = document.getElementById('particle-canvas');
             if (!canvas) return;
@@ -588,6 +598,7 @@
             let mouseY = 0;
             let repulsionRadius = 120;
             let repulsionStrength = 0.1;
+            let returnStrength = 0.03;
 
             const resizeCanvas = () => {
                 canvas.width = window.innerWidth;
@@ -595,18 +606,30 @@
             };
 
             const createParticles = () => {
-                const particleCount = Math.floor(window.innerWidth / 3);
+                // Increased particle count for more density
+                const particleCount = Math.min(Math.floor(window.innerWidth / 2), 400);
                 particles = [];
                 for (let i = 0; i < particleCount; i++) {
                     particles.push({
                         x: Math.random() * canvas.width,
                         y: Math.random() * canvas.height,
+                        originalX: null,
+                        originalY: null,
                         size: Math.random() * 2 + 0.5,
                         speedX: (Math.random() - 0.5) * 0.3,
                         speedY: (Math.random() - 0.5) * 0.3,
                         opacity: Math.random() * 0.7 + 0.1,
-                        color: `rgba(${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, `
+                        color: `rgba(${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, `,
+                        // Individual properties for each particle
+                        maxSpeed: Math.random() * 0.8 + 0.5,
+                        repulsionRadius: repulsionRadius * (0.8 + Math.random() * 0.4),
+                        returnSpeed: returnStrength * (0.7 + Math.random() * 0.6),
+                        isReturning: false
                     });
+                    
+                    // Set original position after creation
+                    particles[i].originalX = particles[i].x;
+                    particles[i].originalY = particles[i].y;
                 }
             };
 
@@ -626,51 +649,63 @@
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     
                     // Apply repulsion force if particle is within repulsion radius
-                    if (distance < repulsionRadius) {
-                        const force = (repulsionRadius - distance) / repulsionRadius;
+                    if (distance < particle.repulsionRadius) {
+                        particle.isReturning = false;
+                        
+                        const force = (particle.repulsionRadius - distance) / particle.repulsionRadius;
                         const angle = Math.atan2(dy, dx);
                         
                         particle.speedX += Math.cos(angle) * force * repulsionStrength;
                         particle.speedY += Math.sin(angle) * force * repulsionStrength;
                         
-                        const maxSpeed = 1.5;
+                        // Limit maximum speed
                         const currentSpeed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
-                        if (currentSpeed > maxSpeed) {
-                            particle.speedX = (particle.speedX / currentSpeed) * maxSpeed;
-                            particle.speedY = (particle.speedY / currentSpeed) * maxSpeed;
+                        if (currentSpeed > particle.maxSpeed) {
+                            particle.speedX = (particle.speedX / currentSpeed) * particle.maxSpeed;
+                            particle.speedY = (particle.speedY / currentSpeed) * particle.maxSpeed;
+                        }
+                    } else {
+                        // Apply return force to bring particle back to original position
+                        particle.isReturning = true;
+                        
+                        const returnDx = particle.originalX - particle.x;
+                        const returnDy = particle.originalY - particle.y;
+                        const returnDistance = Math.sqrt(returnDx * returnDx + returnDy * returnDy);
+                        
+                        if (returnDistance > 0.5) {
+                            const returnForce = returnDistance * particle.returnSpeed;
+                            const returnAngle = Math.atan2(returnDy, returnDx);
+                            
+                            particle.speedX += Math.cos(returnAngle) * returnForce;
+                            particle.speedY += Math.sin(returnAngle) * returnForce;
+                        } else {
+                            // When close enough to original position, slow down
+                            particle.speedX *= 0.95;
+                            particle.speedY *= 0.95;
                         }
                     }
                     
+                    // Apply damping to all particles
                     particle.speedX *= 0.99;
                     particle.speedY *= 0.99;
                     
+                    // Update position
                     particle.x += particle.speedX;
                     particle.y += particle.speedY;
 
+                    // Boundary conditions - wrap around edges
                     if (particle.x < 0) particle.x = canvas.width;
                     if (particle.x > canvas.width) particle.x = 0;
                     if (particle.y < 0) particle.y = canvas.height;
                     if (particle.y > canvas.height) particle.y = 0;
 
+                    // Draw particle
                     ctx.beginPath();
                     ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
                     ctx.fillStyle = particle.color + particle.opacity + ')';
                     ctx.fill();
 
-                    particles.forEach(otherParticle => {
-                        const dx = particle.x - otherParticle.x;
-                        const dy = particle.y - otherParticle.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (distance < 100) {
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance/100)})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.moveTo(particle.x, particle.y);
-                            ctx.lineTo(otherParticle.x, otherParticle.y);
-                            ctx.stroke();
-                        }
-                    });
+                    // Removed connections between particles to make them individual
                 });
 
                 requestAnimationFrame(drawParticles);
