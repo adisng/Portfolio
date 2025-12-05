@@ -5,31 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aditya Singh | Creative Developer</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    
-    <!-- Three.js for 3D Elements -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <!-- GSAP for High-End Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <!-- Lenis for Smooth Scrolling -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script> 
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CORE AESTHETICS --- */
         :root {
             --bg-color: #020204; 
-            --accent-primary: #4f46e5; /* Electric Indigo */
-            --accent-secondary: #00f3ff; /* Electric Cyan */
+            --accent-primary: #4f46e5;
+            --accent-secondary: #00f3ff;
             --accent-white: #ffffff;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
@@ -64,7 +52,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- CUSTOM CURSOR (Desktop Only) --- */
         #cursor-dot, #cursor-ring {
             position: fixed;
             top: 0;
@@ -109,7 +96,6 @@
             .magnetic { cursor: pointer; }
         }
 
-        /* --- 3D CANVAS --- */
         #webgl-container {
             position: fixed;
             top: 0;
@@ -121,7 +107,6 @@
             pointer-events: none;
         }
 
-        /* --- TYPOGRAPHY --- */
         h1, h2, h3, .font-tall {
             font-family: 'Antonio', sans-serif;
             text-transform: uppercase;
@@ -129,12 +114,11 @@
             line-height: 0.9;
         }
 
-        /* NAME ANIMATION STYLES */
         .char-wrapper {
             display: inline-block;
             overflow: hidden;
             vertical-align: bottom;
-            padding-bottom: 0.2em; /* Added padding to prevent bottom clipping */
+            padding-bottom: 0.2em;
         }
         
         .char {
@@ -142,7 +126,6 @@
             will-change: transform;
         }
 
-        /* Hollow Text Effect */
         .text-outline {
             color: rgba(255, 255, 255, 0.2); 
             -webkit-text-stroke: 2px rgba(255, 255, 255, 1); 
@@ -150,7 +133,6 @@
             display: inline-block;
         }
 
-        /* Mobile adjustment for stroke width */
         @media (max-width: 768px) {
             .text-outline {
                 -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
@@ -162,7 +144,6 @@
             text-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
         }
 
-        /* --- GLASS COMPONENTS & TILT --- */
         .glass-panel {
             background: rgba(16, 16, 24, 0.7);
             backdrop-filter: blur(8px); 
@@ -182,7 +163,6 @@
             background: rgba(16, 16, 24, 0.85);
         }
 
-        /* Draggable Window Styles */
         .draggable-window {
             user-select: none;
             cursor: grab;
@@ -191,7 +171,6 @@
             cursor: grabbing;
         }
 
-        /* --- AI CHAT WIDGET --- */
         #ai-widget-btn {
             position: fixed;
             bottom: 2rem;
@@ -253,7 +232,6 @@
             pointer-events: all;
         }
 
-        /* --- MARQUEE --- */
         .marquee-container {
             position: relative;
             width: 100%;
@@ -296,7 +274,6 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* --- NAVIGATION --- */
         .nav-link {
             position: relative;
             font-size: 0.9rem;
@@ -320,12 +297,10 @@
         .nav-link:hover { color: white; }
         .nav-link:hover::after { width: 100%; }
 
-        /* --- MOBILE MENU --- */
         #mobile-menu {
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* --- GRAIN & OVERLAY --- */
         .grain-overlay {
             position: fixed;
             top: 0;
@@ -353,18 +328,14 @@
 </head>
 <body class="selection:bg-cyan-500 selection:text-black">
 
-    <!-- OVERLAYS MOVED TO LOWER Z-INDEX -->
     <div class="grain-overlay"></div>
     <div class="vignette"></div>
 
-    <!-- CUSTOM CURSOR -->
     <div id="cursor-dot"></div>
     <div id="cursor-ring"></div>
 
-    <!-- 3D BACKGROUND -->
     <div id="webgl-container"></div>
 
-    <!-- MOBILE MENU OVERLAY -->
     <div id="mobile-menu" class="fixed inset-0 bg-[#020204]/98 backdrop-blur-xl z-50 transform translate-x-full flex flex-col justify-center items-center gap-8 text-center">
         <div class="absolute top-6 right-6 p-2" onclick="toggleMobileMenu()">
             <i data-lucide="x" class="w-8 h-8 text-white cursor-pointer"></i>
@@ -377,7 +348,6 @@
         <a href="mailto:www.adisng@gmail.com" class="text-base font-mono text-cyan-400 hover:text-white">www.adisng@gmail.com</a>
     </div>
 
-    <!-- HEADER -->
     <header class="fixed top-0 w-full z-40 px-6 py-6 transition-all duration-300 bg-gradient-to-b from-[#020204] via-[#020204]/80 to-transparent">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="#" class="magnetic z-50 group">
@@ -386,7 +356,6 @@
                 </div>
             </a>
 
-            <!-- Desktop Nav -->
             <nav class="hidden md:flex gap-12">
                 <a href="#about" class="magnetic nav-link">About</a>
                 <a href="#experience" class="magnetic nav-link">Experience</a>
@@ -400,7 +369,6 @@
                         Contact
                     </div>
                 </a>
-                <!-- Mobile Menu Button -->
                 <button class="md:hidden text-white p-2" onclick="toggleMobileMenu()">
                     <i data-lucide="menu" class="w-8 h-8"></i>
                 </button>
@@ -408,11 +376,9 @@
         </div>
     </header>
 
-    <!-- HERO SECTION -->
     <section id="about" class="relative min-h-screen flex items-center justify-center px-6 pt-20 md:pt-0 overflow-hidden">
         <div class="relative z-20 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1 relative">
-                <!-- AWS Status Pill -->
                 <div class="mb-8 inline-flex items-center gap-3 px-4 py-2 border border-blue-500/30 rounded-full bg-blue-500/10 backdrop-blur-md max-w-full hover:border-blue-500/50 transition-colors shadow-lg">
                     <span class="relative flex h-2 w-2 flex-shrink-0">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -423,9 +389,8 @@
                     </span>
                 </div>
                 
-                <!-- NAME HEADER - Fixed Clipping Issue -->
                 <h1 class="text-7xl sm:text-8xl md:text-[10rem] font-bold leading-none mb-10 text-white cursor-default drop-shadow-2xl font-tall relative z-20 flex flex-col justify-center">
-                    <div class="overflow-hidden pb-2"> <!-- Added padding to prevent descender clipping -->
+                    <div class="overflow-hidden pb-2">
                         <span class="text-outline block reveal-text" style="line-height: 0.9;">ADITYA</span>
                     </div>
                     <div class="overflow-hidden flex items-center gap-4 pb-2">
@@ -456,9 +421,7 @@
 
             </div>
             
-            <!-- 3D Layout Spacer -->
             <div class="order-1 lg:order-2 h-[300px] lg:h-full w-full relative flex items-center justify-center pointer-events-none">
-                 <!-- DRAGGABLE PSEUDO-CODE PANEL -->
                 <div id="draggable-window" class="pointer-events-auto z-30 w-80 glass-panel rounded-xl overflow-hidden flex flex-col group interactive shadow-2xl draggable-window hidden md:flex">
                     <div class="flex justify-between items-center p-3 bg-white/5 border-b border-white/5 draggable-handle cursor-grab">
                         <div class="flex gap-2">
@@ -487,7 +450,6 @@
         </div>
     </section>
 
-    <!-- MARQUEE SECTION -->
     <div class="marquee-container">
         <div class="marquee-content">
             <span class="marquee-item">PYTHON</span>
@@ -513,7 +475,6 @@
         </div>
     </div>
 
-    <!-- EXPERIENCE SECTION -->
     <section id="experience" class="py-24 md:py-40 px-6 relative">
         <div class="max-w-5xl mx-auto">
             <div class="flex items-end justify-between mb-16 md:mb-24">
@@ -521,9 +482,7 @@
                 <div class="h-[1px] flex-1 bg-gradient-to-r from-cyan-500/50 to-transparent ml-8 mb-4"></div>
             </div>
 
-            <!-- Single Experience Item with 3D Tilt -->
             <div class="glass-panel p-8 md:p-12 group relative overflow-hidden magnetic-card" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
-                <!-- Ambient Glow inside card -->
                 <div class="absolute top-0 right-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-[100px] group-hover:bg-cyan-500/20 transition-all duration-700"></div>
                 
                 <div class="relative z-10 flex flex-col md:flex-row gap-10 justify-between items-start">
@@ -549,7 +508,6 @@
         </div>
     </section>
 
-    <!-- EDUCATION SECTION -->
     <section id="education" class="py-24 md:py-40 px-6 relative">
         <div class="max-w-5xl mx-auto">
             <div class="flex items-end justify-between mb-16 md:mb-24">
@@ -558,7 +516,6 @@
             </div>
 
             <div class="grid grid-cols-1 gap-8">
-                <!-- Education Item 1 -->
                 <div class="glass-panel p-8 md:p-12 group relative overflow-hidden magnetic-card" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] group-hover:bg-blue-500/20 transition-all duration-700"></div>
                     
@@ -576,7 +533,6 @@
                     </div>
                 </div>
 
-                <!-- Education Item 2 -->
                 <div class="glass-panel p-8 md:p-12 group relative overflow-hidden magnetic-card" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="absolute top-0 right-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-[100px] group-hover:bg-cyan-500/20 transition-all duration-700"></div>
                     
@@ -597,7 +553,6 @@
         </div>
     </section>
 
-    <!-- CERTIFICATIONS SECTION -->
     <section id="certifications" class="py-24 md:py-40 px-6 relative">
         <div class="max-w-6xl mx-auto">
             <div class="flex items-end justify-between mb-16 md:mb-24">
@@ -606,7 +561,6 @@
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <!-- Cert 1 -->
                 <div class="glass-panel p-8 hover:border-blue-500/50 transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
@@ -618,7 +572,6 @@
                     <p class="text-gray-400 text-sm leading-relaxed">Designing scalable, reliable, and cost-efficient cloud systems.</p>
                 </div>
 
-                <!-- Cert 2 -->
                 <div class="glass-panel p-8 hover:border-cyan-500/50 transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
@@ -630,7 +583,6 @@
                     <p class="text-gray-400 text-sm leading-relaxed">Mastering core concepts of massive data handling and processing pipelines.</p>
                 </div>
 
-                <!-- Cert 3 -->
                 <div class="glass-panel p-8 hover:border-white/50 transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-white/10 rounded-lg border border-white/20">
@@ -642,7 +594,6 @@
                     <p class="text-gray-400 text-sm leading-relaxed">Implementing intelligent algorithms and AI strategies.</p>
                 </div>
 
-                <!-- Cert 4 -->
                 <div class="glass-panel p-8 hover:border-indigo-500/50 transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
@@ -657,7 +608,6 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="py-24 md:py-40 px-6 border-t border-white/5 relative overflow-hidden bg-black/20">
         <div class="max-w-7xl mx-auto text-center relative z-10">
             <h2 class="text-5xl md:text-[10rem] font-tall font-bold mb-16 text-white/5 hover:text-white/20 transition-colors cursor-default tracking-tighter leading-none">
@@ -683,18 +633,16 @@
         </div>
     </footer>
 
-    <!-- AI ASSISTANT LOGO BUTTON -->
     <div id="ai-widget-btn" class="magnetic">
         <i data-lucide="bot" class="w-8 h-8 text-cyan-400"></i>
         <div class="absolute inset-0 rounded-full border border-cyan-400/50 animate-ping"></div>
     </div>
 
-    <!-- AI CHAT WINDOW -->
     <div id="ai-chat-window">
         <div class="p-5 border-b border-white/10 flex justify-between items-center bg-black/40">
             <div class="text-xs font-mono font-bold text-cyan-400 flex items-center gap-2">
                 <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                AI_ASSISTANT v2.5
+                AI ASSISTANT
             </div>
             <i data-lucide="x" class="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" id="close-chat"></i>
         </div>
@@ -702,14 +650,14 @@
         <div class="h-[400px] overflow-y-auto p-5 flex flex-col gap-4" id="chat-messages">
             <div class="self-start bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 max-w-[85%] shadow-lg">
                 <p class="text-xs text-gray-300 leading-relaxed font-light">
-                    Greetings. I am Aditya's AI Neural Interface. <br><br>I have access to his professional data banks. Ask me about his <span class="text-cyan-400">AWS Certification</span>, his <span class="text-cyan-400">Abstract Internship</span>, or his technical skills.
+                    Hello! I'm Aditya's AI assistant. I can answer questions about his portfolio or help you with anything else you might need. How can I assist you today?
                 </p>
             </div>
         </div>
 
         <div class="p-4 bg-black/80 border-t border-white/10 absolute bottom-0 w-full backdrop-blur-md">
             <div class="relative">
-                <input type="text" id="ai-input" class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs text-white placeholder-gray-500 outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all font-mono" placeholder="Ask AI something..." autocomplete="off">
+                <input type="text" id="ai-input" class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs text-white placeholder-gray-500 outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all font-mono" placeholder="Ask anything..." autocomplete="off">
                 <button id="send-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-cyan-400 transition-colors">
                     <i data-lucide="send" class="w-4 h-4"></i>
                 </button>
@@ -717,15 +665,11 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
     <script>
-        // --- API CONFIGURATION ---
-        const apiKey = "AIzaSyBXlBbo0ZpBJPVcqc1G4Ep55utEMjPNN18"; // Set by runtime environment
+        const apiKey = "AIzaSyBXlBbo0ZpBJPVcqc1G4Ep55utEMjPNN18"; 
 
-        // --- 1. INITIALIZE ICONS ---
         lucide.createIcons();
 
-        // --- 2. LENIS SMOOTH SCROLL ---
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -743,13 +687,11 @@
         }
         requestAnimationFrame(raf);
 
-        // --- 3. MOBILE MENU ---
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('translate-x-full');
         }
 
-        // --- 4. NEW NAME ANIMATION: STAGGERED REVEAL (FIXED) ---
         document.addEventListener('DOMContentLoaded', () => {
             const revealTexts = document.querySelectorAll('.reveal-text');
             
@@ -770,7 +712,6 @@
                 });
             });
 
-            // Use fromTo to ensure visibility
             const tl = gsap.timeline();
             tl.fromTo('.char', 
                 { y: '110%' },
@@ -784,7 +725,6 @@
             );
         });
 
-        // --- 5. CUSTOM MAGNETIC CURSOR & TILT ---
         const cursorDot = document.getElementById('cursor-dot');
         const cursorRing = document.getElementById('cursor-ring');
         const magneticElements = document.querySelectorAll('.magnetic');
@@ -800,7 +740,6 @@
 
         gsap.ticker.add(() => {
             if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-                // FIXED CURSOR: Instant follow
                 cursorX = mouseX;
                 cursorY = mouseY;
                 ringX = mouseX;
@@ -835,7 +774,6 @@
             });
         });
 
-        // 3D Tilt Logic for Cards
         function handleTilt(e, card) {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -844,7 +782,7 @@
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            const rotateX = ((y - centerY) / centerY) * -5; // Max 5 deg tilt
+            const rotateX = ((y - centerY) / centerY) * -5;
             const rotateY = ((x - centerX) / centerX) * 5;
 
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
@@ -854,7 +792,6 @@
             card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         }
 
-        // --- 6. DRAGGABLE WINDOW LOGIC (RESTORED) ---
         function makeDraggable(element) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             const header = element.querySelector('.draggable-handle');
@@ -893,25 +830,21 @@
             makeDraggable(draggableWindow);
         }
 
-        // --- 7. THREE.JS 3D BACKGROUND: LIQUID CHROME DISTORTION ---
         const scene = new THREE.Scene();
-        // scene.fog = new THREE.FogExp2(0x050510, 0.002); // Removed fog to let chrome shine
 
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1)); // CAP PIXEL RATIO FOR PERFORMANCE
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
         document.getElementById('webgl-container').appendChild(renderer.domElement);
 
-        // --- LIQUID CHROME SHADER ---
         const vertexShader = `
             varying vec2 vUv;
             varying float vElevation;
             uniform float uTime;
             uniform vec2 uMouse;
 
-            // Simplex Noise Function (Simplified)
             vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
             vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
             vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -943,50 +876,41 @@
                 vUv = uv;
                 vec3 pos = position;
                 
-                // Interaction: Distance from mouse
-                // Map mouse (-1 to 1) to UV space (0 to 1) approximatively for this plane
                 float dist = distance(uv, uMouse * 0.5 + 0.5); 
                 float interaction = smoothstep(0.5, 0.0, dist);
 
-                // Noise based elevation
                 float elevation = snoise(vec2(pos.x * 0.5 + uTime * 0.2, pos.y * 0.5 + uTime * 0.3));
                 
-                // Add interaction ripple
                 elevation += interaction * 0.5 * sin(uTime * 3.0);
 
-                pos.z += elevation * 1.5; // Scale height
+                pos.z += elevation * 1.5;
                 vElevation = elevation;
 
                 gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
             }
         `;
 
-        // Custom Fragment Shader: UPDATED COLORS TO REMOVE PINK
         const fragmentShader = `
             varying vec2 vUv;
             varying float vElevation;
             
             void main() {
-                // Color Palette: Deep Blue -> Cyan -> White (NO PINK)
-                vec3 colorDark = vec3(0.0, 0.0, 0.1);  // Deepest Navy
-                vec3 colorLight = vec3(0.0, 0.5, 0.8);   // Cyan/Blue
-                vec3 colorWhite = vec3(0.9, 0.9, 1.0);   // White
+                vec3 colorDark = vec3(0.0, 0.0, 0.1);
+                vec3 colorLight = vec3(0.0, 0.5, 0.8);
+                vec3 colorWhite = vec3(0.9, 0.9, 1.0);
 
-                // Mix based on elevation
-                float mixStrength = vElevation * 0.5 + 0.5; // Normalize -1..1 to 0..1
+                float mixStrength = vElevation * 0.5 + 0.5;
                 
                 vec3 color = mix(colorDark, colorLight, mixStrength);
                 
-                // Add sharp "chrome" highlights at peaks
                 if (mixStrength > 0.8) {
                     color = mix(color, colorWhite, (mixStrength - 0.8) * 5.0);
                 }
 
-                gl_FragColor = vec4(color, 0.9); // Slight transparency
+                gl_FragColor = vec4(color, 0.9);
             }
         `;
 
-        // Create the Plane - Reduced segments for performance
         const planeGeometry = new THREE.PlaneGeometry(30, 30, 24, 24); 
         const planeMaterial = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
@@ -1000,28 +924,23 @@
         });
 
         const liquidPlane = new THREE.Mesh(planeGeometry, planeMaterial);
-        // Rotate to face camera but tilted back slightly like a landscape or floor
         liquidPlane.rotation.x = -Math.PI / 4; 
         scene.add(liquidPlane);
 
         camera.position.z = 10;
-        camera.position.y = 2; // Look down slightly
+        camera.position.y = 2;
 
-        // Interaction
         let targetX = 0;
         let targetY = 0;
         const windowHalfX = window.innerWidth / 2;
         const windowHalfY = window.innerHeight / 2;
 
         document.addEventListener('mousemove', (event) => {
-            // Update Uniforms
-            // Normalize mouse to -1 to 1
             const x = (event.clientX / window.innerWidth) * 2 - 1;
             const y = -(event.clientY / window.innerHeight) * 2 + 1;
             
             planeMaterial.uniforms.uMouse.value.set(x, y);
 
-            // Parallax movement
             targetX = (event.clientX - windowHalfX) * 0.001;
             targetY = (event.clientY - windowHalfY) * 0.001;
         });
@@ -1031,10 +950,8 @@
         function animate() {
             const elapsedTime = clock.getElapsedTime();
             
-            // Update Shader Time
             planeMaterial.uniforms.uTime.value = elapsedTime;
 
-            // Gentle rotation of the whole plane for depth
             liquidPlane.rotation.z = Math.sin(elapsedTime * 0.1) * 0.1;
             
             renderer.render(scene, camera);
@@ -1048,7 +965,6 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // --- 8. AI CHAT LOGIC (WITH RETRY) ---
         const widgetBtn = document.getElementById('ai-widget-btn');
         const chatWindow = document.getElementById('ai-chat-window');
         const closeChat = document.getElementById('close-chat');
@@ -1056,21 +972,7 @@
         const sendBtn = document.getElementById('send-btn');
         const chatMessages = document.getElementById('chat-messages');
 
-        const context = `
-            You are the AI Assistant for Aditya Singh's portfolio.
-            Aditya is a Creative Developer based in Raipur, India.
-            
-            KEY FACTS:
-            - Experience: Web Developer Intern at Abstract (Jan 2025 - Apr 2025). Tech: HTML/CSS, JS, Optimization.
-            - Certifications: AWS Solutions Architecture (Job Sim), Big Data Foundations, Machine Learning & AI, Datacom Software Dev.
-            - Status: Currently learning AWS Cloud Practitioner.
-            - Contact: www.adisng@gmail.com.
-            
-            STYLE:
-            - Be concise (max 3 sentences).
-            - Use a slightly robotic but polite tone (like JARVIS or a Cyberpunk AI).
-            - If asked about something irrelevant, pivot back to Aditya's work.
-        `;
+        const context = "You are a helpful AI assistant residing in Aditya Singh's portfolio. Answer any question the user has efficiently and politely.";
 
         function toggleChat() {
             chatWindow.classList.toggle('open');
@@ -1079,7 +981,6 @@
         widgetBtn.addEventListener('click', toggleChat);
         closeChat.addEventListener('click', toggleChat);
 
-        // Exponential Backoff Fetch
         async function fetchWithRetry(url, options, retries = 3, backoff = 1000) {
             try {
                 const response = await fetch(url, options);
@@ -1092,7 +993,6 @@
                 return await response.json();
             } catch (error) {
                 if (retries > 0) {
-                    console.log(`Retrying... attempts left: ${retries}`);
                     await new Promise(resolve => setTimeout(resolve, backoff));
                     return fetchWithRetry(url, options, retries - 1, backoff * 2);
                 } else {
@@ -1108,7 +1008,7 @@
             addMessage(text, 'user');
             aiInput.value = '';
 
-            const loadingId = addMessage('Processing query...', 'ai');
+            const loadingId = addMessage('Processing...', 'ai');
 
             try {
                 const data = await fetchWithRetry(
@@ -1131,9 +1031,8 @@
                 addMessage(reply, 'ai');
 
             } catch (error) {
-                console.error("AI Error:", error);
                 document.getElementById(loadingId).remove();
-                addMessage("My neural link is currently unstable. Please try again or email Aditya directly.", 'ai');
+                addMessage("I am currently unavailable. Please try again later.", 'ai');
             }
         }
 
@@ -1160,7 +1059,6 @@
             if (e.key === 'Enter') sendMessage();
         });
 
-        // --- 9. SCROLL ANIMATIONS ---
         gsap.registerPlugin(ScrollTrigger);
         gsap.utils.toArray('section').forEach(section => {
             gsap.from(section.children, {
