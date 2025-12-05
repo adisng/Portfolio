@@ -1,829 +1,817 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aaditya Singh | AI/Web Developer</title>
-    <!-- Tailwind CSS CDN -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aditya Singh | Creative Developer</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Lucide Icons CDN -->
+    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D Elements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- GSAP for High-End Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Base styles */
+        /* --- CORE AESTHETICS --- */
+        :root {
+            --bg-color: #010103; /* Darker, Void Black */
+            --accent-primary: #5b21b6; /* Deep Violet */
+            --accent-secondary: #2dd4bf; /* Teal/Cyan */
+            --text-primary: #e2e8f0;
+            --text-secondary: #64748b;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background-color: #050505;
-            color: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
             cursor: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background-color: #3a3a3a;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background-color: #1a1a1a;
-        }
-
-        /* Fix for skill icons */
-        .skill-icon {
-            width: 24px;
-            height: 24px;
+        /* --- CUSTOM CURSOR (Desktop Only) --- */
+        #cursor-dot, #cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 50%;
         }
 
-        /* Particle canvas */
-        #particle-canvas {
+        #cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-secondary);
+            box-shadow: 0 0 10px var(--accent-secondary);
+        }
+
+        #cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        body.hovering #cursor-ring {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(45, 212, 191, 0.05);
+            border-color: var(--accent-secondary);
+        }
+
+        body.hovering #cursor-dot {
+            opacity: 0;
+        }
+
+        /* Disable custom cursor on touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            #cursor-dot, #cursor-ring { display: none !important; }
+            body { cursor: auto; }
+            .magnetic { cursor: pointer; }
+        }
+
+        /* --- 3D CANVAS --- */
+        #webgl-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, .font-syncopate {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .gradient-text-color {
+            background: linear-gradient(135deg, var(--text-primary) 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .gradient-accent {
+            background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- GLASS COMPONENTS --- */
+        .glass-panel {
+            background: rgba(10, 10, 15, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-panel:hover {
+            background: rgba(15, 15, 25, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* --- AI CHAT WIDGET --- */
+        #ai-widget-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background: rgba(10, 10, 15, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(91, 33, 182, 0.2);
+        }
+
+        #ai-widget-btn:hover {
+            transform: scale(1.1);
+            border-color: var(--accent-secondary);
+            box-shadow: 0 0 30px rgba(45, 212, 191, 0.3);
+        }
+
+        #ai-chat-window {
+            position: fixed;
+            bottom: 6.5rem;
+            right: 5vw; /* Responsive right */
+            width: 90vw; /* Responsive width */
+            max-width: 350px;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            background: rgba(5, 5, 8, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            z-index: 90;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            #ai-chat-window {
+                right: 2rem;
+                width: 350px;
+            }
+        }
+
+        #ai-chat-window.open {
+            height: 500px;
+            max-height: 70vh; /* Don't cover full screen on small phones */
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* --- MARQUEE --- */
+        .marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: rgba(255,255,255,0.01);
+            border-top: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding: 1rem 0;
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: scrolling 30s linear infinite;
+        }
+
+        .marquee-item {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.05);
+            white-space: nowrap;
+            padding: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .marquee-item { font-size: 1.5rem; padding: 0 2rem; }
+            .marquee-container { padding: 1.5rem 0; }
+        }
+
+        .marquee-container:hover .marquee-item {
+            color: var(--accent-secondary);
+            opacity: 0.5;
+        }
+
+        @keyframes scrolling {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- NAVIGATION --- */
+        .nav-link {
+            position: relative;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover { color: white; }
+        .nav-link:hover::after { width: 100%; }
+
+        /* --- MOBILE MENU --- */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- GRAIN --- */
+        .grain-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
             pointer-events: none;
-            opacity: 0.8;
-        }
-        
-        /* Cursor Beacon Styles */
-        #cursor-beacon {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.05s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        #cursor-dot {
-            position: fixed;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background-color: #ffffff;
-            pointer-events: none;
-            z-index: 10001;
-            transition: transform 0.05s ease-out;
-        }
-        
-        /* Draggable window styles */
-        .draggable-window {
-            user-select: none;
-        }
-        
-        /* Starfield animation */
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
-        
-        .twinkle {
-            animation: twinkle 5s infinite;
-        }
-        
-        /* Floating animation for elements */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .float {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        /* Section transitions */
-        section {
-            transition: all 0.5s ease;
-        }
-        
-        /* Custom dark colors */
-        .space-dark {
-            background-color: #050505;
-        }
-        
-        .space-card {
-            background-color: #0a0a0a;
-            border: 1px solid #1a1a1a;
-        }
-        
-        .space-accent {
-            color: #ffffff;
-        }
-        
-        .space-purple {
-            color: #8a6df1;
-        }
-        
-        .space-highlight {
-            color: #ffcc00;
-        }
-        
-        .space-text {
-            color: #a0a0a0;
-        }
-        
-        .space-border {
-            border-color: #2a2a2a;
-        }
-        
-        /* Progress bar */
-        #scroll-progress {
-            background: linear-gradient(90deg, #ffcc00, #ff9900);
-        }
-        
-        /* Interactive elements */
-        .interactive:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        /* Hide default cursor */
-        * {
-            cursor: none !important;
-        }
-
-        /* Clean static name styles */
-        .static-name {
-            font-weight: 900;
-            text-transform: uppercase;
-            display: inline-block;
-        }
-        
-        .name-white {
-            color: #ffffff;
-        }
-        
-        .name-yellow {
-            color: #ffcc00;
-        }
-        
-        /* Simple hover effect */
-        .static-name:hover {
-            transform: scale(1.02);
-            transition: transform 0.3s ease;
-        }
-
-        /* Green status beacon */
-        .status-beacon {
-            background-color: rgba(34, 197, 94, 0.1);
-            border-color: rgba(34, 197, 94, 0.3);
-        }
-        
-        .status-dot {
-            background-color: #22c55e;
+            z-index: 9000;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
         }
     </style>
 </head>
-<body class="min-h-screen space-dark text-white overflow-x-hidden">
-    
-    <!-- Custom Cursor Beacon -->
-    <div id="cursor-beacon" class="hidden md:block"></div>
-    <div id="cursor-dot" class="hidden md:block"></div>
+<body class="selection:bg-teal-500 selection:text-black">
 
-    <!-- Progress Bar -->
-    <div id="scroll-progress" class="fixed top-0 left-0 right-0 h-1 origin-left z-50 scale-x-0"></div>
+    <!-- NOISE OVERLAY -->
+    <div class="grain-overlay"></div>
 
-    <!-- Background Particles -->
-    <canvas id="particle-canvas"></canvas>
+    <!-- CUSTOM CURSOR -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
 
-    <!-- Background Stars -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute w-1 h-1 bg-white rounded-full top-1/4 left-1/4 twinkle" style="animation-delay: 0s;"></div>
-        <div class="absolute w-1 h-1 bg-white rounded-full top-1/3 left-2/3 twinkle" style="animation-delay: 1s;"></div>
-        <div class="absolute w-1 h-1 bg-white rounded-full top-2/3 left-1/5 twinkle" style="animation-delay: 2s;"></div>
-        <div class="absolute w-1 h-1 bg-white rounded-full top-3/4 left-3/4 twinkle" style="animation-delay: 3s;"></div>
-        <div class="absolute w-1 h-1 bg-white rounded-full top-1/5 left-4/5 twinkle" style="animation-delay: 4s;"></div>
-        <div class="absolute w-1 h-1 bg-white rounded-full top-2/5 left-1/10 twinkle" style="animation-delay: 0.5s;"></div>
-        <div class="absolute w-1 h-1 bg-white rounded-full top-3/5 left-9/10 twinkle" style="animation-delay: 1.5s;"></div>
-        <div class="absolute w-1 h-1 bg-white rounded-full top-4/5 left-2/5 twinkle" style="animation-delay: 2.5s;"></div>
+    <!-- 3D BACKGROUND -->
+    <div id="webgl-container"></div>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div id="mobile-menu" class="fixed inset-0 bg-[#010103]/98 backdrop-blur-xl z-50 transform translate-x-full flex flex-col justify-center items-center gap-8 text-center">
+        <div class="absolute top-6 right-6 p-2" onclick="toggleMobileMenu()">
+            <i data-lucide="x" class="w-8 h-8 text-white cursor-pointer"></i>
+        </div>
+        <a href="#about" class="text-3xl font-syncopate uppercase tracking-widest text-white/80 hover:text-teal-400 transition-colors" onclick="toggleMobileMenu()">About</a>
+        <a href="#experience" class="text-3xl font-syncopate uppercase tracking-widest text-white/80 hover:text-teal-400 transition-colors" onclick="toggleMobileMenu()">Experience</a>
+        <a href="#certifications" class="text-3xl font-syncopate uppercase tracking-widest text-white/80 hover:text-teal-400 transition-colors" onclick="toggleMobileMenu()">Certifications</a>
+        <div class="w-16 h-[1px] bg-white/10 my-4"></div>
+        <a href="mailto:www.adisng@gmail.com" class="text-sm font-mono text-gray-400 hover:text-white">www.adisng@gmail.com</a>
     </div>
 
-    <!-- Content Wrapper -->
-    <div class="relative z-10">
-        
-        <!-- Navigation -->
-        <nav class="fixed top-0 w-full z-40 backdrop-blur-md border-b space-border bg-black/50">
-            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                <!-- Simple text name instead of logo -->
-                <div class="text-white font-bold text-lg space-accent">
-                    Aaditya Singh
+    <!-- HEADER -->
+    <header class="fixed top-0 w-full z-40 px-6 py-6 transition-all duration-300 bg-gradient-to-b from-[#010103] via-[#010103]/80 to-transparent">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="magnetic z-50 group">
+                <div class="font-bold text-xl tracking-widest relative">
+                    ADITYA<span class="text-teal-400">.</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex gap-10">
+                <a href="#about" class="magnetic nav-link">About</a>
+                <a href="#experience" class="magnetic nav-link">Experience</a>
+                <a href="#certifications" class="magnetic nav-link">Certifications</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="mailto:www.adisng@gmail.com" class="magnetic hidden md:block">
+                    <div class="px-6 py-2 border border-white/10 rounded-full hover:bg-white hover:text-black transition-all duration-300 text-xs tracking-widest uppercase font-bold">
+                        Contact
+                    </div>
+                </a>
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-white p-2" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="about" class="relative min-h-screen flex items-center justify-center px-6 pt-20 md:pt-0 overflow-hidden">
+        <div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1">
+                <!-- AWS Status Pill -->
+                <div class="mb-6 inline-flex items-center gap-3 px-4 py-2 border border-white/5 rounded-full bg-white/5 backdrop-blur-md max-w-full">
+                    <span class="relative flex h-2 w-2 flex-shrink-0">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                    </span>
+                    <span class="text-[10px] md:text-xs font-mono tracking-widest uppercase text-gray-400 truncate">
+                        Current Mission: AWS Cloud Practitioner
+                    </span>
                 </div>
                 
-                <div class="hidden md:flex gap-8 text-sm font-medium space-text">
-                    <a href="#about" class="hover:text-white transition-colors duration-300 relative group">
-                        <span class="nav-link">About</span>
-                        <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                    <a href="#experience" class="hover:text-white transition-colors duration-300 relative group">
-                        <span class="nav-link">Experience</span>
-                        <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                    <a href="#education" class="hover:text-white transition-colors duration-300 relative group">
-                        <span class="nav-link">Education</span>
-                        <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                    <a href="#skills" class="hover:text-white transition-colors duration-300 relative group">
-                        <span class="nav-link">Skills</span>
-                        <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                    <a href="#projects" class="hover:text-white transition-colors duration-300 relative group">
-                        <span class="nav-link">Certifications</span>
-                        <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                </div>
-                <a 
-                    href="mailto:adisng@gmail.com"
-                    class="px-6 py-2 space-card hover:bg-white/10 border space-border rounded-full text-sm font-medium transition-all flex items-center gap-2 interactive"
-                >
-                    <i data-lucide="mail" class="w-4 h-4"></i>
-                    Contact Me
-                </a>
-            </div>
-        </nav>
-
-        <!-- Hero Section -->
-        <section id="about" class="relative min-h-screen flex items-center justify-center px-6 pt-20">
-            <div class="max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-8 z-10" id="hero-left">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full status-beacon border text-white text-xs font-mono tracking-wide">
-                        <span class="w-2 h-2 rounded-full status-dot animate-ping"></span>
-                        AVAILABLE FOR WORK
-                    </div>
-                    
-                    <h1 class="text-5xl md:text-7xl font-bold leading-tight tracking-tight">
-                        <div class="static-name name-white">
-                            Aaditya
-                        </div>
-                        <br>
-                        <div class="static-name name-yellow">
-                            Singh
-                        </div>
-                    </h1>
-                    
-                    <p class="space-text text-lg md:text-xl max-w-lg leading-relaxed">
-                        Results-driven <span class="text-white">Software Developer</span> & CS Student. 
-                        Specializing in AWS, Python, and creating high-performance web solutions.
+                <h1 class="text-5xl sm:text-6xl md:text-8xl font-bold leading-tight mb-6 text-white">
+                    ADITYA<br>
+                    <span class="gradient-accent" id="hero-text">SINGH</span>
+                </h1>
+                
+                <div class="relative max-w-md mb-10">
+                    <p id="bio-text" class="text-gray-400 text-base md:text-lg leading-relaxed font-light transition-opacity duration-300">
+                        Aditya Singh. I craft immersive digital experiences at the intersection of <span class="text-white">Art</span> and <span class="text-white">Engineering</span>.
                     </p>
+                    
+                    <!-- AI Feature: Bio Remix -->
+                    <button onclick="remixBio()" class="magnetic absolute -right-4 top-0 p-2 text-teal-400 hover:text-white transition-colors opacity-70 hover:opacity-100" title="Remix Bio with AI">
+                        <span class="text-lg">✨</span>
+                    </button>
+                    <div id="bio-loader" class="hidden absolute top-0 left-0 w-full h-full bg-[#010103]/90 flex items-center justify-center backdrop-blur-sm rounded">
+                        <span class="text-xs font-mono text-teal-400 animate-pulse">REMIXING...</span>
+                    </div>
+                </div>
 
-                    <div class="flex gap-4">
-                        <a href="https://github.com/adisng" target="_blank" rel="noreferrer" class="p-3 rounded-full space-card hover:bg-white/10 border space-border transition-all duration-300 float interactive" style="animation-delay: 0s;">
+                <div class="flex flex-wrap gap-4 items-center">
+                    <a href="#experience" class="magnetic px-8 py-4 bg-white text-black rounded-full text-sm font-bold tracking-widest hover:scale-105 transition-transform duration-300">
+                        EXPLORE
+                    </a>
+                    <div class="flex gap-2 ml-4">
+                        <a href="https://github.com/adisng" target="_blank" class="magnetic p-3 text-gray-400 hover:text-white transition-colors">
                             <i data-lucide="github" class="w-5 h-5"></i>
                         </a>
-                        <a href="https://linkedin.com/in/patialapapi03" target="_blank" rel="noreferrer" class="p-3 rounded-full space-card hover:bg-white/10 border space-border transition-all duration-300 float interactive" style="animation-delay: 1s;">
+                        <a href="https://linkedin.com/in/patialapapi03" target="_blank" class="magnetic p-3 text-gray-400 hover:text-white transition-colors">
                             <i data-lucide="linkedin" class="w-5 h-5"></i>
                         </a>
-                        <a href="mailto:www.adisng@gmail.com" class="p-3 rounded-full space-card hover:bg-white/10 border space-border transition-all duration-300 float interactive" style="animation-delay: 2s;">
-                            <i data-lucide="mail" class="w-5 h-5"></i>
-                        </a>
-                    </div>
-                    
-                    <!-- AWS Learning Status -->
-                    <div class="flex items-center gap-3 mt-4">
-                        <div class="relative">
-                            <div class="w-3 h-3 space-highlight rounded-full"></div>
-                        </div>
-                        <span class="space-highlight font-medium text-sm">Currently learning: <span class="font-bold">AWS Cloud Practitioner</span></span>
-                    </div>
-                </div>
-
-                <div class="relative hidden md:block">
-                    <!-- Draggable Code Window -->
-                    <div id="draggable-window" class="absolute z-10 w-80 h-72 space-card border space-border rounded-lg overflow-hidden backdrop-blur-sm flex flex-col group interactive" style="top: 50px; left: 50px;">
-                        <div class="flex justify-between items-center p-3 bg-white/5 border-b space-border draggable-handle cursor-move">
-                            <div class="flex gap-2">
-                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                            </div>
-                            <div class="font-mono text-xs space-text">terminal</div>
-                        </div>
-                        
-                        <div class="flex-1 p-4 font-mono text-sm space-text overflow-y-auto">
-                            <p><span class="space-purple">const</span> <span class="space-accent">developer</span> = <span class="space-highlight">{'{'}</span></p>
-                            <p class="pl-4">name: <span class="text-green-400">'Aaditya Singh'</span>,</p>
-                            <p class="pl-4">role: <span class="text-green-400">'Web Developer'</span>,</p>
-                            <p class="pl-4">location: <span class="text-green-400">'Raipur, India'</span>,</p>
-                            <p class="pl-4">skills: [<span class="text-green-400">'AWS'</span>, <span class="text-green-400">'Python'</span>, <span class="text-green-400">'React'</span>],</p>
-                            <p class="pl-4">currentlyLearning: <span class="space-highlight">'AWS Cloud Practitioner'</span>,</p>
-                            <p class="pl-4">passion: <span class="text-green-400">'Building user-focused solutions'</span></p>
-                            <p><span class="space-highlight">{'}'}</span>;</p>
-                        </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- 3D Layout Spacer -->
+            <div class="order-1 lg:order-2 h-[250px] lg:h-full pointer-events-none w-full"></div>
+        </div>
+        
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 pointer-events-none">
+            <span class="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
+        </div>
+    </section>
 
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce space-text">
-                <i data-lucide="chevron-down" class="w-6 h-6"></i>
-            </div>
-        </section>
-
-        <!-- Experience Section -->
-        <section id="experience" class="py-24 px-6 relative">
-            <div class="max-w-5xl mx-auto">
-                <div class="mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Professional Experience</h2>
-                    <div class="h-1 w-20 bg-white rounded-full"></div>
-                </div>
-
-                <div class="relative border-l border-white/10 ml-3 md:ml-6 space-y-12">
-                    <!-- Experience Item -->
-                    <div class="relative pl-8 md:pl-12 group">
-                        <div class="absolute -left-[5px] md:-left-[7px] top-2 w-3.5 h-3.5 rounded-full bg-white ring-4 ring-[#050505] group-hover:ring-white/50 transition-all duration-300"></div>
-                        <div class="space-card p-6 md:p-8 rounded-xl transition-all duration-300 hover:bg-white/5 shadow-lg group-hover:shadow-white/10 interactive">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
-                                <div>
-                                    <h3 class="text-xl font-bold text-white">Web Developer Intern</h3>
-                                    <p class="space-accent font-medium">Abstract</p>
-                                </div>
-                                <span class="text-sm font-mono space-text bg-white/5 px-3 py-1 rounded-full whitespace-nowrap">
-                                    Jan 2025 - Apr 2025
-                                </span>
-                            </div>
-                            <div class="space-text text-sm leading-relaxed space-y-2">
-                                <ul class="list-disc list-inside space-y-1">
-                                    <li>Built and maintained responsive websites using HTML, CSS, and JavaScript.</li>
-                                    <li>Collaborated with teams to deliver projects on time.</li>
-                                    <li>Improved website performance and user experience through optimisation.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education Section -->
-        <section id="education" class="py-24 px-6 space-card relative overflow-hidden">
-            <div class="max-w-5xl mx-auto relative z-10">
-                <div class="mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Education</h2>
-                    <div class="h-1 w-20 bg-white rounded-full"></div>
-                </div>
-
-                <div class="relative border-l border-white/10 ml-3 md:ml-6 space-y-12">
-                    <!-- Education Item 1 -->
-                    <div class="relative pl-8 md:pl-12 group">
-                        <div class="absolute -left-[5px] md:-left-[7px] top-2 w-3.5 h-3.5 rounded-full bg-white ring-4 ring-[#050505] group-hover:ring-white/50 transition-all duration-300"></div>
-                        <div class="space-card p-6 md:p-8 rounded-xl transition-all duration-300 hover:bg-white/5 shadow-lg group-hover:shadow-white/10 interactive">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
-                                <div>
-                                    <h3 class="text-xl font-bold text-white">Master of Computer Applications (MCA)</h3>
-                                    <p class="space-accent font-medium">MATS University, Raipur</p>
-                                </div>
-                                <span class="text-sm font-mono space-text bg-white/5 px-3 py-1 rounded-full whitespace-nowrap">
-                                    2025 - 2027
-                                </span>
-                            </div>
-                            <div class="space-text text-sm leading-relaxed">
-                                <p>Specializing in Computer Science and Advanced Computing.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Education Item 2 -->
-                    <div class="relative pl-8 md:pl-12 group">
-                        <div class="absolute -left-[5px] md:-left-[7px] top-2 w-3.5 h-3.5 rounded-full bg-white ring-4 ring-[#050505] group-hover:ring-white/50 transition-all duration-300"></div>
-                        <div class="space-card p-6 md:p-8 rounded-xl transition-all duration-300 hover:bg-white/5 shadow-lg group-hover:shadow-white/10 interactive">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
-                                <div>
-                                    <h3 class="text-xl font-bold text-white">Bachelors in Computer Applications (BCA)</h3>
-                                    <p class="space-accent font-medium">St. Vincent Pallotti, Raipur</p>
-                                </div>
-                                <span class="text-sm font-mono space-text bg-white/5 px-3 py-1 rounded-full whitespace-nowrap">
-                                    Aug 2022 - Aug 2025
-                                </span>
-                            </div>
-                            <div class="space-text text-sm leading-relaxed">
-                                <p>Computer Programming & Specific Applications</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills" class="py-24 px-6 space-card relative overflow-hidden">
-            <div class="max-w-6xl mx-auto relative z-10">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Technical Arsenal</h2>
-                    <div class="h-1 w-20 bg-white rounded-full mx-auto"></div>
-                    <p class="space-text max-w-2xl mx-auto mt-4">
-                        A comprehensive toolkit for building scalable, high-performance applications.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                    <!-- Skill Cards -->
-                    <div class="space-card p-6 rounded-xl flex flex-col items-center justify-center gap-4 group hover:scale-[1.05] hover:bg-white/5 transition-all shadow-lg hover:shadow-white/10 interactive">
-                        <div class="space-highlight p-4 bg-white/5 rounded-full group-hover:bg-white/10 transition-colors">
-                            <i data-lucide="code-2" class="skill-icon"></i>
-                        </div>
-                        <span class="font-medium space-text group-hover:text-white transition-colors text-center">Python</span>
-                    </div>
-
-                    <div class="space-card p-6 rounded-xl flex flex-col items-center justify-center gap-4 group hover:scale-[1.05] hover:bg-white/5 transition-all shadow-lg hover:shadow-white/10 interactive">
-                        <div class="space-accent p-4 bg-white/5 rounded-full group-hover:bg-white/10 transition-colors">
-                            <i data-lucide="cloud" class="skill-icon"></i>
-                        </div>
-                        <span class="font-medium space-text group-hover:text-white transition-colors text-center">AWS</span>
-                    </div>
-
-                    <div class="space-card p-6 rounded-xl flex flex-col items-center justify-center gap-4 group hover:scale-[1.05] hover:bg-white/5 transition-all shadow-lg hover:shadow-white/10 interactive">
-                        <div class="space-highlight p-4 bg-white/5 rounded-full group-hover:bg-white/10 transition-colors">
-                            <i data-lucide="file-code" class="skill-icon"></i>
-                        </div>
-                        <span class="font-medium space-text group-hover:text-white transition-colors text-center">JavaScript</span>
-                    </div>
-
-                    <div class="space-card p-6 rounded-xl flex flex-col items-center justify-center gap-4 group hover:scale-[1.05] hover:bg-white/5 transition-all shadow-lg hover:shadow-white/10 interactive">
-                        <div class="space-accent p-4 bg-white/5 rounded-full group-hover:bg-white/10 transition-colors">
-                            <i data-lucide="atom" class="skill-icon"></i>
-                        </div>
-                        <span class="font-medium space-text group-hover:text-white transition-colors text-center">React</span>
-                    </div>
-
-                    <div class="space-card p-6 rounded-xl flex flex-col items-center justify-center gap-4 group hover:scale-[1.05] hover:bg-white/5 transition-all shadow-lg hover:shadow-white/10 interactive">
-                        <div class="text-red-400 p-4 bg-white/5 rounded-full group-hover:bg-white/10 transition-colors">
-                            <i data-lucide="layout" class="skill-icon"></i>
-                        </div>
-                        <span class="font-medium space-text group-hover:text-white transition-colors text-center">HTML5/CSS3</span>
-                    </div>
-
-                    <div class="space-card p-6 rounded-xl flex flex-col items-center justify-center gap-4 group hover:scale-[1.05] hover:bg-white/5 transition-all shadow-lg hover:shadow-white/10 interactive">
-                        <div class="space-purple p-4 bg-white/5 rounded-full group-hover:bg-white/10 transition-colors">
-                            <i data-lucide="brain" class="skill-icon"></i>
-                        </div>
-                        <span class="font-medium space-text group-hover:text-white transition-colors text-center">Machine Learning</span>
-                    </div>
-
-                    <div class="space-card p-6 rounded-xl flex flex-col items-center justify-center gap-4 group hover:scale-[1.05] hover:bg-white/5 transition-all shadow-lg hover:shadow-white/10 interactive">
-                        <div class="space-accent p-4 bg-white/5 rounded-full group-hover:bg-white/10 transition-colors">
-                            <i data-lucide="database" class="skill-icon"></i>
-                        </div>
-                        <span class="font-medium space-text group-hover:text-white transition-colors text-center">Big Data</span>
-                    </div>
-
-                    <div class="space-card p-6 rounded-xl flex flex-col items-center justify-center gap-4 group hover:scale-[1.05] hover:bg-white/5 transition-all shadow-lg hover:shadow-white/10 interactive">
-                        <div class="text-green-400 p-4 bg-white/5 rounded-full group-hover:bg-white/10 transition-colors">
-                            <i data-lucide="bug" class="skill-icon"></i>
-                        </div>
-                        <span class="font-medium space-text group-hover:text-white transition-colors text-center">Debugging</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Certifications Section -->
-        <section id="projects" class="py-24 px-6">
-            <div class="max-w-5xl mx-auto">
-                <div class="mb-12 flex justify-between items-end">
-                    <div>
-                        <h2 class="text-3xl md:text-4xl font-bold mb-4">Certifications</h2>
-                        <div class="h-1 w-20 bg-white rounded-full"></div>
-                    </div>
-                    <div class="hidden md:block space-text font-mono text-sm">
-                        // Continuous Learning
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Certification Cards -->
-                    <div class="group relative overflow-hidden space-card rounded-xl p-8 hover:translate-y-[-5px] transition-all duration-300 shadow-xl interactive">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500 opacity-10 rounded-bl-full group-hover:opacity-20 transition-opacity duration-500"></div>
-                        <h3 class="text-xl font-bold mb-2 pr-8">AWS Solutions Architecture</h3>
-                        <p class="space-text text-sm mb-6">Job Simulation</p>
-                        <div class="flex items-center gap-2 text-sm font-medium space-text group-hover:text-white transition-colors">
-                            <span class="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-lg"></span>
-                            Verified Credential
-                        </div>
-                    </div>
-
-                    <div class="group relative overflow-hidden space-card rounded-xl p-8 hover:translate-y-[-5px] transition-all duration-300 shadow-xl interactive">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500 opacity-10 rounded-bl-full group-hover:opacity-20 transition-opacity duration-500"></div>
-                        <h3 class="text-xl font-bold mb-2 pr-8">Big Data Foundations</h3>
-                        <p class="space-text text-sm mb-6">Level 1</p>
-                        <div class="flex items-center gap-2 text-sm font-medium space-text group-hover:text-white transition-colors">
-                            <span class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-lg"></span>
-                            Verified Credential
-                        </div>
-                    </div>
-
-                    <div class="group relative overflow-hidden space-card rounded-xl p-8 hover:translate-y-[-5px] transition-all duration-300 shadow-xl interactive">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500 opacity-10 rounded-bl-full group-hover:opacity-20 transition-opacity duration-500"></div>
-                        <h3 class="text-xl font-bold mb-2 pr-8">Machine Learning & AI</h3>
-                        <p class="space-text text-sm mb-6">Fundamentals</p>
-                        <div class="flex items-center gap-2 text-sm font-medium space-text group-hover:text-white transition-colors">
-                            <span class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-lg"></span>
-                            Verified Credential
-                        </div>
-                    </div>
-
-                    <div class="group relative overflow-hidden space-card rounded-xl p-8 hover:translate-y-[-5px] transition-all duration-300 shadow-xl interactive">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-green-500 opacity-10 rounded-bl-full group-hover:opacity-20 transition-opacity duration-500"></div>
-                        <h3 class="text-xl font-bold mb-2 pr-8">Datacom Software Dev</h3>
-                        <p class="space-text text-sm mb-6">Job Simulation</p>
-                        <div class="flex items-center gap-2 text-sm font-medium space-text group-hover:text-white transition-colors">
-                            <span class="w-2.5 h-2.5 rounded-full bg-green-500 shadow-lg"></span>
-                            Verified Credential
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Footer -->
-        <footer class="py-24 px-6 border-t space-border space-dark relative overflow-hidden">
-            <div class="max-w-4xl mx-auto text-center relative z-10">
-                <div class="space-y-8">
-                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter">
-                        Let's Build <br/> Something <span class="space-highlight">Amazing.</span>
-                    </h2>
-                    <p class="space-text text-lg max-w-xl mx-auto">
-                        Open to opportunities in Software Development, Quality Engineering, or Technical Support Engineering.
-                    </p>
-                    
-                    <div class="flex flex-col md:flex-row gap-6 justify-center items-center mt-12">
-                        <a 
-                            href="mailto:www.adisng@gmail.com"
-                            class="group relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden interactive"
-                        >
-                            <span class="relative z-10 group-hover:text-white transition-colors duration-300">Say Hello</span>
-                            <div class="absolute inset-0 bg-black transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
-                        </a>
-                        <a 
-                            href="https://linkedin.com/in/patialapapi03"
-                            target="_blank"
-                            rel="noreferrer"
-                            class="flex items-center gap-2 text-white hover:text-gray-300 transition-colors font-medium"
-                        >
-                            <i data-lucide="linkedin" class="w-5 h-5"></i>
-                            Connect on LinkedIn
-                        </a>
-                    </div>
-
-                    <div class="pt-20 text-xs space-text font-mono">
-                        <p>Designed & Built by Aaditya Singh</p>
-                        <p class="mt-2">Raipur, Chhattisgarh, India</p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+    <!-- MARQUEE SECTION -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <span class="marquee-item">PYTHON</span>
+            <span class="marquee-item">///</span>
+            <span class="marquee-item">REACT.JS</span>
+            <span class="marquee-item">///</span>
+            <span class="marquee-item">AWS CLOUD</span>
+            <span class="marquee-item">///</span>
+            <span class="marquee-item">MACHINE LEARNING</span>
+            <span class="marquee-item">///</span>
+            <span class="marquee-item">BIG DATA</span>
+            <span class="marquee-item">///</span>
+            <span class="marquee-item">PYTHON</span>
+            <span class="marquee-item">///</span>
+            <span class="marquee-item">REACT.JS</span>
+            <span class="marquee-item">///</span>
+            <span class="marquee-item">AWS CLOUD</span>
+            <span class="marquee-item">///</span>
+            <span class="marquee-item">MACHINE LEARNING</span>
+            <span class="marquee-item">///</span>
+            <span class="marquee-item">BIG DATA</span>
+            <span class="marquee-item">///</span>
+        </div>
     </div>
 
+    <!-- EXPERIENCE SECTION -->
+    <section id="experience" class="py-20 md:py-32 px-6 relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex items-end justify-between mb-16 md:mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold text-white">Experience</h2>
+                <div class="h-[1px] flex-1 bg-white/10 ml-8 mb-2"></div>
+            </div>
+
+            <!-- Single Experience Item -->
+            <div class="glass-panel p-6 md:p-10 group relative overflow-hidden magnetic-card">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-teal-900/20 rounded-full blur-[80px] group-hover:bg-teal-800/30 transition-all duration-500"></div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row gap-8 justify-between">
+                    <div>
+                        <div class="flex flex-wrap items-center gap-3 mb-2">
+                            <h3 class="text-xl md:text-2xl font-bold text-white">Web Developer Intern</h3>
+                            <span class="px-2 py-1 border border-teal-500/30 bg-teal-500/10 text-teal-400 text-[10px] uppercase font-bold tracking-wider rounded">Abstract</span>
+                        </div>
+                        <p class="text-gray-500 font-mono text-xs mb-6">Jan 2025 - Apr 2025</p>
+                        <p class="text-gray-400 leading-relaxed max-w-xl text-sm md:text-base">
+                            Built and maintained responsive websites using HTML, CSS, and JavaScript. Collaborated with teams to deliver projects on time and improved website performance through optimization strategies.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap md:flex-col gap-2 justify-start md:justify-center">
+                        <span class="px-3 py-1 bg-white/5 rounded-full text-xs text-gray-400 border border-white/5 whitespace-nowrap">HTML/CSS</span>
+                        <span class="px-3 py-1 bg-white/5 rounded-full text-xs text-gray-400 border border-white/5 whitespace-nowrap">JavaScript</span>
+                        <span class="px-3 py-1 bg-white/5 rounded-full text-xs text-gray-400 border border-white/5 whitespace-nowrap">Optimization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CERTIFICATIONS SECTION -->
+    <section id="certifications" class="py-20 md:py-32 px-6 bg-[#020204]">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-end justify-between mb-16 md:mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold text-white">Certifications</h2>
+                <div class="h-[1px] flex-1 bg-white/10 ml-8 mb-2"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Cert 1 -->
+                <div class="glass-panel p-6 md:p-8 hover:border-orange-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <i data-lucide="cloud" class="w-8 h-8 text-orange-500 group-hover:text-orange-400 transition-colors"></i>
+                        <span class="text-[10px] uppercase tracking-widest text-gray-500 border border-white/10 px-2 py-1 rounded">Job Sim</span>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">AWS Solutions Architecture</h3>
+                    <p class="text-gray-500 text-sm">Design scalable, reliable, and cost-efficient systems on AWS.</p>
+                </div>
+
+                <!-- Cert 2 -->
+                <div class="glass-panel p-6 md:p-8 hover:border-blue-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <i data-lucide="database" class="w-8 h-8 text-blue-500 group-hover:text-blue-400 transition-colors"></i>
+                        <span class="text-[10px] uppercase tracking-widest text-gray-500 border border-white/10 px-2 py-1 rounded">Level 1</span>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Big Data Foundations</h3>
+                    <p class="text-gray-500 text-sm">Core concepts of Big Data handling and processing.</p>
+                </div>
+
+                <!-- Cert 3 -->
+                <div class="glass-panel p-6 md:p-8 hover:border-purple-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <i data-lucide="brain" class="w-8 h-8 text-purple-500 group-hover:text-purple-400 transition-colors"></i>
+                        <span class="text-[10px] uppercase tracking-widest text-gray-500 border border-white/10 px-2 py-1 rounded">Fundamentals</span>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Machine Learning & AI</h3>
+                    <p class="text-gray-500 text-sm">Understanding ML algorithms and AI implementation strategies.</p>
+                </div>
+
+                <!-- Cert 4 -->
+                <div class="glass-panel p-6 md:p-8 hover:border-green-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <i data-lucide="code" class="w-8 h-8 text-green-500 group-hover:text-green-400 transition-colors"></i>
+                        <span class="text-[10px] uppercase tracking-widest text-gray-500 border border-white/10 px-2 py-1 rounded">Job Sim</span>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Datacom Software Dev</h3>
+                    <p class="text-gray-500 text-sm">Practical software development simulation experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-20 px-6 border-t border-white/5 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <h2 class="text-4xl md:text-6xl font-bold mb-12 text-white/20 hover:text-white/40 transition-colors cursor-default">
+                ADITYA SINGH
+            </h2>
+            
+            <div class="flex justify-center gap-8 mb-12">
+                <a href="mailto:www.adisng@gmail.com" class="magnetic text-xs md:text-sm uppercase tracking-widest text-gray-500 hover:text-teal-400 transition-colors">Email</a>
+                <a href="https://linkedin.com/in/patialapapi03" target="_blank" class="magnetic text-xs md:text-sm uppercase tracking-widest text-gray-500 hover:text-teal-400 transition-colors">LinkedIn</a>
+                <a href="https://github.com/adisng" target="_blank" class="magnetic text-xs md:text-sm uppercase tracking-widest text-gray-500 hover:text-teal-400 transition-colors">GitHub</a>
+            </div>
+            
+            <div class="text-[10px] font-mono text-gray-700 flex justify-between items-center border-t border-white/5 pt-8">
+                <span>© 2025 ALL RIGHTS RESERVED</span>
+                <span>INDIA</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI ASSISTANT LOGO BUTTON -->
+    <div id="ai-widget-btn" class="magnetic">
+        <i data-lucide="bot" class="w-6 h-6 text-teal-400"></i>
+    </div>
+
+    <!-- AI CHAT WINDOW -->
+    <div id="ai-chat-window">
+        <div class="p-4 border-b border-white/10 flex justify-between items-center bg-black/40">
+            <div class="text-xs font-mono font-bold text-teal-400 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                AI_ASSISTANT
+            </div>
+            <i data-lucide="x" class="w-4 h-4 text-gray-500 hover:text-white cursor-pointer" id="close-chat"></i>
+        </div>
+        
+        <div class="h-[380px] overflow-y-auto p-4 flex flex-col gap-3" id="chat-messages">
+            <div class="self-start bg-white/5 p-3 rounded-lg rounded-tl-none border border-white/5 max-w-[85%]">
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    Hello. I am Aditya's AI Assistant. I can tell you about his skills, experience at Abstract, or his AWS journey.
+                </p>
+            </div>
+        </div>
+
+        <div class="p-3 bg-black/60 border-t border-white/10 absolute bottom-0 w-full">
+            <div class="relative">
+                <input type="text" id="ai-input" class="w-full bg-white/5 border border-white/10 rounded-full py-2 px-4 text-xs text-white placeholder-gray-600 outline-none focus:border-teal-500/50 transition-colors" placeholder="Ask something..." autocomplete="off">
+                <button id="send-btn" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-400 transition-colors">
+                    <i data-lucide="send" class="w-3 h-3"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
     <script>
-        // Initialize Lucide icons
+        // --- API CONFIGURATION ---
+        const apiKey = ""; // Set by runtime environment
+
+        // --- 1. INITIALIZE ICONS ---
         lucide.createIcons();
 
-        // Enhanced Particle System with Individual Particles and Return Behavior
-        function setupParticles() {
-            const canvas = document.getElementById('particle-canvas');
-            if (!canvas) return;
+        // --- 2. MOBILE MENU ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('translate-x-full');
+        }
 
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            let mouseX = 0;
-            let mouseY = 0;
-            let repulsionRadius = 120;
-            let repulsionStrength = 0.1;
-            let returnStrength = 0.03;
+        // --- 3. CUSTOM MAGNETIC CURSOR ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
+        const magneticElements = document.querySelectorAll('.magnetic');
+        
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let ringX = 0, ringY = 0;
 
-            const resizeCanvas = () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            };
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
 
-            const createParticles = () => {
-                // Increased particle count for more density
-                const particleCount = Math.min(Math.floor(window.innerWidth / 2), 400);
-                particles = [];
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        originalX: null,
-                        originalY: null,
-                        size: Math.random() * 2 + 0.5,
-                        speedX: (Math.random() - 0.5) * 0.3,
-                        speedY: (Math.random() - 0.5) * 0.3,
-                        opacity: Math.random() * 0.7 + 0.1,
-                        color: `rgba(${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, `,
-                        // Individual properties for each particle
-                        maxSpeed: Math.random() * 0.8 + 0.5,
-                        repulsionRadius: repulsionRadius * (0.8 + Math.random() * 0.4),
-                        returnSpeed: returnStrength * (0.7 + Math.random() * 0.6),
-                        isReturning: false
-                    });
-                    
-                    // Set original position after creation
-                    particles[i].originalX = particles[i].x;
-                    particles[i].originalY = particles[i].y;
+        gsap.ticker.add(() => {
+            // Only animate if cursor is visible (not on touch)
+            if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+                cursorX += (mouseX - cursorX) * 0.2;
+                cursorY += (mouseY - cursorY) * 0.2;
+                ringX += (mouseX - ringX) * 0.1;
+                ringY += (mouseY - ringY) * 0.1;
+
+                gsap.set(cursorDot, { x: cursorX, y: cursorY });
+                gsap.set(cursorRing, { x: ringX, y: ringY });
+            }
+        });
+
+        magneticElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                if (window.matchMedia("(hover: hover)").matches) {
+                    document.body.classList.add('hovering');
+                    gsap.to(cursorRing, { scale: 1.5, duration: 0.3 });
                 }
-            };
-
-            // Track mouse position for repulsion
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
             });
+            el.addEventListener('mouseleave', () => {
+                if (window.matchMedia("(hover: hover)").matches) {
+                    document.body.classList.remove('hovering');
+                    gsap.to(cursorRing, { scale: 1, duration: 0.3 });
+                    gsap.to(el, { x: 0, y: 0, duration: 0.5 });
+                }
+            });
+            el.addEventListener('mousemove', (e) => {
+                if (window.matchMedia("(hover: hover)").matches) {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.2 });
+                }
+            });
+        });
 
-            const drawParticles = () => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                particles.forEach(particle => {
-                    // Calculate distance to mouse
-                    const dx = particle.x - mouseX;
-                    const dy = particle.y - mouseY;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    // Apply repulsion force if particle is within repulsion radius
-                    if (distance < particle.repulsionRadius) {
-                        particle.isReturning = false;
-                        
-                        const force = (particle.repulsionRadius - distance) / particle.repulsionRadius;
-                        const angle = Math.atan2(dy, dx);
-                        
-                        particle.speedX += Math.cos(angle) * force * repulsionStrength;
-                        particle.speedY += Math.sin(angle) * force * repulsionStrength;
-                        
-                        // Limit maximum speed
-                        const currentSpeed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
-                        if (currentSpeed > particle.maxSpeed) {
-                            particle.speedX = (particle.speedX / currentSpeed) * particle.maxSpeed;
-                            particle.speedY = (particle.speedY / currentSpeed) * particle.maxSpeed;
-                        }
-                    } else {
-                        // Apply return force to bring particle back to original position
-                        particle.isReturning = true;
-                        
-                        const returnDx = particle.originalX - particle.x;
-                        const returnDy = particle.originalY - particle.y;
-                        const returnDistance = Math.sqrt(returnDx * returnDx + returnDy * returnDy);
-                        
-                        if (returnDistance > 0.5) {
-                            const returnForce = returnDistance * particle.returnSpeed;
-                            const returnAngle = Math.atan2(returnDy, returnDx);
-                            
-                            particle.speedX += Math.cos(returnAngle) * returnForce;
-                            particle.speedY += Math.sin(returnAngle) * returnForce;
-                        } else {
-                            // When close enough to original position, slow down
-                            particle.speedX *= 0.95;
-                            particle.speedY *= 0.95;
-                        }
-                    }
-                    
-                    // Apply damping to all particles
-                    particle.speedX *= 0.99;
-                    particle.speedY *= 0.99;
-                    
-                    // Update position
-                    particle.x += particle.speedX;
-                    particle.y += particle.speedY;
+        // --- 4. THREE.JS 3D BACKGROUND ---
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x010103, 0.0025);
 
-                    // Boundary conditions - wrap around edges
-                    if (particle.x < 0) particle.x = canvas.width;
-                    if (particle.x > canvas.width) particle.x = 0;
-                    if (particle.y < 0) particle.y = canvas.height;
-                    if (particle.y > canvas.height) particle.y = 0;
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
+        document.getElementById('webgl-container').appendChild(renderer.domElement);
 
-                    // Draw particle
-                    ctx.beginPath();
-                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                    ctx.fillStyle = particle.color + particle.opacity + ')';
-                    ctx.fill();
+        // Responsive particle count
+        const isMobile = window.innerWidth < 768;
+        const particlesCount = isMobile ? 600 : 1200; 
+        
+        const particlesGeometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(particlesCount * 3);
+        
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50; 
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.03,
+            color: 0x5b21b6, 
+            transparent: true,
+            opacity: 0.8,
+        });
 
-                    // Removed connections between particles to make them individual
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 15;
+
+        // Mouse Interaction
+        let targetX = 0;
+        let targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            targetX = (event.clientX - windowHalfX) * 0.0005;
+            targetY = (event.clientY - windowHalfY) * 0.0005;
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            const elapsedTime = clock.getElapsedTime();
+            particlesMesh.rotation.y = elapsedTime * 0.05;
+            particlesMesh.rotation.x = targetY * 2;
+            particlesMesh.rotation.y += targetX * 2;
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- 5. AI CHAT LOGIC ---
+        const widgetBtn = document.getElementById('ai-widget-btn');
+        const chatWindow = document.getElementById('ai-chat-window');
+        const closeChat = document.getElementById('close-chat');
+        const aiInput = document.getElementById('ai-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatMessages = document.getElementById('chat-messages');
+
+        const context = `
+            You are the AI Assistant for Aditya Singh.
+            Role: Help visitors understand Aditya's profile.
+            Facts:
+            - Experience: Web Developer Intern at Abstract (Jan 2025 - Apr 2025). Built responsive sites, optimized performance.
+            - Certifications: AWS Solutions Architecture (Job Sim), Big Data Foundations, Machine Learning & AI, Datacom Software Dev.
+            - Current Goal: Learning AWS Cloud Practitioner.
+            - Skills: Python, JavaScript, HTML/CSS, React, AWS, Machine Learning.
+            - Contact: www.adisng@gmail.com.
+            Tone: Professional, mysterious, high-tech. Keep answers short (under 50 words).
+        `;
+
+        function toggleChat() {
+            chatWindow.classList.toggle('open');
+        }
+
+        widgetBtn.addEventListener('click', toggleChat);
+        closeChat.addEventListener('click', toggleChat);
+
+        async function sendMessage() {
+            const text = aiInput.value.trim();
+            if (!text) return;
+
+            addMessage(text, 'user');
+            aiInput.value = '';
+
+            const loadingId = addMessage('...', 'ai');
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            role: "user",
+                            parts: [{ text: context + "\nVisitor: " + text }]
+                        }]
+                    })
                 });
+                
+                const data = await response.json();
+                const reply = data.candidates[0].content.parts[0].text;
+                
+                document.getElementById(loadingId).remove();
+                addMessage(reply, 'ai');
 
-                requestAnimationFrame(drawParticles);
-            };
-
-            window.addEventListener('resize', () => {
-                resizeCanvas();
-                createParticles();
-            });
-
-            resizeCanvas();
-            createParticles();
-            drawParticles();
+            } catch (error) {
+                document.getElementById(loadingId).remove();
+                addMessage("Connection interrupted.", 'ai');
+            }
         }
 
-        // Cursor Beacon that sticks to the cursor
-        function setupCursorBeacon() {
-            const cursorBeacon = document.getElementById('cursor-beacon');
-            const cursorDot = document.getElementById('cursor-dot');
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            const id = Math.random().toString(36).substr(2, 9);
+            div.id = id;
             
-            document.addEventListener('mousemove', (e) => {
-                if (cursorBeacon && cursorDot) {
-                    cursorBeacon.style.left = `${e.clientX - 10}px`;
-                    cursorBeacon.style.top = `${e.clientY - 10}px`;
-                    cursorDot.style.left = `${e.clientX - 2}px`;
-                    cursorDot.style.top = `${e.clientY - 2}px`;
-                }
-            });
-        }
-
-        // Draggable Window Functionality
-        function makeDraggable(element) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            const header = element.querySelector('.draggable-handle');
-            
-            if (header) {
-                header.onmousedown = dragMouseDown;
+            if (sender === 'user') {
+                div.className = "self-end bg-teal-500/10 border border-teal-500/20 p-3 rounded-lg rounded-tr-none max-w-[85%]";
+                div.innerHTML = `<p class="text-xs text-white">${text}</p>`;
             } else {
-                element.onmousedown = dragMouseDown;
+                div.className = "self-start bg-white/5 border border-white/5 p-3 rounded-lg rounded-tl-none max-w-[85%]";
+                div.innerHTML = `<p class="text-xs text-gray-300 leading-relaxed">${text}</p>`;
             }
-
-            function dragMouseDown(e) {
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                
-                element.style.top = (element.offsetTop - pos2) + "px";
-                element.style.left = (element.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
-        }
-
-        // Scroll Progress
-        function setupScrollProgress() {
-            const scrollProgress = document.getElementById('scroll-progress');
             
-            if (scrollProgress) {
-                document.addEventListener('scroll', () => {
-                    const scrollY = window.scrollY;
-                    const docHeight = document.body.offsetHeight - window.innerHeight;
-                    const progress = docHeight > 0 ? scrollY / docHeight : 0;
-                    scrollProgress.style.transform = `scaleX(${progress})`;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        aiInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // --- 6. BIO REMIX ---
+        async function remixBio() {
+            const bioText = document.getElementById('bio-text');
+            const bioLoader = document.getElementById('bio-loader');
+            
+            bioLoader.classList.remove('hidden');
+            
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ text: `Rewrite this short bio in a dark, mysterious, and high-tech style. Max 20 words. Bio: "Aditya Singh. I craft immersive digital experiences at the intersection of Art and Engineering."` }]
+                        }]
+                    })
                 });
+                
+                const data = await response.json();
+                const newBio = data.candidates[0].content.parts[0].text;
+                
+                bioText.style.opacity = 0;
+                setTimeout(() => {
+                    bioText.innerText = newBio.replace(/['"]+/g, '');
+                    bioText.style.opacity = 1;
+                    bioLoader.classList.add('hidden');
+                }, 300);
+            } catch (e) {
+                bioLoader.classList.add('hidden');
             }
         }
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+        // --- 7. SCROLL ANIMATIONS ---
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section.children, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
                 }
             });
         });
 
-        // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            setupParticles();
-            setupCursorBeacon();
-            setupScrollProgress();
-            
-            // Initialize draggable window
-            const draggableWindow = document.getElementById('draggable-window');
-            if (draggableWindow) {
-                makeDraggable(draggableWindow);
-            }
-            
-            // Re-initialize Lucide icons to ensure all are loaded
-            if (typeof lucide !== 'undefined' && lucide.createIcons) {
-                lucide.createIcons();
-            }
-        });
-
-        // Re-initialize icons after a short delay to catch any dynamically added icons
-        setTimeout(() => {
-            if (typeof lucide !== 'undefined' && lucide.createIcons) {
-                lucide.createIcons();
-            }
-        }, 1000);
     </script>
 </body>
 </html>
