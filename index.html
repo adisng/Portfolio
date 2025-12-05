@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -33,6 +33,26 @@
             --accent-white: #ffffff;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
+        }
+
+        html.lenis {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
         }
 
         body {
@@ -129,17 +149,16 @@
             display: inline-block;
         }
 
-        /* FIXED: Replaced Gradient with Solid Neon Color + Glow for Visibility */
         .gradient-accent {
-            color: var(--accent-secondary); /* Solid Cyan */
-            text-shadow: 0 0 30px rgba(0, 243, 255, 0.5); /* Strong Glow */
+            color: var(--accent-secondary);
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
         }
 
         /* --- GLASS COMPONENTS & TILT --- */
         .glass-panel {
             background: rgba(16, 16, 24, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
             transition: transform 0.1s, border-color 0.3s;
@@ -165,8 +184,8 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 90;
             display: flex;
             align-items: center;
@@ -297,8 +316,9 @@
             height: 100%;
             pointer-events: none;
             z-index: 1; 
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABMTExERERmZmYzMzMyMjJ4F4O1AAAACHRSTlMAMwA5MzMzM3PF3C0AAABcSURBVDjLY2AYBaNgOANGPBh4QDz4wQc+8IEDfOADHzjABz7wgQ984AMf+MAHPvCBD3zgAx/4wAc+8IEPfOADHzjABz7wgQ984AMf+MAHPvCBD3zgAx/4wAc+8IEPAG6sH/Hl/nZ1AAAAAElFTkSuQmCC");
+            background-size: 100px;
         }
         
         .vignette {
@@ -309,7 +329,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 2; 
-            background: radial-gradient(circle at center, transparent 0%, #050510 120%);
+            background: radial-gradient(circle at center, transparent 0%, #020204 130%);
         }
     </style>
 </head>
@@ -327,7 +347,7 @@
     <div id="webgl-container"></div>
 
     <!-- MOBILE MENU OVERLAY -->
-    <div id="mobile-menu" class="fixed inset-0 bg-[#050510]/98 backdrop-blur-xl z-50 transform translate-x-full flex flex-col justify-center items-center gap-8 text-center">
+    <div id="mobile-menu" class="fixed inset-0 bg-[#020204]/98 backdrop-blur-xl z-50 transform translate-x-full flex flex-col justify-center items-center gap-8 text-center">
         <div class="absolute top-6 right-6 p-2" onclick="toggleMobileMenu()">
             <i data-lucide="x" class="w-8 h-8 text-white cursor-pointer"></i>
         </div>
@@ -339,7 +359,7 @@
     </div>
 
     <!-- HEADER -->
-    <header class="fixed top-0 w-full z-40 px-6 py-6 transition-all duration-300 bg-gradient-to-b from-[#050510] via-[#050510]/80 to-transparent">
+    <header class="fixed top-0 w-full z-40 px-6 py-6 transition-all duration-300 bg-gradient-to-b from-[#020204] via-[#020204]/80 to-transparent">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="#" class="magnetic z-50 group">
                 <div class="font-bold text-2xl tracking-widest relative flex items-center gap-1 font-tall">
@@ -385,6 +405,7 @@
                 
                 <h1 class="text-6xl sm:text-8xl md:text-[9rem] font-bold leading-[0.9] mb-8 text-white cursor-default drop-shadow-2xl font-tall relative z-20">
                     <div class="overflow-hidden">
+                        <!-- Ensure visibility by default -->
                         <span class="text-outline block reveal-text">ADITYA</span>
                     </div>
                     <div class="overflow-hidden flex items-baseline gap-4">
@@ -837,7 +858,7 @@
         `;
 
         // Create the Plane - Reduced segments for performance
-        const planeGeometry = new THREE.PlaneGeometry(30, 30, 32, 32); 
+        const planeGeometry = new THREE.PlaneGeometry(30, 30, 24, 24); 
         const planeMaterial = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
