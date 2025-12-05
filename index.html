@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -134,6 +134,7 @@
             display: inline-block;
             overflow: hidden;
             vertical-align: bottom;
+            padding-bottom: 0.2em; /* Added padding to prevent bottom clipping */
         }
         
         .char {
@@ -179,6 +180,15 @@
             border-color: rgba(255, 255, 255, 0.3);
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
             background: rgba(16, 16, 24, 0.85);
+        }
+
+        /* Draggable Window Styles */
+        .draggable-window {
+            user-select: none;
+            cursor: grab;
+        }
+        .draggable-window:active {
+            cursor: grabbing;
         }
 
         /* --- AI CHAT WIDGET --- */
@@ -252,7 +262,7 @@
             border-top: 1px solid rgba(255,255,255,0.05);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             padding: 1.5rem 0;
-            margin-top: 4rem; /* Added spacing to separate from hero buttons */
+            margin-top: 4rem;
         }
 
         .marquee-content {
@@ -401,7 +411,7 @@
     <!-- HERO SECTION -->
     <section id="about" class="relative min-h-screen flex items-center justify-center px-6 pt-20 md:pt-0 overflow-hidden">
         <div class="relative z-20 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="order-2 lg:order-1">
+            <div class="order-2 lg:order-1 relative">
                 <!-- AWS Status Pill -->
                 <div class="mb-8 inline-flex items-center gap-3 px-4 py-2 border border-blue-500/30 rounded-full bg-blue-500/10 backdrop-blur-md max-w-full hover:border-blue-500/50 transition-colors shadow-lg">
                     <span class="relative flex h-2 w-2 flex-shrink-0">
@@ -413,13 +423,12 @@
                     </span>
                 </div>
                 
-                <!-- NAME HEADER - Responsive Size & Layout -->
+                <!-- NAME HEADER - Fixed Clipping Issue -->
                 <h1 class="text-7xl sm:text-8xl md:text-[10rem] font-bold leading-none mb-10 text-white cursor-default drop-shadow-2xl font-tall relative z-20 flex flex-col justify-center">
-                    <div class="overflow-hidden">
-                        <!-- Ensure visibility by default -->
+                    <div class="overflow-hidden pb-2"> <!-- Added padding to prevent descender clipping -->
                         <span class="text-outline block reveal-text" style="line-height: 0.9;">ADITYA</span>
                     </div>
-                    <div class="overflow-hidden flex items-center gap-4">
+                    <div class="overflow-hidden flex items-center gap-4 pb-2">
                         <span class="gradient-accent block reveal-text" style="line-height: 0.9;">SINGH</span>
                         <span class="text-2xl md:text-5xl text-cyan-400 font-mono opacity-60 font-normal">&lt;/&gt;</span>
                     </div>
@@ -444,6 +453,33 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- DRAGGABLE PSEUDO-CODE PANEL -->
+                <div id="draggable-window" class="absolute z-30 w-80 glass-panel rounded-xl overflow-hidden flex flex-col group interactive shadow-2xl draggable-window hidden md:flex right-0 top-1/4">
+                    <div class="flex justify-between items-center p-3 bg-white/5 border-b border-white/5 draggable-handle cursor-grab">
+                        <div class="flex gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                        </div>
+                        <div class="font-mono text-xs text-gray-500 flex items-center gap-1">
+                            <i data-lucide="terminal" class="w-3 h-3"></i>
+                            main.py
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 p-4 font-mono text-xs md:text-sm text-gray-300 overflow-y-auto bg-[#0a0a10]/80">
+                        <p><span class="text-indigo-400">class</span> <span class="text-cyan-400">Developer</span>:</p>
+                        <p class="pl-4">name = <span class="text-green-400">'Aditya Singh'</span></p>
+                        <p class="pl-4">role = <span class="text-green-400">'Creative Technologist'</span></p>
+                        <p class="pl-4">stack = [<span class="text-green-400">'AWS'</span>, <span class="text-green-400">'Python'</span>, <span class="text-green-400">'React'</span>]</p>
+                        <br>
+                        <p class="pl-4"><span class="text-indigo-400">def</span> <span class="text-yellow-400">deploy</span>(self):</p>
+                        <p class="pl-8">return <span class="text-green-400">'Scalable Solutions'</span></p>
+                        <p class="mt-2 animate-pulse text-cyan-400">_</p>
+                    </div>
+                </div>
+
             </div>
             
             <!-- 3D Layout Spacer -->
@@ -818,7 +854,46 @@
             card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         }
 
-        // --- 6. THREE.JS 3D BACKGROUND: LIQUID CHROME DISTORTION ---
+        // --- 6. DRAGGABLE WINDOW LOGIC (RESTORED) ---
+        function makeDraggable(element) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            const header = element.querySelector('.draggable-handle');
+            
+            if (header) {
+                header.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        const draggableWindow = document.getElementById('draggable-window');
+        if (draggableWindow) {
+            makeDraggable(draggableWindow);
+        }
+
+        // --- 7. THREE.JS 3D BACKGROUND: LIQUID CHROME DISTORTION ---
         const scene = new THREE.Scene();
         // scene.fog = new THREE.FogExp2(0x050510, 0.002); // Removed fog to let chrome shine
 
@@ -973,7 +1048,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // --- 7. AI CHAT LOGIC (WITH RETRY) ---
+        // --- 8. AI CHAT LOGIC (WITH RETRY) ---
         const widgetBtn = document.getElementById('ai-widget-btn');
         const chatWindow = document.getElementById('ai-chat-window');
         const closeChat = document.getElementById('close-chat');
@@ -1085,7 +1160,7 @@
             if (e.key === 'Enter') sendMessage();
         });
 
-        // --- 8. SCROLL ANIMATIONS ---
+        // --- 9. SCROLL ANIMATIONS ---
         gsap.registerPlugin(ScrollTrigger);
         gsap.utils.toArray('section').forEach(section => {
             gsap.from(section.children, {
