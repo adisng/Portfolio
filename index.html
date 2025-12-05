@@ -335,7 +335,7 @@
             pointer-events: none;
             z-index: 1; 
             opacity: 0.05;
-            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABMTExERERmZmYzMzMyMjJ4F4O1AAAACHRSTlMAMwA5MzMzM3PF3C0AAABcSURBVDjLY2AYBaNgOANGPBh4QDz4wQc+8IEDfOADHzjABz7wgQ984AMf+MAHPvCBD3zgAx/4wAc+8IEPfOADHzjABz7wgQ984AMf+MAHPvCBD3zgAx/4wAc+8IEPAG6sH/Hl/nZ1AAAAAElFTkSuQmCC");
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABMTExERERmZmYzMzMyMjJ4F4O1AAAACHRSTlMAMwA5MzMzM3PF3C0AAABcSURBVDjLY2AYBaNgOANGPBh4QDz4wQc+8IEDfOADHzjABz7wgQ984AMf+MAHPvCBD3zgAx/4wAc+8IEPAG6sH/Hl/nZ1AAAAAElFTkSuQmCC");
             background-size: 100px;
         }
         
@@ -454,8 +454,12 @@
                     </div>
                 </div>
 
-                <!-- DRAGGABLE PSEUDO-CODE PANEL -->
-                <div id="draggable-window" class="absolute z-30 w-80 glass-panel rounded-xl overflow-hidden flex flex-col group interactive shadow-2xl draggable-window hidden md:flex right-0 top-1/4">
+            </div>
+            
+            <!-- 3D Layout Spacer -->
+            <div class="order-1 lg:order-2 h-[300px] lg:h-full w-full relative flex items-center justify-center pointer-events-none">
+                 <!-- DRAGGABLE PSEUDO-CODE PANEL -->
+                <div id="draggable-window" class="pointer-events-auto z-30 w-80 glass-panel rounded-xl overflow-hidden flex flex-col group interactive shadow-2xl draggable-window hidden md:flex">
                     <div class="flex justify-between items-center p-3 bg-white/5 border-b border-white/5 draggable-handle cursor-grab">
                         <div class="flex gap-2">
                             <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
@@ -479,11 +483,7 @@
                         <p class="mt-2 animate-pulse text-cyan-400">_</p>
                     </div>
                 </div>
-
             </div>
-            
-            <!-- 3D Layout Spacer -->
-            <div class="order-1 lg:order-2 h-[300px] lg:h-full pointer-events-none w-full"></div>
         </div>
     </section>
 
