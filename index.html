@@ -16,9 +16,9 @@
     <style>
         :root {
             --bg-color: #020204; 
-            --accent-primary: #991b1b;
-            --accent-secondary: #ef4444; 
-            --accent-rgb: 239, 68, 68;
+            --accent-primary: #22d3ee; /* Luminous Cyan (Default) */
+            --accent-secondary: #22d3ee; 
+            --accent-rgb: 34, 211, 238;
             --accent-white: #ffffff;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
@@ -390,7 +390,7 @@
                 
                 <button onclick="cycleTheme()" class="magnetic relative w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 transition-all duration-500 hover:scale-110 hover:shadow-[0_0_25px_rgba(var(--accent-rgb),0.4)] hover:border-white/30 group overflow-hidden" title="Change Theme">
                     <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <i data-lucide="palette" class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors relative z-10 transform group-hover:rotate-12 duration-500"></i>
+                    <i data-lucide="sparkles" class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors relative z-10 transform group-hover:rotate-12 duration-500"></i>
                 </button>
             </nav>
 
@@ -440,6 +440,12 @@
                     <a href="#experience" class="magnetic px-10 py-4 bg-white text-black rounded-full text-sm font-bold tracking-widest hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition-all duration-300">
                         EXPLORE EXPERIENCE
                     </a>
+                    
+                    <button onclick="toggleArchitect()" class="magnetic px-8 py-4 bg-white/5 border border-white/20 text-white rounded-full text-sm font-bold tracking-widest hover:bg-white/10 hover:border-accent transition-all duration-300 flex items-center gap-2 group">
+                        <i data-lucide="cpu" class="w-4 h-4 text-accent group-hover:animate-spin"></i>
+                        AI ARCHITECT
+                    </button>
+
                     <div class="flex gap-4">
                         <a href="https://github.com/adisng" target="_blank" class="magnetic p-3 text-gray-400 hover:text-white transition-colors border border-white/20 rounded-full hover:bg-white/10 hover:border-white">
                             <i data-lucide="github" class="w-5 h-5"></i>
@@ -681,7 +687,7 @@
         <div class="h-[400px] overflow-y-auto p-5 flex flex-col gap-4" id="chat-messages">
             <div class="self-start bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 max-w-[85%] shadow-lg">
                 <p class="text-xs text-gray-300 leading-relaxed font-light">
-                    Woof! I'm Joji, Aditya's digital dog 🐕. I can help you navigate this site or even change the colors for you. Just ask me to "switch to cyan"!
+                    Woof! I'm Joji, Aditya's digital dog 🐕. I can help you navigate this site or even change the colors for you. Just ask me to "switch to mist"!
                 </p>
             </div>
         </div>
@@ -696,25 +702,79 @@
         </div>
     </div>
 
+    <!-- AI Architect Modal -->
+    <div id="architect-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-2xl mx-4 relative transform scale-95 transition-transform duration-300 p-0 overflow-hidden" id="architect-content">
+            <!-- Header -->
+            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-gradient-to-r from-accent/10 to-transparent">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-accent/20 rounded-lg">
+                        <i data-lucide="cpu" class="w-6 h-6 text-accent"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-tall font-bold text-white">Project Architect</h3>
+                        <p class="text-xs font-mono text-gray-400 uppercase tracking-wider">Powered by Gemini 2.5</p>
+                    </div>
+                </div>
+                <button onclick="toggleArchitect()" class="p-2 hover:bg-white/10 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-6 h-6 text-gray-400 hover:text-white"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-8 max-h-[70vh] overflow-y-auto">
+                <div id="architect-input-section" class="space-y-6">
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Have an idea? Describe it below. I'll analyze it and generate a 
+                        <span class="text-accent font-bold">Tech Stack</span>, 
+                        <span class="text-accent font-bold">Project Name</span>, and 
+                        <span class="text-accent font-bold">Execution Plan</span> tailored to modern standards.
+                    </p>
+                    <textarea id="project-idea" rows="4" class="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-white placeholder-gray-600 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all resize-none font-mono text-sm" placeholder="e.g. A real-time dashboard for tracking satellite debris using WebGL..."></textarea>
+                    
+                    <button onclick="generateProjectPlan()" id="generate-btn" class="w-full py-4 bg-white text-black font-bold tracking-widest rounded-xl hover:bg-accent hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex justify-center items-center gap-2">
+                        <span>INITIATE ANALYSIS</span>
+                        <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+                    </button>
+                </div>
+
+                <div id="architect-loading" class="hidden py-12 flex flex-col items-center justify-center space-y-4">
+                    <div class="w-12 h-12 border-4 border-white/10 border-t-accent rounded-full animate-spin"></div>
+                    <p class="font-mono text-xs text-accent animate-pulse">Computing optimum architecture...</p>
+                </div>
+
+                <div id="architect-result" class="hidden space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <!-- Dynamic content injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const apiKey = "AIzaSyBXlBbo0ZpBJPVcqc1G4Ep55utEMjPNN18"; 
 
         lucide.createIcons();
 
+        // Default Luminous Cyan (#22d3ee -> 34, 211, 238)
+        // Normalized for Three.js (0-1 range)
         const state = {
-            r: 0.93, g: 0.26, b: 0.26
+            r: 0.13, g: 0.82, b: 0.93
         };
 
+        // Luminous "Pop" Palette (High Contrast for Dark Mode)
         const themes = {
-            'red': { hex: '#ef4444', rgb: '239, 68, 68' },
-            'cyan': { hex: '#00f3ff', rgb: '0, 243, 255' },
-            'emerald': { hex: '#10b981', rgb: '16, 185, 129' },
-            'purple': { hex: '#a855f7', rgb: '168, 85, 247' },
-            'gold': { hex: '#eab308', rgb: '234, 179, 8' }
+            'cyan': { hex: '#22d3ee', rgb: '34, 211, 238' },     // Future & Clean
+            'purple': { hex: '#c084fc', rgb: '192, 132, 252' },  // Creative & Deep
+            'green': { hex: '#4ade80', rgb: '74, 222, 128' },    // Growth & Fresh
+            'orange': { hex: '#fb923c', rgb: '251, 146, 60' },   // Energetic & Warm
+            'rose': { hex: '#fb7185', rgb: '251, 113, 133' }     // Bold & Passionate
         };
         
         let currentThemeIndex = 0;
         const themeKeys = Object.keys(themes);
+
+        // Current generated project data stored for emailing
+        let currentProjectData = null;
 
         window.setTheme = function(hex, rgb) {
             const root = document.documentElement;
@@ -1052,7 +1112,7 @@
         const sendBtn = document.getElementById('send-btn');
         const chatMessages = document.getElementById('chat-messages');
 
-        const context = "You are Joji, a helpful, loyal, and friendly AI dog residing in Aditya Singh's portfolio. You answer questions enthusiastically and can control the website. If the user asks to change the theme, you MUST include the command [THEME:COLOR] in your response, where COLOR is one of: RED, CYAN, EMERALD, PURPLE, GOLD. Example: 'Woof! Changing it to green now! [THEME:EMERALD]'";
+        const context = "You are Joji, a helpful, loyal, and friendly AI dog residing in Aditya Singh's portfolio. You answer questions enthusiastically and can control the website. If the user asks to change the theme, you MUST include the command [THEME:COLOR] in your response, where COLOR is one of: CYAN, PURPLE, GREEN, ORANGE, ROSE. Example: 'Woof! Changing it to green now! [THEME:GREEN]'. If the user has a project idea, tell them to try the new 'AI Architect' feature in the hero section!";
 
         function toggleChat() {
             chatWindow.classList.toggle('open');
@@ -1148,6 +1208,151 @@
         aiInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
         });
+
+        // --- AI Architect Feature ---
+        const architectModal = document.getElementById('architect-modal');
+        const architectContent = document.getElementById('architect-content');
+        
+        function toggleArchitect() {
+            const isOpen = architectModal.classList.contains('pointer-events-auto');
+            if (isOpen) {
+                architectModal.classList.remove('opacity-100', 'pointer-events-auto');
+                architectModal.classList.add('opacity-0', 'pointer-events-none');
+                architectContent.classList.remove('scale-100');
+                architectContent.classList.add('scale-95');
+            } else {
+                architectModal.classList.remove('opacity-0', 'pointer-events-none');
+                architectModal.classList.add('opacity-100', 'pointer-events-auto');
+                architectContent.classList.remove('scale-95');
+                architectContent.classList.add('scale-100');
+            }
+        }
+
+        async function generateProjectPlan() {
+            const idea = document.getElementById('project-idea').value;
+            if (!idea.trim()) return;
+
+            const inputSection = document.getElementById('architect-input-section');
+            const loadingSection = document.getElementById('architect-loading');
+            const resultSection = document.getElementById('architect-result');
+
+            inputSection.classList.add('hidden');
+            loadingSection.classList.remove('hidden');
+
+            const prompt = `
+                Act as a Senior Software Architect. Analyze this project idea: "${idea}".
+                
+                Output a JSON object with these keys:
+                - name: A cool, modern, one-word or two-word name for this project.
+                - stack: An array of 3-4 strings (e.g. "React", "Python", "AWS"). Focus on modern, scalable tech.
+                - pitch: A one-sentence elevator pitch.
+                - plan: A bulleted list (max 3 items) of the execution plan.
+                
+                Do not include markdown formatting like \`\`\`json. Just the raw JSON string.
+            `;
+
+            try {
+                const data = await fetchWithRetry(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, 
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                role: "user",
+                                parts: [{ text: prompt }]
+                            }]
+                        })
+                    }
+                );
+
+                const text = data.candidates[0].content.parts[0].text;
+                const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
+                const result = JSON.parse(jsonStr);
+
+                // Store for email
+                currentProjectData = result;
+
+                loadingSection.classList.add('hidden');
+                resultSection.classList.remove('hidden');
+
+                resultSection.innerHTML = `
+                    <div class="text-center mb-8">
+                        <div class="text-accent text-xs font-mono uppercase tracking-widest mb-2">Project Codename</div>
+                        <h2 class="text-4xl font-tall font-bold text-white mb-2">${result.name}</h2>
+                        <p class="text-gray-400 italic">"${result.pitch}"</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        ${result.stack.map(tech => `
+                            <div class="bg-white/5 border border-white/10 p-3 rounded-lg text-center">
+                                <span class="text-sm font-bold text-gray-200">${tech}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="bg-black/40 border border-white/5 rounded-xl p-6 mb-6">
+                        <h4 class="text-xs font-bold text-accent uppercase tracking-widest mb-4 border-b border-white/10 pb-2">Execution Protocol</h4>
+                        <ul class="space-y-3">
+                            ${result.plan.map(step => `
+                                <li class="flex gap-3 text-sm text-gray-300">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-500 shrink-0"></i>
+                                    ${step}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <!-- Email Form Section -->
+                    <div class="border-t border-white/10 pt-6 mt-6">
+                        <h4 class="text-xs font-bold text-white uppercase tracking-widest mb-4">Send Proposal to Aditya</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="text" id="user-name" class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:border-accent outline-none" placeholder="Your Name">
+                            <input type="email" id="user-email" class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:border-accent outline-none" placeholder="Your Email">
+                        </div>
+                        <button onclick="sendProjectProposal()" class="w-full py-3 bg-accent text-black font-bold rounded-lg hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+                            <span>SEND PROPOSAL</span>
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <button onclick="resetArchitect()" class="w-full mt-4 py-2 text-xs text-gray-500 hover:text-white transition-colors">
+                        Discard & Start Over
+                    </button>
+                `;
+                lucide.createIcons();
+
+            } catch (error) {
+                console.error(error);
+                loadingSection.classList.add('hidden');
+                inputSection.classList.remove('hidden');
+                alert("Analysis failed. Please try again.");
+            }
+        }
+
+        function sendProjectProposal() {
+            if (!currentProjectData) return;
+            
+            const name = document.getElementById('user-name').value;
+            const email = document.getElementById('user-email').value;
+            
+            if (!name || !email) {
+                alert("Please enter your name and email to send the proposal.");
+                return;
+            }
+
+            const subject = `Project Proposal: ${currentProjectData.name}`;
+            const body = `Hi Aditya,%0D%0A%0D%0AI'm ${name} (${email}).%0D%0A%0D%0AI used your AI Architect to generate this project idea:%0D%0A%0D%0A---%0D%0APROJECT: ${currentProjectData.name}%0D%0APITCH: ${currentProjectData.pitch}%0D%0A%0D%0ATECH STACK:%0D%0A- ${currentProjectData.stack.join('%0D%0A- ')}%0D%0A%0D%0APLAN:%0D%0A- ${currentProjectData.plan.join('%0D%0A- ')}%0D%0A---%0D%0A%0D%0ALet's discuss this!`;
+
+            window.location.href = `mailto:www.adisng@gmail.com?subject=${subject}&body=${body}`;
+        }
+
+        function resetArchitect() {
+            document.getElementById('architect-result').classList.add('hidden');
+            document.getElementById('architect-input-section').classList.remove('hidden');
+            document.getElementById('project-idea').value = '';
+            currentProjectData = null;
+        }
 
         gsap.registerPlugin(ScrollTrigger);
         gsap.utils.toArray('section').forEach(section => {
