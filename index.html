@@ -1419,10 +1419,10 @@
             // Texture Loading
             const textureLoader = new THREE.TextureLoader();
             // Using .png matching the FBX internal reference
-            const catTexture = textureLoader.load('Muchkin2_BaseColor.png', 
+            const catTexture = textureLoader.load('cat.png', 
                 () => console.log("Texture loaded"), 
                 undefined, 
-                (err) => console.error("Texture error. Ensure 'Muchkin2_BaseColor.png' is in folder.")
+                (err) => console.error("Texture error. Ensure 'cat.png' is in folder.")
             );
 
             // Model Loading
@@ -1430,7 +1430,7 @@
             // Vital: Tell loader to look in current folder for any internal references
             loader.setResourcePath('./'); 
             
-            loader.load('OiiaioooooiaiFin.fbx', (object) => {
+            loader.load('cat.fbx', (object) => {
                 console.log("Cat model loaded!");
                 
                 object.traverse((child) => {
