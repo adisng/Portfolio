@@ -16,7 +16,7 @@
     <style>
         :root {
             --bg-color: #020204; 
-            --accent-primary: #22d3ee; /* Luminous Cyan (Default) */
+            --accent-primary: #22d3ee; 
             --accent-secondary: #22d3ee; 
             --accent-rgb: 34, 211, 238;
             --accent-white: #ffffff;
@@ -392,6 +392,11 @@
                     <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <i data-lucide="sparkles" class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors relative z-10 transform group-hover:rotate-12 duration-500"></i>
                 </button>
+
+                <button onclick="releaseTheCat()" class="magnetic relative w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 transition-all duration-500 hover:scale-110 hover:shadow-[0_0_25px_#ec4899] hover:border-pink-500/30 group overflow-hidden" title="Party Mode">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-pink-500/10 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <i data-lucide="cat" class="w-5 h-5 text-gray-400 group-hover:text-pink-400 transition-colors relative z-10"></i>
+                </button>
             </nav>
 
             <div class="flex items-center gap-4">
@@ -687,7 +692,7 @@
         <div class="h-[400px] overflow-y-auto p-5 flex flex-col gap-4" id="chat-messages">
             <div class="self-start bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 max-w-[85%] shadow-lg">
                 <p class="text-xs text-gray-300 leading-relaxed font-light">
-                    Woof! I'm Joji, Aditya's digital dog 🐕. I can help you navigate this site or even change the colors for you. Just ask me to "switch to mist"!
+                    Woof! I'm Joji, Aditya's digital dog 🐕. I can help you navigate this site or even change the colors for you. Just ask me to "switch to cyan"!
                 </p>
             </div>
         </div>
@@ -702,10 +707,8 @@
         </div>
     </div>
 
-    <!-- AI Architect Modal -->
     <div id="architect-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="glass-panel w-full max-w-2xl mx-4 relative transform scale-95 transition-transform duration-300 p-0 overflow-hidden" id="architect-content">
-            <!-- Header -->
             <div class="p-6 border-b border-white/10 flex justify-between items-center bg-gradient-to-r from-accent/10 to-transparent">
                 <div class="flex items-center gap-3">
                     <div class="p-2 bg-accent/20 rounded-lg">
@@ -721,7 +724,6 @@
                 </button>
             </div>
 
-            <!-- Body -->
             <div class="p-8 max-h-[70vh] overflow-y-auto">
                 <div id="architect-input-section" class="space-y-6">
                     <p class="text-gray-300 text-sm leading-relaxed">
@@ -744,9 +746,14 @@
                 </div>
 
                 <div id="architect-result" class="hidden space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <!-- Dynamic content injected here -->
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="disco-overlay" class="fixed inset-0 z-[200] pointer-events-none opacity-0 transition-opacity duration-500 flex items-center justify-center hidden">
+        <div id="disco-cat-container" class="relative w-64 h-64 md:w-96 md:h-96">
+            <img src="https://media1.tenor.com/m/pUa4yq3kM50AAAAC/cat-vibing-vibing-cat.gif" alt="Vibing Cat" class="w-full h-full object-cover rounded-full border-8 border-white/20 shadow-[0_0_100px_rgba(255,255,255,0.5)]">
         </div>
     </div>
 
@@ -755,25 +762,21 @@
 
         lucide.createIcons();
 
-        // Default Luminous Cyan (#22d3ee -> 34, 211, 238)
-        // Normalized for Three.js (0-1 range)
         const state = {
             r: 0.13, g: 0.82, b: 0.93
         };
 
-        // Luminous "Pop" Palette (High Contrast for Dark Mode)
         const themes = {
-            'cyan': { hex: '#22d3ee', rgb: '34, 211, 238' },     // Future & Clean
-            'purple': { hex: '#c084fc', rgb: '192, 132, 252' },  // Creative & Deep
-            'green': { hex: '#4ade80', rgb: '74, 222, 128' },    // Growth & Fresh
-            'orange': { hex: '#fb923c', rgb: '251, 146, 60' },   // Energetic & Warm
-            'rose': { hex: '#fb7185', rgb: '251, 113, 133' }     // Bold & Passionate
+            'cyan': { hex: '#22d3ee', rgb: '34, 211, 238' },     
+            'purple': { hex: '#c084fc', rgb: '192, 132, 252' },  
+            'green': { hex: '#4ade80', rgb: '74, 222, 128' },    
+            'orange': { hex: '#fb923c', rgb: '251, 146, 60' },   
+            'rose': { hex: '#fb7185', rgb: '251, 113, 133' }     
         };
         
         let currentThemeIndex = 0;
         const themeKeys = Object.keys(themes);
 
-        // Current generated project data stored for emailing
         let currentProjectData = null;
 
         window.setTheme = function(hex, rgb) {
@@ -1209,7 +1212,6 @@
             if (e.key === 'Enter') sendMessage();
         });
 
-        // --- AI Architect Feature ---
         const architectModal = document.getElementById('architect-modal');
         const architectContent = document.getElementById('architect-content');
         
@@ -1270,7 +1272,6 @@
                 const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
                 const result = JSON.parse(jsonStr);
 
-                // Store for email
                 currentProjectData = result;
 
                 loadingSection.classList.add('hidden');
@@ -1303,7 +1304,6 @@
                         </ul>
                     </div>
 
-                    <!-- Email Form Section -->
                     <div class="border-t border-white/10 pt-6 mt-6">
                         <h4 class="text-xs font-bold text-white uppercase tracking-widest mb-4">Send Proposal to Aditya</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -1354,6 +1354,60 @@
             currentProjectData = null;
         }
 
+        function releaseTheCat() {
+            const overlay = document.getElementById('disco-overlay');
+            const container = document.getElementById('disco-cat-container');
+            
+            overlay.classList.remove('hidden');
+            void overlay.offsetWidth;
+            overlay.classList.remove('opacity-0');
+            overlay.classList.add('opacity-100');
+
+            gsap.fromTo(container, 
+                { y: -window.innerHeight, scale: 0.5 },
+                { 
+                    y: 0, 
+                    scale: 1, 
+                    duration: 1.5, 
+                    ease: "elastic.out(1, 0.5)"
+                }
+            );
+
+            const colors = [
+                'rgba(255, 0, 0, 0.4)',    
+                'rgba(255, 165, 0, 0.4)',  
+                'rgba(255, 255, 0, 0.4)',  
+                'rgba(0, 128, 0, 0.4)',    
+                'rgba(0, 0, 255, 0.4)',    
+                'rgba(128, 0, 128, 0.4)',  
+                'rgba(255, 192, 203, 0.4)' 
+            ];
+            
+            let discoInterval;
+
+            setTimeout(() => {
+                let colorIndex = 0;
+                discoInterval = setInterval(() => {
+                    overlay.style.backgroundColor = colors[colorIndex];
+                    colorIndex = (colorIndex + 1) % colors.length;
+                }, 250); 
+            }, 8000);
+
+            setTimeout(() => {
+                if (discoInterval) clearInterval(discoInterval);
+                
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+                
+                gsap.killTweensOf(container);
+
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    overlay.style.backgroundColor = 'transparent';
+                }, 500); 
+            }, 11000);
+        }
+
         gsap.registerPlugin(ScrollTrigger);
         gsap.utils.toArray('section').forEach(section => {
             gsap.from(section.children, {
@@ -1371,4 +1425,4 @@
 
     </script>
 </body>
-</html>
+</html>"
