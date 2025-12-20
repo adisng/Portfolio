@@ -376,6 +376,22 @@
         <a href="#about" class="text-5xl font-tall text-white/80 hover:text-accent transition-colors" onclick="toggleMobileMenu()">About</a>
         <a href="#experience" class="text-5xl font-tall text-white/80 hover:text-accent transition-colors" onclick="toggleMobileMenu()">Experience</a>
         <a href="#education" class="text-5xl font-tall text-white/80 hover:text-accent transition-colors" onclick="toggleMobileMenu()">Education</a>
+        
+        <!-- Mobile Controls for New Features -->
+        <div class="flex gap-6 mt-4">
+            <button onclick="cycleTheme()" class="p-4 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-accent hover:border-accent transition-all active:scale-95" title="Switch Theme">
+                <i data-lucide="sparkles" class="w-6 h-6"></i>
+            </button>
+            
+            <button onclick="toggleMobileMenu(); toggleArchitect()" class="p-4 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-accent hover:border-accent transition-all active:scale-95" title="AI Architect">
+                <i data-lucide="cpu" class="w-6 h-6"></i>
+            </button>
+
+            <button onclick="toggleMobileMenu(); releaseTheCat()" class="p-4 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-pink-400 hover:border-pink-400 transition-all active:scale-95" title="Party Mode">
+                <i data-lucide="cat" class="w-6 h-6"></i>
+            </button>
+        </div>
+
         <div class="w-24 h-[1px] bg-white/10 my-4"></div>
         <a href="mailto:www.adisng@gmail.com" class="text-base font-mono text-accent hover:text-white">www.adisng@gmail.com</a>
     </div>
@@ -1164,7 +1180,7 @@
 
             try {
                 const data = await fetchWithRetry(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, 
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${AIzaSyASpNE0W0_i6ZrS_65TAdm3dUHL_qk2Y-I}`, 
                     {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -1264,7 +1280,7 @@
 
             try {
                 const data = await fetchWithRetry(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, 
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${AIzaSyASpNE0W0_i6ZrS_65TAdm3dUHL_qk2Y-I}`, 
                     {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
