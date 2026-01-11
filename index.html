@@ -510,7 +510,7 @@
                         <p><span class="text-primary">class</span> <span class="text-foreground">Developer</span>:</p>
                         <p class="pl-4">name = <span class="text-green-400">'Aditya Singh'</span></p>
                         <p class="pl-4">role = <span class="text-green-400">'Full Stack Engineer'</span></p>
-                        <p class="pl-4">stack = [<span class="text-green-400">'AWS'</span>, <span class="text-green-400">'Python'</span>, <span class="text-green-400">'React'</span>]</p>
+                        <p class="pl-4">stack = [<span class="text-green-400">'AWS'</span>, <span class="text-green-400">'Python'</span>, <span class="text-green-400">'Next.js'</span>]</p>
                         <br>
                         <p class="pl-4"><span class="text-primary">def</span> <span class="text-yellow-400">deploy</span>(self):</p>
                         <p class="pl-8">return <span class="text-green-400">'Scalable Solutions'</span></p>
@@ -526,7 +526,7 @@
         <div class="marquee-content">
             <span class="marquee-item">PYTHON</span>
             <span class="marquee-item text-primary">•</span>
-            <span class="marquee-item">REACT.JS</span>
+            <span class="marquee-item">NEXT.JS</span>
             <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">AWS CLOUD</span>
             <span class="marquee-item text-primary">•</span>
@@ -536,7 +536,7 @@
             <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">PYTHON</span>
             <span class="marquee-item text-primary">•</span>
-            <span class="marquee-item">REACT.JS</span>
+            <span class="marquee-item">NEXT.JS</span>
             <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">AWS CLOUD</span>
             <span class="marquee-item text-primary">•</span>
@@ -575,7 +575,7 @@
                     </div>
                     <div class="flex flex-row md:flex-col gap-3 justify-start">
                         <!-- Badges Outline -->
-                        <span class="inline-flex items-center rounded-md border border-input bg-background px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none text-muted-foreground">React.js</span>
+                        <span class="inline-flex items-center rounded-md border border-input bg-background px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none text-muted-foreground">Next.js</span>
                         <span class="inline-flex items-center rounded-md border border-input bg-background px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none text-muted-foreground">Optimization</span>
                         <span class="inline-flex items-center rounded-md border border-input bg-background px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none text-muted-foreground">Performance</span>
                     </div>
@@ -638,7 +638,7 @@
                         <span class="text-[10px] uppercase tracking-widest text-muted-foreground border border-border bg-muted px-2 py-1 rounded">Build</span>
                     </div>
                     <h3 class="text-2xl md:text-3xl font-display font-bold mb-3 group-hover:text-primary transition-colors text-foreground">Full Stack Development</h3>
-                    <p class="text-muted-foreground text-sm leading-relaxed">I build robust, end-to-end web applications from scratch using React, Python, and modern best practices.</p>
+                    <p class="text-muted-foreground text-sm leading-relaxed">I build robust, end-to-end web applications from scratch using Next.js, Python, and modern best practices.</p>
                 </div>
             </div>
         </div>
@@ -690,6 +690,52 @@
         </div>
     </section>
 
+    <!-- Contact Form Section -->
+    <section id="contact" class="py-24 md:py-40 px-6 relative">
+        <div class="max-w-xl mx-auto">
+            <div class="flex items-end justify-between mb-12">
+                <h2 class="text-4xl md:text-6xl font-display font-bold text-foreground tracking-tight">Get in Touch</h2>
+                <div class="h-[1px] flex-1 bg-border ml-8 mb-4"></div>
+            </div>
+
+            <div class="rounded-xl border border-border bg-card text-card-foreground shadow-sm p-8">
+                <form onsubmit="handleContactSubmit(event)" class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="contact-name">Name</label>
+                        <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" id="contact-name" placeholder="John Doe" required>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="contact-email">Email</label>
+                        <input type="email" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" id="contact-email" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="contact-type">Inquiry Type</label>
+                        <div class="relative">
+                            <select id="contact-type" class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none">
+                                <option>Freelance Project</option>
+                                <option>Job Opportunity</option>
+                                <option>Consultation</option>
+                                <option>Other</option>
+                            </select>
+                            <i data-lucide="chevron-down" class="absolute right-3 top-3 h-4 w-4 opacity-50 pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="contact-message">Message</label>
+                        <textarea class="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none" id="contact-message" placeholder="Tell me about your project..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="py-24 md:py-40 px-6 border-t border-border relative overflow-hidden bg-background">
         <div class="max-w-7xl mx-auto text-center relative z-10">
@@ -716,18 +762,22 @@
         </div>
     </footer>
 
-    <!-- AI Widget Button (Converted to button) -->
-    <button id="ai-widget-btn" class="magnetic" title="Chat with Joji">
-        <i data-lucide="dog" class="w-6 h-6"></i>
+    <!-- AI Widget Button (New Icon) -->
+    <button id="ai-widget-btn" class="magnetic" title="Chat with AI Assistant">
+        <i data-lucide="bot" class="w-6 h-6"></i>
         <div class="absolute inset-0 rounded-full border border-primary/50 animate-ping"></div>
     </button>
 
-    <!-- Chat Window (Styled as Shadcn Popover/Card) -->
+    <!-- Chat Window (Styled with Selector and Prompt Form) -->
     <div id="ai-chat-window">
         <div class="p-4 border-b border-border flex justify-between items-center bg-muted/50">
-            <div class="text-sm font-medium text-foreground flex items-center gap-2">
-                <i data-lucide="dog" class="w-4 h-4 text-primary"></i>
-                JOJI (AI DOG)
+            <div class="flex items-center gap-2">
+                <div class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+                <select id="ai-persona" class="bg-transparent border-none text-sm font-medium text-foreground focus:ring-0 cursor-pointer outline-none">
+                    <option value="general" class="bg-card text-foreground">Portfolio Guide</option>
+                    <option value="tech" class="bg-card text-foreground">Tech Expert</option>
+                    <option value="recruiter" class="bg-card text-foreground">Recruiter Mode</option>
+                </select>
             </div>
             <button id="close-chat" class="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
                 <i data-lucide="x" class="w-4 h-4"></i>
@@ -737,18 +787,18 @@
         <div class="h-[400px] overflow-y-auto p-4 flex flex-col gap-4" id="chat-messages" data-lenis-prevent>
             <div class="self-start bg-secondary p-3 rounded-lg rounded-tl-none text-sm text-secondary-foreground shadow-sm border border-border">
                 <p>
-                    Woof! I'm Joji, Aditya's digital dog 🐕. I can help you navigate this site or even change the colors for you. Just ask me to "switch to cyan"!
+                    Hello! I'm Aditya's AI assistant. Select a persona above or just ask me anything about his work.
                 </p>
             </div>
         </div>
 
         <div class="p-4 border-t border-border bg-card">
-            <div class="relative flex items-center">
-                <input type="text" id="ai-input" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pr-10" placeholder="Type here..." autocomplete="off">
-                <button id="send-btn" class="absolute right-3 p-1 text-muted-foreground hover:text-primary transition-colors">
+            <form onsubmit="handleChatSubmit(event)" class="relative flex items-center">
+                <textarea id="ai-input" class="flex min-h-[40px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pr-10 resize-none" placeholder="Ask me anything..." rows="1" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
+                <button type="submit" id="send-btn" class="absolute right-3 top-2 p-1 text-muted-foreground hover:text-primary transition-colors">
                     <i data-lucide="send" class="w-4 h-4"></i>
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -1191,8 +1241,13 @@
         const aiInput = document.getElementById('ai-input');
         const sendBtn = document.getElementById('send-btn');
         const chatMessages = document.getElementById('chat-messages');
+        const aiPersona = document.getElementById('ai-persona');
 
-        const context = "You are Joji, a helpful, loyal, and friendly AI dog residing in Aditya Singh's portfolio. You answer questions enthusiastically and can control the website. If the user asks to change the theme, you MUST include the command [THEME:COLOR] in your response, where COLOR is one of: CYAN, PURPLE, GREEN, ORANGE, ROSE. Example: 'Woof! Changing it to green now! [THEME:GREEN]'. If the user has a project idea, tell them to try the new 'AI Architect' feature in the hero section!";
+        const contexts = {
+            general: "You are a helpful portfolio assistant for Aditya Singh. Answer general questions about his work, skills, and background. Keep responses concise and professional.",
+            tech: "You are a technical expert analyzing Aditya's portfolio. Discuss his tech stack (Next.js, Python, AWS), coding practices, and architecture skills in depth.",
+            recruiter: "You are assisting a recruiter. Highlight Aditya's key achievements: 40% load time reduction, scalable AWS architecture, and Next.js proficiency. Emphasize his readiness for freelance or full-time roles."
+        };
 
         function toggleChat() {
             chatWindow.classList.toggle('open');
@@ -1227,8 +1282,12 @@
 
             addMessage(text, 'user');
             aiInput.value = '';
+            aiInput.style.height = 'auto'; // Reset height
 
-            const loadingId = addMessage('Thinking... 🐾', 'ai');
+            const loadingId = addMessage('Thinking...', 'ai');
+            
+            const selectedPersona = aiPersona.value || 'general';
+            const systemContext = contexts[selectedPersona];
 
             try {
                 const data = await fetchWithRetry(
@@ -1239,7 +1298,7 @@
                         body: JSON.stringify({
                             contents: [{
                                 role: "user",
-                                parts: [{ text: context + "\nUSER QUERY: " + text }]
+                                parts: [{ text: systemContext + "\n\nUSER QUERY: " + text }]
                             }]
                         })
                     }
@@ -1247,6 +1306,7 @@
                 
                 let reply = data.candidates[0].content.parts[0].text;
                 
+                // Keep theme changing logic
                 const themeMatch = reply.match(/\[THEME:(\w+)\]/);
                 if (themeMatch) {
                     const colorName = themeMatch[1].toLowerCase();
@@ -1262,7 +1322,7 @@
 
             } catch (error) {
                 document.getElementById(loadingId).remove();
-                addMessage("Woof! I can't reach the server right now. (Check API Key config)", 'ai');
+                addMessage("I can't reach the server right now. (Check API Key config)", 'ai');
             }
         }
 
@@ -1284,10 +1344,34 @@
             return id;
         }
 
-        sendBtn.addEventListener('click', sendMessage);
-        aiInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
+        sendBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            sendMessage();
         });
+        
+        aiInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            sendMessage();
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const type = document.getElementById('contact-type').value;
+            const message = document.getElementById('contact-message').value;
+            
+            const subject = `Inquiry: ${type} from ${name}`;
+            const body = `Name: ${name}%0D%0AType: ${type}%0D%0A%0D%0AMessage:%0D%0A${message}`;
+            
+            window.location.href = `mailto:www.adisng@gmail.com?subject=${subject}&body=${body}`;
+        }
 
         const architectModal = document.getElementById('architect-modal');
         const architectContent = document.getElementById('architect-content');
@@ -1327,7 +1411,7 @@
                 
                 Output a JSON object with these keys:
                 - name: A cool, modern, one-word or two-word name for this project.
-                - stack: An array of 3-4 strings (e.g. "React", "Python", "AWS"). Focus on modern, scalable tech.
+                - stack: An array of 3-4 strings (e.g. "Next.js", "Python", "AWS"). Focus on modern, scalable tech.
                 - pitch: A one-sentence elevator pitch.
                 - plan: A bulleted list (max 3 items) of the execution plan.
                 
