@@ -239,22 +239,7 @@
 
         /* AI Widget */
         #ai-widget-btn {
-            position: fixed; bottom: 2rem; right: 2rem;
-            width: 3.5rem; height: 3.5rem;
-            border-radius: 9999px;
-            background: hsl(var(--background));
-            border: 1px solid hsl(var(--border));
-            color: hsl(var(--primary));
-            z-index: 90;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
-        #ai-widget-btn:hover {
-            transform: scale(1.1);
-            border-color: hsl(var(--primary));
-            box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.3);
-            background: hsl(var(--muted));
+            /* Styles handled by tailwind classes in element now */
         }
 
         /* Chat Window */
@@ -780,12 +765,43 @@
         </div>
     </footer>
 
-    <!-- AI Widget Button (Converted to button) -->
-    <!-- Visible ONLY on mobile/tablet (hidden on lg and up) -->
-    <button id="ai-widget-btn" class="magnetic lg:hidden" title="Chat with AI Assistant" onclick="toggleChat()">
-        <i data-lucide="bot" class="w-6 h-6"></i>
-        <div class="absolute inset-0 rounded-full border border-primary/50 animate-ping"></div>
-    </button>
+    <!-- Mobile Feature Stack (Replaces AI Widget on Mobile) -->
+    <div class="fixed bottom-6 right-6 z-50 lg:hidden flex flex-col items-end gap-2 group">
+        <!-- Stack Items -->
+        <div id="mobile-stack-items" class="flex flex-col gap-3 items-end transition-all duration-300 opacity-0 translate-y-4 pointer-events-none scale-95 origin-bottom-right mb-2">
+            
+            <!-- Idea Form -->
+            <button onclick="toggleArchitect(); toggleMobileStack()" class="flex items-center gap-3 pr-1">
+                <span class="bg-card/90 text-foreground text-xs font-medium px-2 py-1 rounded shadow-sm border border-border backdrop-blur-sm">Build Idea</span>
+                <div class="w-10 h-10 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-primary">
+                    <i data-lucide="lightbulb" class="w-5 h-5"></i>
+                </div>
+            </button>
+
+            <!-- Theme Switcher -->
+            <button onclick="cycleTheme()" class="flex items-center gap-3 pr-1">
+                <span class="bg-card/90 text-foreground text-xs font-medium px-2 py-1 rounded shadow-sm border border-border backdrop-blur-sm">Theme</span>
+                <div class="w-10 h-10 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-primary">
+                    <i data-lucide="palette" class="w-5 h-5"></i>
+                </div>
+            </button>
+
+            <!-- Chat -->
+            <button onclick="toggleChat(); toggleMobileStack()" class="flex items-center gap-3 pr-1">
+                <span class="bg-card/90 text-foreground text-xs font-medium px-2 py-1 rounded shadow-sm border border-border backdrop-blur-sm">Chat</span>
+                <div class="w-10 h-10 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-primary">
+                    <i data-lucide="message-square" class="w-5 h-5"></i>
+                </div>
+            </button>
+        </div>
+
+        <!-- Main Trigger -->
+        <button id="mobile-stack-trigger" onclick="toggleMobileStack()" class="w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary),0.4)] flex items-center justify-center relative transition-transform active:scale-90 z-50">
+            <div class="absolute inset-0 rounded-full border border-white/20 animate-ping pointer-events-none"></div>
+            <i data-lucide="bot" class="w-7 h-7 transition-all duration-300 absolute" id="stack-icon-main"></i>
+            <i data-lucide="x" class="w-7 h-7 transition-all duration-300 absolute opacity-0 rotate-90 scale-50" id="stack-icon-close"></i>
+        </button>
+    </div>
 
     <!-- Chat Window (Styled with Selector and Prompt Form) -->
     <div id="ai-chat-window">
@@ -1541,6 +1557,33 @@
             document.getElementById('project-idea').value = '';
             currentProjectData = null;
             toggleArchitect(); // Close modal on reset/close
+        }
+
+        // Toggle Mobile Stack Function
+        function toggleMobileStack() {
+            const items = document.getElementById('mobile-stack-items');
+            const mainIcon = document.getElementById('stack-icon-main');
+            const closeIcon = document.getElementById('stack-icon-close');
+            
+            const isOpen = items.classList.contains('opacity-100');
+            
+            if (isOpen) {
+                // Close Stack
+                items.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto', 'scale-100');
+                items.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none', 'scale-95');
+                
+                mainIcon.classList.remove('opacity-0', 'rotate-90', 'scale-50');
+                closeIcon.classList.add('opacity-0', 'rotate-90', 'scale-50');
+                closeIcon.classList.remove('opacity-100', 'rotate-0', 'scale-100');
+            } else {
+                // Open Stack
+                items.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto', 'scale-100');
+                items.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none', 'scale-95');
+                
+                mainIcon.classList.add('opacity-0', 'rotate-90', 'scale-50');
+                closeIcon.classList.remove('opacity-0', 'rotate-90', 'scale-50');
+                closeIcon.classList.add('opacity-100', 'rotate-0', 'scale-100');
+            }
         }
 
         gsap.registerPlugin(ScrollTrigger);
