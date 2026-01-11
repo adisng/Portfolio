@@ -237,6 +237,26 @@
         .draggable-handle { cursor: grab; }
         .draggable-handle:active { cursor: grabbing; }
 
+        /* AI Widget */
+        #ai-widget-btn {
+            position: fixed; bottom: 2rem; right: 2rem;
+            width: 3.5rem; height: 3.5rem;
+            border-radius: 9999px;
+            background: hsl(var(--background));
+            border: 1px solid hsl(var(--border));
+            color: hsl(var(--primary));
+            z-index: 90;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        #ai-widget-btn:hover {
+            transform: scale(1.1);
+            border-color: hsl(var(--primary));
+            box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.3);
+            background: hsl(var(--muted));
+        }
+
         /* Chat Window */
         #ai-chat-window {
             position: fixed; bottom: 7rem; right: 5vw;
@@ -251,13 +271,27 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             pointer-events: none;
         }
-        @media (min-width: 768px) { #ai-chat-window { right: 5rem; width: 400px; } }
-        #ai-chat-window.open { height: 600px; max-height: 75vh; opacity: 1; pointer-events: all; }
+        /* Desktop Chat Position - Left of Sidebar */
+        @media (min-width: 1024px) { 
+            #ai-chat-window { 
+                right: 7rem; 
+                width: 400px; 
+            } 
+        }
+        /* Tablet Chat Position */
+        @media (min-width: 768px) and (max-width: 1023px) { 
+            #ai-chat-window { 
+                right: 2rem; 
+                width: 380px; 
+            } 
+        }
+        
+        #ai-chat-window.open { height: 600px; max-height: 70vh; opacity: 1; pointer-events: all; }
 
-        /* Floating Sidebar (Right Aligned) */
+        /* Floating Sidebar (Right Aligned - Desktop Only) */
         .floating-sidebar {
             position: fixed;
-            right: 2rem; /* Moved to Right */
+            right: 2rem; 
             top: 50%;
             transform: translateY(-50%);
             z-index: 50;
@@ -333,7 +367,7 @@
 
     <div id="webgl-container"></div>
 
-    <!-- Floating Sidebar (Right Aligned) -->
+    <!-- Floating Sidebar (Right Aligned - Visible on Desktop) -->
     <aside class="floating-sidebar flex-col gap-4 p-2 rounded-2xl border border-border bg-card/50 backdrop-blur-md shadow-xl transition-all duration-300">
         <a href="#about" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="About">
             <i data-lucide="user" class="w-5 h-5"></i>
@@ -435,7 +469,7 @@
                     </span>
                 </div>
                 
-                <h1 class="text-7xl sm:text-8xl md:text-[10rem] font-bold leading-none mb-10 text-foreground cursor-default font-display relative z-20 flex flex-col justify-center">
+                <h1 class="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-bold leading-none mb-10 text-foreground cursor-default font-display relative z-20 flex flex-col justify-center">
                     <div class="overflow-hidden pb-2">
                         <span class="text-outline block reveal-text" style="line-height: 0.9;">ADITYA</span>
                     </div>
@@ -745,6 +779,13 @@
             </div>
         </div>
     </footer>
+
+    <!-- AI Widget Button (Converted to button) -->
+    <!-- Visible ONLY on mobile/tablet (hidden on lg and up) -->
+    <button id="ai-widget-btn" class="magnetic lg:hidden" title="Chat with AI Assistant" onclick="toggleChat()">
+        <i data-lucide="bot" class="w-6 h-6"></i>
+        <div class="absolute inset-0 rounded-full border border-primary/50 animate-ping"></div>
+    </button>
 
     <!-- Chat Window (Styled with Selector and Prompt Form) -->
     <div id="ai-chat-window">
