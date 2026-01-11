@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aditya Singh | Freelance Full Stack Developer</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -93,39 +94,39 @@
 
     <style>
         :root {
-            /* Shadcn Dark Theme Variables */
-            --background: 240 10% 3.9%;   /* #0a0a0b */
-            --foreground: 0 0% 98%;       /* #fafafa */
+            /* Professional Dark Theme - "Deep Cosmos" */
+            --background: 230 25% 8%;     /* Rich dark grey/blue for professionalism */
+            --foreground: 210 40% 98%;    /* High contrast text */
             
-            --card: 240 10% 3.9%;
-            --card-foreground: 0 0% 98%;
+            --card: 230 25% 10%;          /* Subtle contrast for cards */
+            --card-foreground: 210 40% 98%;
             
-            --popover: 240 10% 3.9%;
-            --popover-foreground: 0 0% 98%;
+            --popover: 230 25% 10%;
+            --popover-foreground: 210 40% 98%;
             
-            --primary: 189 88% 53%;       /* #22d3ee (Cyan) */
-            --primary-foreground: 240 5.9% 10%;
+            --primary: 186 100% 50%;      /* Electric Cyan for aesthetic pop */
+            --primary-foreground: 230 25% 10%;
             
-            --secondary: 240 3.7% 15.9%;
-            --secondary-foreground: 0 0% 98%;
+            --secondary: 230 20% 18%;     /* Muted blue-grey for secondary elements */
+            --secondary-foreground: 210 40% 98%;
             
-            --muted: 240 3.7% 15.9%;
-            --muted-foreground: 240 5% 64.9%;
+            --muted: 230 20% 18%;
+            --muted-foreground: 215 20% 70%;
             
-            --accent: 240 3.7% 15.9%;
-            --accent-foreground: 0 0% 98%;
+            --accent: 230 20% 25%;        /* Lighter interaction state */
+            --accent-foreground: 210 40% 98%;
             
             --destructive: 0 62.8% 30.6%;
-            --destructive-foreground: 0 0% 98%;
+            --destructive-foreground: 210 40% 98%;
             
-            --border: 240 3.7% 15.9%;
-            --input: 240 3.7% 15.9%;
-            --ring: 240 4.9% 83.9%;
+            --border: 230 20% 18%;        /* Subtle borders */
+            --input: 230 20% 18%;
+            --ring: 186 100% 50%;
             
-            --radius: 0.75rem; /* rounded-xl */
+            --radius: 0.75rem; 
 
-            /* Original Custom Vars */
-            --accent-rgb: 34, 211, 238;
+            /* Custom Var for WebGL/Shadows */
+            --accent-rgb: 0, 251, 255;
         }
 
         html.lenis { height: auto; }
@@ -205,9 +206,9 @@
             transition: color 0.5s;
         }
 
-        /* Replaced glass-panel with shadcn card utilities mostly, but keeping this for specific tilt cards */
+        /* Glass Panel Update for New Colors */
         .glass-panel {
-            background: rgba(10, 10, 11, 0.6); /* Zinc-950 alpha */
+            background: rgba(15, 17, 26, 0.6); /* Transparent Deep Cosmos */
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid hsl(var(--border));
@@ -219,8 +220,8 @@
         }
         .glass-panel:hover {
             border-color: hsl(var(--primary) / 0.5);
-            box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.1);
-            background: rgba(10, 10, 11, 0.9);
+            box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.15);
+            background: rgba(15, 17, 26, 0.85);
         }
 
         /* Draggable Window */
@@ -667,11 +668,11 @@
         </div>
     </footer>
 
-    <!-- AI Widget Button -->
-    <div id="ai-widget-btn" class="magnetic" title="Chat with Joji">
+    <!-- AI Widget Button (Converted to button) -->
+    <button id="ai-widget-btn" class="magnetic" title="Chat with Joji">
         <i data-lucide="dog" class="w-6 h-6"></i>
         <div class="absolute inset-0 rounded-full border border-primary/50 animate-ping"></div>
-    </div>
+    </button>
 
     <!-- Chat Window (Styled as Shadcn Popover/Card) -->
     <div id="ai-chat-window">
@@ -685,7 +686,7 @@
             </button>
         </div>
         
-        <div class="h-[400px] overflow-y-auto p-4 flex flex-col gap-4" id="chat-messages">
+        <div class="h-[400px] overflow-y-auto p-4 flex flex-col gap-4" id="chat-messages" data-lenis-prevent>
             <div class="self-start bg-secondary p-3 rounded-lg rounded-tl-none text-sm text-secondary-foreground shadow-sm border border-border">
                 <p>
                     Woof! I'm Joji, Aditya's digital dog 🐕. I can help you navigate this site or even change the colors for you. Just ask me to "switch to cyan"!
@@ -720,7 +721,7 @@
                 </div>
             </div>
 
-            <div class="max-h-[60vh] overflow-y-auto">
+            <div class="max-h-[60vh] overflow-y-auto" data-lenis-prevent>
                 <div id="architect-input-section" class="space-y-4">
                     <p class="text-sm text-muted-foreground">
                         Have an idea? Describe it below. I'll analyze it and generate a <span class="text-primary font-bold">Tech Stack</span>, <span class="text-primary font-bold">Project Name</span>, and <span class="text-primary font-bold">Execution Plan</span> tailored to modern standards.
@@ -1185,7 +1186,7 @@
 
             } catch (error) {
                 document.getElementById(loadingId).remove();
-                addMessage("Woof! Something went wrong. I'll try again later.", 'ai');
+                addMessage("Woof! I can't reach the server right now. (Check API Key config)", 'ai');
             }
         }
 
