@@ -10,50 +10,133 @@
     
     <!-- Three.js Core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Inflate/Deflate for FBX -->
-    <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.0/umd/index.min.js"></script>
-    <!-- FBX Loader -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+    <script>
+        tailwind.config = {
+            darkMode: ["class"],
+            theme: {
+                container: {
+                    center: true,
+                    padding: "2rem",
+                    screens: {
+                        "2xl": "1400px",
+                    },
+                },
+                extend: {
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: {
+                            DEFAULT: "hsl(var(--primary))",
+                            foreground: "hsl(var(--primary-foreground))",
+                        },
+                        secondary: {
+                            DEFAULT: "hsl(var(--secondary))",
+                            foreground: "hsl(var(--secondary-foreground))",
+                        },
+                        destructive: {
+                            DEFAULT: "hsl(var(--destructive))",
+                            foreground: "hsl(var(--destructive-foreground))",
+                        },
+                        muted: {
+                            DEFAULT: "hsl(var(--muted))",
+                            foreground: "hsl(var(--muted-foreground))",
+                        },
+                        accent: {
+                            DEFAULT: "hsl(var(--accent))",
+                            foreground: "hsl(var(--accent-foreground))",
+                        },
+                        popover: {
+                            DEFAULT: "hsl(var(--popover))",
+                            foreground: "hsl(var(--popover-foreground))",
+                        },
+                        card: {
+                            DEFAULT: "hsl(var(--card))",
+                            foreground: "hsl(var(--card-foreground))",
+                        },
+                    },
+                    borderRadius: {
+                        lg: "var(--radius)",
+                        md: "calc(var(--radius) - 2px)",
+                        sm: "calc(var(--radius) - 4px)",
+                    },
+                    keyframes: {
+                        "accordion-down": {
+                            from: { height: 0 },
+                            to: { height: "var(--radix-accordion-content-height)" },
+                        },
+                        "accordion-up": {
+                            from: { height: "var(--radix-accordion-content-height)" },
+                            to: { height: 0 },
+                        },
+                    },
+                    animation: {
+                        "accordion-down": "accordion-down 0.2s ease-out",
+                        "accordion-up": "accordion-up 0.2s ease-out",
+                    },
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        display: ['Antonio', 'sans-serif'],
+                    }
+                },
+            },
+        }
+    </script>
+
     <style>
         :root {
-            --bg-color: #020204; 
-            --accent-primary: #22d3ee; 
-            --accent-secondary: #22d3ee; 
+            /* Shadcn Dark Theme Variables */
+            --background: 240 10% 3.9%;   /* #0a0a0b */
+            --foreground: 0 0% 98%;       /* #fafafa */
+            
+            --card: 240 10% 3.9%;
+            --card-foreground: 0 0% 98%;
+            
+            --popover: 240 10% 3.9%;
+            --popover-foreground: 0 0% 98%;
+            
+            --primary: 189 88% 53%;       /* #22d3ee (Cyan) */
+            --primary-foreground: 240 5.9% 10%;
+            
+            --secondary: 240 3.7% 15.9%;
+            --secondary-foreground: 0 0% 98%;
+            
+            --muted: 240 3.7% 15.9%;
+            --muted-foreground: 240 5% 64.9%;
+            
+            --accent: 240 3.7% 15.9%;
+            --accent-foreground: 0 0% 98%;
+            
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 0 0% 98%;
+            
+            --border: 240 3.7% 15.9%;
+            --input: 240 3.7% 15.9%;
+            --ring: 240 4.9% 83.9%;
+            
+            --radius: 0.75rem; /* rounded-xl */
+
+            /* Original Custom Vars */
             --accent-rgb: 34, 211, 238;
-            --accent-white: #ffffff;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
         }
 
-        html.lenis {
-            height: auto;
-        }
-
-        .lenis.lenis-smooth {
-            scroll-behavior: auto;
-        }
-
-        .lenis.lenis-smooth [data-lenis-prevent] {
-            overscroll-behavior: contain;
-        }
-
-        .lenis.lenis-stopped {
-            overflow: hidden;
-        }
-
-        .lenis.lenis-scrolling iframe {
-            pointer-events: none;
-        }
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
 
         body {
-            background: var(--bg-color);
-            color: var(--text-primary);
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
             font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
             cursor: none;
@@ -61,50 +144,35 @@
             transition: color 0.5s ease;
         }
 
-        .text-accent { color: var(--accent-secondary); }
-        .bg-accent { background-color: var(--accent-secondary); }
-        .border-accent { border-color: var(--accent-secondary); }
-        .shadow-accent { box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3); }
-
+        /* Custom Cursor */
         #cursor-dot, #cursor-ring {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 9999;
             border-radius: 50%;
             mix-blend-mode: difference; 
         }
-
         #cursor-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-secondary);
-            box-shadow: 0 0 15px var(--accent-secondary);
+            width: 8px; height: 8px;
+            background: hsl(var(--primary));
+            box-shadow: 0 0 15px hsl(var(--primary));
             transition: background 0.3s;
         }
-
         #cursor-ring {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border: 1px solid rgba(255, 255, 255, 0.8);
             transition: width 0.15s ease-out, height 0.15s ease-out, background-color 0.15s, border-color 0.3s;
             will-change: width, height, transform; 
         }
-
         body.hovering #cursor-ring {
-            width: 80px;
-            height: 80px;
+            width: 80px; height: 80px;
             background-color: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent-secondary);
+            border-color: hsl(var(--primary));
             backdrop-filter: blur(2px);
         }
-
-        body.hovering #cursor-dot {
-            opacity: 0;
-        }
-
+        body.hovering #cursor-dot { opacity: 0; }
         @media (hover: none) and (pointer: coarse) {
             #cursor-dot, #cursor-ring { display: none !important; }
             body { cursor: auto; }
@@ -112,14 +180,8 @@
         }
 
         #webgl-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            opacity: 1; 
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; opacity: 1; pointer-events: none;
         }
 
         h1, h2, h3, .font-tall {
@@ -129,237 +191,135 @@
             line-height: 0.9;
         }
 
-        .char-wrapper {
-            display: inline-block;
-            overflow: hidden;
-            vertical-align: bottom;
-            padding-bottom: 0.2em;
-        }
-        
-        .char {
-            display: inline-block;
-            will-change: transform;
-        }
-
+        /* Text Effects */
+        .char-wrapper { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.2em; }
+        .char { display: inline-block; will-change: transform; }
         .text-outline {
-            color: rgba(255, 255, 255, 0.2); 
-            -webkit-text-stroke: 2px rgba(255, 255, 255, 1); 
-            position: relative;
-            display: inline-block;
+            color: rgba(255, 255, 255, 0.05); 
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5); 
+            position: relative; display: inline-block;
         }
-
-        @media (max-width: 768px) {
-            .text-outline {
-                -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
-            }
-        }
-
         .gradient-accent {
-            color: var(--accent-secondary);
+            color: hsl(var(--primary));
             text-shadow: 0 0 30px rgba(var(--accent-rgb), 0.5);
             transition: color 0.5s;
         }
 
+        /* Replaced glass-panel with shadcn card utilities mostly, but keeping this for specific tilt cards */
         .glass-panel {
-            background: rgba(16, 16, 24, 0.7);
-            backdrop-filter: blur(8px); 
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
+            background: rgba(10, 10, 11, 0.6); /* Zinc-950 alpha */
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
             transition: transform 0.1s, border-color 0.3s, background 0.3s;
             transform-style: preserve-3d;
             perspective: 1000px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            will-change: transform;
         }
-
         .glass-panel:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.1);
-            background: rgba(16, 16, 24, 0.85);
+            border-color: hsl(var(--primary) / 0.5);
+            box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.1);
+            background: rgba(10, 10, 11, 0.9);
         }
 
-        .hover-border-accent:hover {
-            border-color: rgba(var(--accent-rgb), 0.5);
-        }
+        /* Draggable Window */
+        .draggable-window { user-select: none; cursor: default; position: absolute; }
+        .draggable-handle { cursor: grab; }
+        .draggable-handle:active { cursor: grabbing; }
 
-        .draggable-window {
-            user-select: none;
-            cursor: default;
-            position: absolute; 
-        }
-        .draggable-handle {
-            cursor: grab;
-        }
-        .draggable-handle:active {
-            cursor: grabbing;
-        }
-
+        /* AI Widget */
         #ai-widget-btn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            position: fixed; bottom: 2rem; right: 2rem;
+            width: 3.5rem; height: 3.5rem;
+            border-radius: 9999px;
+            background: hsl(var(--background));
+            border: 1px solid hsl(var(--border));
+            color: hsl(var(--primary));
             z-index: 90;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         }
-
         #ai-widget-btn:hover {
             transform: scale(1.1);
-            border-color: var(--accent-secondary);
+            border-color: hsl(var(--primary));
             box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.3);
-            background: rgba(var(--accent-rgb), 0.1);
+            background: hsl(var(--muted));
         }
 
+        /* Chat Window */
         #ai-chat-window {
-            position: fixed;
-            bottom: 7rem;
-            right: 5vw;
-            width: 90vw;
-            max-width: 380px;
-            height: 0;
-            opacity: 0;
-            overflow: hidden;
-            background: rgba(10, 10, 15, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: fixed; bottom: 7rem; right: 5vw;
+            width: 90vw; max-width: 400px; height: 0;
+            opacity: 0; overflow: hidden;
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 24px;
+            border-radius: var(--radius);
             z-index: 90;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             pointer-events: none;
         }
+        @media (min-width: 768px) { #ai-chat-window { right: 2rem; width: 400px; } }
+        #ai-chat-window.open { height: 600px; max-height: 75vh; opacity: 1; pointer-events: all; }
 
-        @media (min-width: 768px) {
-            #ai-chat-window {
-                right: 2rem;
-                width: 380px;
-            }
-        }
-
-        #ai-chat-window.open {
-            height: 550px;
-            max-height: 75vh;
-            opacity: 1;
-            pointer-events: all;
-        }
-
+        /* Marquee */
         .marquee-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding: 1.5rem 0;
-            margin-top: 4rem;
+            position: relative; width: 100%; overflow: hidden;
+            background: hsl(var(--secondary) / 0.3);
+            border-top: 1px solid hsl(var(--border));
+            border-bottom: 1px solid hsl(var(--border));
+            padding: 1.5rem 0; margin-top: 4rem;
         }
-
-        .marquee-content {
-            display: flex;
-            animation: scrolling 20s linear infinite;
-            will-change: transform;
-        }
-
+        .marquee-content { display: flex; animation: scrolling 20s linear infinite; will-change: transform; }
         .marquee-item {
             font-family: 'Antonio', sans-serif;
-            font-size: 2rem;
-            font-weight: 500;
-            color: rgba(255,255,255,0.2);
-            white-space: nowrap;
-            padding: 0 2rem;
+            font-size: 2rem; font-weight: 500;
+            color: hsl(var(--muted-foreground));
+            white-space: nowrap; padding: 0 2rem;
             transition: color 0.3s;
         }
-
-        @media (min-width: 768px) {
-            .marquee-item { font-size: 3rem; padding: 0 3rem; }
-        }
-
+        @media (min-width: 768px) { .marquee-item { font-size: 3rem; padding: 0 3rem; } }
         .marquee-container:hover .marquee-item {
-            color: var(--accent-secondary);
-            text-shadow: 0 0 10px var(--accent-secondary);
+            color: hsl(var(--primary));
+            text-shadow: 0 0 10px hsl(var(--primary));
             opacity: 1;
         }
+        @keyframes scrolling { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        @keyframes scrolling {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
+        /* Nav */
         .nav-link {
-            position: relative;
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
+            position: relative; font-size: 0.9rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: hsl(var(--muted-foreground));
             transition: color 0.3s;
         }
-
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-white));
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: hsl(var(--primary));
             transition: width 0.3s ease;
         }
-
-        .nav-link:hover { color: white; }
+        .nav-link:hover { color: hsl(var(--foreground)); }
         .nav-link:hover::after { width: 100%; }
 
-        #mobile-menu {
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
+        #mobile-menu { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        
         .grain-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1; 
-            opacity: 0.05;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; opacity: 0.05;
             background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABMTExERERmZmYzMzMyMjJ4F4O1AAAACHRSTlMAMwA5MzMzM3PF3C0AAABcSURBVDjLY2AYBaNgOANGPBh4QDz4wQc+8IEDfOADHzjABz7wgQ984AMf+MAHPvCBD3zgAx/4wAc+8IEPAG6sH/Hl/nZ1AAAAAElFTkSuQmCC");
             background-size: 100px;
         }
-        
         .vignette {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2; 
-            background: radial-gradient(circle at center, transparent 0%, #020204 130%);
-        }
-
-        .project-image-placeholder {
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .project-card:hover .project-image-placeholder {
-            transform: scale(1.1);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 2; 
+            background: radial-gradient(circle at center, transparent 0%, hsl(var(--background)) 130%);
         }
     </style>
 </head>
-<body class="selection:bg-red-500/30 selection:text-white">
+<body class="selection:bg-primary/30 selection:text-primary-foreground">
 
     <div class="grain-overlay"></div>
     <div class="vignette"></div>
@@ -369,38 +329,35 @@
 
     <div id="webgl-container"></div>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-[#020204]/98 backdrop-blur-xl z-50 transform translate-x-full flex flex-col justify-center items-center gap-8 text-center">
-        <div class="absolute top-6 right-6 p-2" onclick="toggleMobileMenu()">
-            <i data-lucide="x" class="w-8 h-8 text-white cursor-pointer"></i>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-background/95 backdrop-blur-xl z-50 transform translate-x-full flex flex-col justify-center items-center gap-8 text-center">
+        <div class="absolute top-6 right-6 p-2 rounded-md hover:bg-muted transition-colors" onclick="toggleMobileMenu()">
+            <i data-lucide="x" class="w-8 h-8 text-foreground cursor-pointer"></i>
         </div>
-        <a href="#about" class="text-5xl font-tall text-white/80 hover:text-accent transition-colors" onclick="toggleMobileMenu()">About</a>
-        <a href="#experience" class="text-5xl font-tall text-white/80 hover:text-accent transition-colors" onclick="toggleMobileMenu()">Experience</a>
-        <a href="#education" class="text-5xl font-tall text-white/80 hover:text-accent transition-colors" onclick="toggleMobileMenu()">Education</a>
+        <a href="#about" class="text-5xl font-display text-muted-foreground hover:text-primary transition-colors" onclick="toggleMobileMenu()">About</a>
+        <a href="#experience" class="text-5xl font-display text-muted-foreground hover:text-primary transition-colors" onclick="toggleMobileMenu()">Experience</a>
+        <a href="#education" class="text-5xl font-display text-muted-foreground hover:text-primary transition-colors" onclick="toggleMobileMenu()">Education</a>
         
-        <!-- Mobile Controls for New Features -->
         <div class="flex gap-6 mt-4">
-            <button onclick="cycleTheme()" class="p-4 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-accent hover:border-accent transition-all active:scale-95" title="Switch Theme">
-                <i data-lucide="sparkles" class="w-6 h-6"></i>
+            <button onclick="cycleTheme()" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10" title="Switch Theme">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
             </button>
             
-            <button onclick="toggleMobileMenu(); toggleArchitect()" class="p-4 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-accent hover:border-accent transition-all active:scale-95" title="AI Architect">
-                <i data-lucide="cpu" class="w-6 h-6"></i>
-            </button>
-
-            <button onclick="toggleMobileMenu(); releaseTheCat()" class="p-4 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-pink-400 hover:border-pink-400 transition-all active:scale-95" title="Party Mode">
-                <i data-lucide="cat" class="w-6 h-6"></i>
+            <button onclick="toggleMobileMenu(); toggleArchitect()" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10" title="AI Architect">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
             </button>
         </div>
 
-        <div class="w-24 h-[1px] bg-white/10 my-4"></div>
-        <a href="mailto:www.adisng@gmail.com" class="text-base font-mono text-accent hover:text-white">www.adisng@gmail.com</a>
+        <div class="w-24 h-[1px] bg-border my-4"></div>
+        <a href="mailto:www.adisng@gmail.com" class="text-base font-mono text-primary hover:text-foreground transition-colors">www.adisng@gmail.com</a>
     </div>
 
-    <header class="fixed top-0 w-full z-40 px-6 py-4 transition-all duration-300 bg-gradient-to-b from-[#020204] via-[#020204]/80 to-transparent">
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-40 px-6 py-4 transition-all duration-300 bg-gradient-to-b from-background via-background/80 to-transparent">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="#" class="magnetic z-50 group">
-                <div class="font-bold text-2xl tracking-widest relative flex items-center gap-1 font-tall">
-                    ADITYA<span class="text-accent animate-pulse">.</span>
+                <div class="font-bold text-2xl tracking-widest relative flex items-center gap-1 font-display text-foreground">
+                    ADITYA<span class="text-primary animate-pulse">.</span>
                 </div>
             </a>
 
@@ -409,76 +366,75 @@
                 <a href="#experience" class="magnetic nav-link">Experience</a>
                 <a href="#education" class="magnetic nav-link">Education</a>
                 
-                <div class="h-6 w-px bg-white/20 mx-2"></div>
+                <div class="h-6 w-px bg-border mx-2"></div>
                 
-                <button onclick="cycleTheme()" class="magnetic relative w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 transition-all duration-500 hover:scale-110 hover:shadow-[0_0_25px_rgba(var(--accent-rgb),0.4)] hover:border-white/30 group overflow-hidden" title="Change Theme">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <i data-lucide="sparkles" class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors relative z-10 transform group-hover:rotate-12 duration-500"></i>
-                </button>
-
-                <button onclick="releaseTheCat()" class="magnetic relative w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 transition-all duration-500 hover:scale-110 hover:shadow-[0_0_25px_#ec4899] hover:border-pink-500/30 group overflow-hidden" title="Party Mode">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-pink-500/10 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <i data-lucide="cat" class="w-5 h-5 text-gray-400 group-hover:text-pink-400 transition-colors relative z-10"></i>
+                <button onclick="cycleTheme()" class="magnetic relative w-10 h-10 flex items-center justify-center rounded-md hover:bg-muted transition-colors group overflow-hidden" title="Change Theme">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors transform group-hover:rotate-12 duration-500"></i>
                 </button>
             </nav>
 
             <div class="flex items-center gap-4">
                 <a href="mailto:www.adisng@gmail.com" class="magnetic hidden md:block">
-                    <div class="px-6 py-2 border border-white/20 bg-white/5 rounded-full hover:bg-accent hover:text-black hover:border-accent hover:shadow-accent transition-all duration-300 text-xs tracking-widest uppercase font-bold text-white">
+                    <!-- Shadcn Button: Outline Variant -->
+                    <div class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs tracking-widest uppercase font-bold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-6 py-2">
                         Contact
                     </div>
                 </a>
-                <button class="md:hidden text-white p-2" onclick="toggleMobileMenu()">
-                    <i data-lucide="menu" class="w-8 h-8"></i>
+                <button class="md:hidden text-foreground p-2" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
     </header>
 
+    <!-- About Section -->
     <section id="about" class="relative min-h-screen flex items-center justify-center px-6 pt-0 overflow-hidden">
         <div class="relative z-20 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1 relative">
-                <div class="mb-8 inline-flex items-center gap-3 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-md max-w-full hover:border-accent transition-colors shadow-lg">
+                <!-- Badge -->
+                <div class="mb-8 inline-flex items-center gap-3 px-3 py-1 rounded-full border border-border bg-card/50 text-card-foreground shadow-sm backdrop-blur-sm">
                     <span class="relative flex h-2 w-2 flex-shrink-0">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                     </span>
-                    <span class="text-[10px] md:text-xs font-mono tracking-widest uppercase text-gray-300 truncate font-semibold">
+                    <span class="text-[10px] md:text-xs font-mono tracking-widest uppercase text-muted-foreground font-semibold">
                         Mission: AWS Cloud Practitioner
                     </span>
                 </div>
                 
-                <h1 class="text-7xl sm:text-8xl md:text-[10rem] font-bold leading-none mb-10 text-white cursor-default drop-shadow-2xl font-tall relative z-20 flex flex-col justify-center">
+                <h1 class="text-7xl sm:text-8xl md:text-[10rem] font-bold leading-none mb-10 text-foreground cursor-default font-display relative z-20 flex flex-col justify-center">
                     <div class="overflow-hidden pb-2">
                         <span class="text-outline block reveal-text" style="line-height: 0.9;">ADITYA</span>
                     </div>
                     <div class="overflow-hidden flex items-center gap-4 pb-2">
                         <span class="gradient-accent block reveal-text" style="line-height: 0.9;">SINGH</span>
-                        <span class="text-2xl md:text-5xl text-accent font-mono opacity-60 font-normal">&lt;/&gt;</span>
+                        <span class="text-2xl md:text-5xl text-primary font-mono opacity-60 font-normal">&lt;/&gt;</span>
                     </div>
                 </h1>
                 
                 <div class="relative max-w-lg mb-12">
-                    <p class="text-gray-200 text-lg md:text-xl leading-relaxed font-light border-l-2 border-accent pl-6 drop-shadow-md">
-                        Aditya Singh. I craft immersive digital experiences at the intersection of <span class="text-accent font-medium">Art</span> and <span class="text-white font-medium">Engineering</span>.
+                    <p class="text-muted-foreground text-lg md:text-xl leading-relaxed font-light border-l-2 border-primary pl-6">
+                        Aditya Singh. I craft immersive digital experiences at the intersection of <span class="text-primary font-medium">Art</span> and <span class="text-foreground font-medium">Engineering</span>.
                     </p>
                 </div>
 
                 <div class="flex flex-wrap gap-6 items-center">
-                    <a href="#experience" class="magnetic px-10 py-4 bg-white text-black rounded-full text-sm font-bold tracking-widest hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition-all duration-300">
+                    <!-- Shadcn Button: Primary -->
+                    <a href="#experience" class="magnetic inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8">
                         EXPLORE EXPERIENCE
                     </a>
                     
-                    <button onclick="toggleArchitect()" class="magnetic px-8 py-4 bg-white/5 border border-white/20 text-white rounded-full text-sm font-bold tracking-widest hover:bg-white/10 hover:border-accent transition-all duration-300 flex items-center gap-2 group">
-                        <i data-lucide="cpu" class="w-4 h-4 text-accent group-hover:animate-spin"></i>
+                    <!-- Shadcn Button: Secondary/Outline -->
+                    <button onclick="toggleArchitect()" class="magnetic inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 gap-2 group">
+                        <i data-lucide="cpu" class="w-4 h-4 text-primary group-hover:animate-spin"></i>
                         AI ARCHITECT
                     </button>
 
                     <div class="flex gap-4">
-                        <a href="https://github.com/adisng" target="_blank" class="magnetic p-3 text-gray-400 hover:text-white transition-colors border border-white/20 rounded-full hover:bg-white/10 hover:border-white">
+                        <a href="https://github.com/adisng" target="_blank" class="magnetic inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10">
                             <i data-lucide="github" class="w-5 h-5"></i>
                         </a>
-                        <a href="https://linkedin.com/in/patialapapi03" target="_blank" class="magnetic p-3 text-gray-400 hover:text-white transition-colors border border-white/20 rounded-full hover:bg-white/10 hover:border-white">
+                        <a href="https://linkedin.com/in/patialapapi03" target="_blank" class="magnetic inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10">
                             <i data-lucide="linkedin" class="w-5 h-5"></i>
                         </a>
                     </div>
@@ -487,129 +443,136 @@
             </div>
             
             <div class="order-1 lg:order-2 h-[300px] lg:h-full w-full relative flex items-center justify-center pointer-events-none">
-                <div id="draggable-window" class="pointer-events-auto z-30 w-80 glass-panel rounded-xl overflow-hidden flex flex-col group interactive shadow-2xl draggable-window hidden md:flex" style="top: 20%; right: 10%;">
-                    <div class="flex justify-between items-center p-3 bg-white/5 border-b border-white/5 draggable-handle" title="Drag me!">
-                        <div class="flex gap-2">
-                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <!-- Code Window styled as Shadcn Card -->
+                <div id="draggable-window" class="pointer-events-auto z-30 w-80 rounded-xl border border-border bg-card text-card-foreground shadow-xl flex flex-col group interactive draggable-window hidden md:flex" style="top: 20%; right: 10%;">
+                    <div class="flex justify-between items-center p-4 border-b border-border bg-muted/30 draggable-handle" title="Drag me!">
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-destructive"></div>
                             <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                             <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
                         </div>
-                        <div class="font-mono text-xs text-gray-500 flex items-center gap-1">
+                        <div class="font-mono text-xs text-muted-foreground flex items-center gap-1">
                             <i data-lucide="terminal" class="w-3 h-3"></i>
                             main.py
                         </div>
                     </div>
                     
-                    <div class="flex-1 p-4 font-mono text-xs md:text-sm text-gray-300 overflow-y-auto bg-[#0a0a10]/80">
-                        <p><span class="text-indigo-400">class</span> <span class="text-accent">Developer</span>:</p>
+                    <div class="flex-1 p-6 font-mono text-xs md:text-sm text-muted-foreground overflow-y-auto bg-card/50">
+                        <p><span class="text-primary">class</span> <span class="text-foreground">Developer</span>:</p>
                         <p class="pl-4">name = <span class="text-green-400">'Aditya Singh'</span></p>
                         <p class="pl-4">role = <span class="text-green-400">'Creative Technologist'</span></p>
                         <p class="pl-4">stack = [<span class="text-green-400">'AWS'</span>, <span class="text-green-400">'Python'</span>, <span class="text-green-400">'React'</span>]</p>
                         <br>
-                        <p class="pl-4"><span class="text-indigo-400">def</span> <span class="text-yellow-400">deploy</span>(self):</p>
+                        <p class="pl-4"><span class="text-primary">def</span> <span class="text-yellow-400">deploy</span>(self):</p>
                         <p class="pl-8">return <span class="text-green-400">'Scalable Solutions'</span></p>
-                        <p class="mt-2 animate-pulse text-accent">_</p>
+                        <p class="mt-2 animate-pulse text-primary">_</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Marquee -->
     <div class="marquee-container">
         <div class="marquee-content">
             <span class="marquee-item">PYTHON</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">REACT.JS</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">AWS CLOUD</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">MACHINE LEARNING</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">BIG DATA</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">PYTHON</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">REACT.JS</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">AWS CLOUD</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">MACHINE LEARNING</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
             <span class="marquee-item">BIG DATA</span>
-            <span class="marquee-item text-accent">•</span>
+            <span class="marquee-item text-primary">•</span>
         </div>
     </div>
 
+    <!-- Experience Section -->
     <section id="experience" class="py-24 md:py-40 px-6 relative">
         <div class="max-w-5xl mx-auto">
             <div class="flex items-end justify-between mb-16 md:mb-24">
-                <h2 class="text-5xl md:text-8xl font-tall font-bold text-white tracking-tight drop-shadow-lg">Experience</h2>
-                <div class="h-[1px] flex-1 bg-gradient-to-r from-white/20 to-transparent ml-8 mb-4"></div>
+                <h2 class="text-5xl md:text-8xl font-display font-bold text-foreground tracking-tight">Experience</h2>
+                <div class="h-[1px] flex-1 bg-border ml-8 mb-4"></div>
             </div>
 
-            <div class="glass-panel p-8 md:p-12 group relative overflow-hidden magnetic-card hover-border-accent" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
-                <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] group-hover:bg-accent/10 transition-all duration-700"></div>
+            <!-- Shadcn Card Style -->
+            <div class="rounded-xl border border-border bg-card text-card-foreground shadow-sm p-8 md:p-12 group relative overflow-hidden magnetic-card transition-colors hover:border-primary/50" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] group-hover:bg-primary/10 transition-all duration-700"></div>
                 
                 <div class="relative z-10 flex flex-col md:flex-row gap-10 justify-between items-start">
                     <div class="flex-1">
                         <div class="flex flex-wrap items-center gap-4 mb-4">
-                            <h3 class="text-3xl md:text-4xl font-tall font-bold text-white">Web Developer Intern</h3>
-                            <span class="px-3 py-1 border border-accent bg-accent/10 text-accent text-xs uppercase font-bold tracking-widest rounded-full shadow-accent">Abstract</span>
+                            <h3 class="text-3xl md:text-4xl font-display font-bold text-foreground">Web Developer Intern</h3>
+                            <!-- Badge -->
+                            <span class="inline-flex items-center rounded-full border border-transparent bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground shadow transition-colors hover:bg-secondary/80 uppercase tracking-widest">Abstract</span>
                         </div>
-                        <p class="text-gray-400 font-mono text-sm mb-8 flex items-center gap-2">
+                        <p class="text-muted-foreground font-mono text-sm mb-8 flex items-center gap-2">
                             <i data-lucide="calendar" class="w-4 h-4"></i> Jan 2025 - Apr 2025
                         </p>
-                        <p class="text-gray-200 leading-relaxed text-base md:text-lg">
-                            Engineered high-performance web solutions using modern stacks. Optimized rendering cycles, reducing load times by <span class="text-white font-bold border-b border-accent">40%</span>. Collaborated in an agile environment to deploy scalable front-end architectures.
+                        <p class="text-foreground leading-relaxed text-base md:text-lg">
+                            Engineered high-performance web solutions using modern stacks. Optimized rendering cycles, reducing load times by <span class="text-primary font-bold border-b border-primary">40%</span>. Collaborated in an agile environment to deploy scalable front-end architectures.
                         </p>
                     </div>
                     <div class="flex flex-row md:flex-col gap-3 justify-start">
-                        <span class="px-4 py-2 bg-white/5 rounded-lg text-xs text-gray-300 border border-white/10 whitespace-nowrap hover:bg-white/10 hover:text-accent transition-colors shadow-sm">HTML5 / CSS3</span>
-                        <span class="px-4 py-2 bg-white/5 rounded-lg text-xs text-gray-300 border border-white/10 whitespace-nowrap hover:bg-white/10 hover:text-accent transition-colors shadow-sm">JavaScript ES6+</span>
-                        <span class="px-4 py-2 bg-white/5 rounded-lg text-xs text-gray-300 border border-white/10 whitespace-nowrap hover:bg-white/10 hover:text-accent transition-colors shadow-sm">Performance</span>
+                        <!-- Badges Outline -->
+                        <span class="inline-flex items-center rounded-md border border-input bg-background px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none text-muted-foreground">HTML5 / CSS3</span>
+                        <span class="inline-flex items-center rounded-md border border-input bg-background px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none text-muted-foreground">JavaScript ES6+</span>
+                        <span class="inline-flex items-center rounded-md border border-input bg-background px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none text-muted-foreground">Performance</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Education Section -->
     <section id="education" class="py-24 md:py-40 px-6 relative">
         <div class="max-w-5xl mx-auto">
             <div class="flex items-end justify-between mb-16 md:mb-24">
-                <h2 class="text-5xl md:text-8xl font-tall font-bold text-white tracking-tight drop-shadow-lg">Education</h2>
-                <div class="h-[1px] flex-1 bg-gradient-to-r from-white/20 to-transparent ml-8 mb-4"></div>
+                <h2 class="text-5xl md:text-8xl font-display font-bold text-foreground tracking-tight">Education</h2>
+                <div class="h-[1px] flex-1 bg-border ml-8 mb-4"></div>
             </div>
 
             <div class="grid grid-cols-1 gap-8">
-                <div class="glass-panel p-8 md:p-12 group relative overflow-hidden magnetic-card hover-border-accent" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] group-hover:bg-accent/10 transition-all duration-700"></div>
+                <div class="glass-panel p-8 md:p-12 group relative overflow-hidden magnetic-card hover:border-primary/50" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] group-hover:bg-primary/10 transition-all duration-700"></div>
                     
                     <div class="relative z-10 flex flex-col md:flex-row gap-8 justify-between items-center">
                         <div class="flex-1">
-                            <h3 class="text-2xl md:text-3xl font-tall font-bold text-white mb-2">Master of Computer Applications (MCA)</h3>
-                            <p class="text-accent font-mono text-sm mb-4">MATS University, Raipur</p>
-                            <p class="text-gray-300 leading-relaxed max-w-xl">
+                            <h3 class="text-2xl md:text-3xl font-display font-bold text-foreground mb-2">Master of Computer Applications (MCA)</h3>
+                            <p class="text-primary font-mono text-sm mb-4">MATS University, Raipur</p>
+                            <p class="text-muted-foreground leading-relaxed max-w-xl">
                                 Specializing in Computer Science and Advanced Computing.
                             </p>
                         </div>
-                        <div class="px-4 py-2 border border-white/10 rounded-full bg-white/5 text-xs font-mono text-gray-300 whitespace-nowrap">
+                        <div class="px-4 py-2 border border-border rounded-full bg-secondary text-xs font-mono text-secondary-foreground whitespace-nowrap">
                             2025 - 2027
                         </div>
                     </div>
                 </div>
 
-                <div class="glass-panel p-8 md:p-12 group relative overflow-hidden magnetic-card hover-border-accent" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] group-hover:bg-accent/10 transition-all duration-700"></div>
+                <div class="glass-panel p-8 md:p-12 group relative overflow-hidden magnetic-card hover:border-primary/50" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] group-hover:bg-primary/10 transition-all duration-700"></div>
                     
                     <div class="relative z-10 flex flex-col md:flex-row gap-8 justify-between items-center">
                         <div class="flex-1">
-                            <h3 class="text-2xl md:text-3xl font-tall font-bold text-white mb-2">Bachelors in Computer Applications (BCA)</h3>
-                            <p class="text-accent font-mono text-sm mb-4">St. Vincent Pallotti, Raipur</p>
-                            <p class="text-gray-300 leading-relaxed max-w-xl">
+                            <h3 class="text-2xl md:text-3xl font-display font-bold text-foreground mb-2">Bachelors in Computer Applications (BCA)</h3>
+                            <p class="text-primary font-mono text-sm mb-4">St. Vincent Pallotti, Raipur</p>
+                            <p class="text-muted-foreground leading-relaxed max-w-xl">
                                 Foundation in Computer Programming & Applications.
                             </p>
                         </div>
-                        <div class="px-4 py-2 border border-white/10 rounded-full bg-white/5 text-xs font-mono text-gray-300 whitespace-nowrap">
+                        <div class="px-4 py-2 border border-border rounded-full bg-secondary text-xs font-mono text-secondary-foreground whitespace-nowrap">
                             Aug 2022 - Aug 2025
                         </div>
                     </div>
@@ -618,185 +581,185 @@
         </div>
     </section>
 
+    <!-- Certifications Section -->
     <section id="certifications" class="py-24 md:py-40 px-6 relative">
         <div class="max-w-6xl mx-auto">
             <div class="flex items-end justify-between mb-16 md:mb-24">
-                <h2 class="text-5xl md:text-8xl font-tall font-bold text-white tracking-tight drop-shadow-lg">Certifications</h2>
-                <div class="h-[1px] flex-1 bg-gradient-to-r from-white/20 to-transparent ml-8 mb-4"></div>
+                <h2 class="text-5xl md:text-8xl font-display font-bold text-foreground tracking-tight">Certifications</h2>
+                <div class="h-[1px] flex-1 bg-border ml-8 mb-4"></div>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div class="glass-panel p-8 hover-border-accent transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <!-- Cert Card 1 -->
+                <div class="glass-panel p-8 hover:border-primary/50 transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="flex justify-between items-start mb-6">
-                        <div class="p-3 bg-white/5 rounded-lg border border-white/10 group-hover:border-accent group-hover:bg-accent/10 transition-colors">
-                            <i data-lucide="cloud" class="w-8 h-8 text-white group-hover:text-accent group-hover:scale-110 transition-all"></i>
+                        <div class="p-3 bg-secondary rounded-lg border border-border group-hover:border-primary group-hover:bg-primary/10 transition-colors">
+                            <i data-lucide="cloud" class="w-8 h-8 text-foreground group-hover:text-primary group-hover:scale-110 transition-all"></i>
                         </div>
-                        <span class="text-[10px] uppercase tracking-widest text-gray-400 border border-white/10 bg-white/5 px-2 py-1 rounded">Job Sim</span>
+                        <span class="text-[10px] uppercase tracking-widest text-muted-foreground border border-border bg-muted px-2 py-1 rounded">Job Sim</span>
                     </div>
-                    <h3 class="text-2xl md:text-3xl font-tall font-bold mb-3 group-hover:text-accent transition-colors text-white">AWS Solutions Architecture</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Designing scalable, reliable, and cost-efficient cloud systems.</p>
+                    <h3 class="text-2xl md:text-3xl font-display font-bold mb-3 group-hover:text-primary transition-colors text-foreground">AWS Solutions Architecture</h3>
+                    <p class="text-muted-foreground text-sm leading-relaxed">Designing scalable, reliable, and cost-efficient cloud systems.</p>
                 </div>
 
-                <div class="glass-panel p-8 hover-border-accent transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <!-- Cert Card 2 -->
+                <div class="glass-panel p-8 hover:border-primary/50 transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="flex justify-between items-start mb-6">
-                        <div class="p-3 bg-white/5 rounded-lg border border-white/10 group-hover:border-accent group-hover:bg-accent/10 transition-colors">
-                            <i data-lucide="database" class="w-8 h-8 text-white group-hover:text-accent group-hover:scale-110 transition-all"></i>
+                        <div class="p-3 bg-secondary rounded-lg border border-border group-hover:border-primary group-hover:bg-primary/10 transition-colors">
+                            <i data-lucide="database" class="w-8 h-8 text-foreground group-hover:text-primary group-hover:scale-110 transition-all"></i>
                         </div>
-                        <span class="text-[10px] uppercase tracking-widest text-gray-400 border border-white/10 bg-white/5 px-2 py-1 rounded">Level 1</span>
+                        <span class="text-[10px] uppercase tracking-widest text-muted-foreground border border-border bg-muted px-2 py-1 rounded">Level 1</span>
                     </div>
-                    <h3 class="text-2xl md:text-3xl font-tall font-bold mb-3 group-hover:text-accent transition-colors text-white">Big Data Foundations</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Mastering core concepts of massive data handling and processing pipelines.</p>
+                    <h3 class="text-2xl md:text-3xl font-display font-bold mb-3 group-hover:text-primary transition-colors text-foreground">Big Data Foundations</h3>
+                    <p class="text-muted-foreground text-sm leading-relaxed">Mastering core concepts of massive data handling and processing pipelines.</p>
                 </div>
 
-                <div class="glass-panel p-8 hover-border-accent transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <!-- Cert Card 3 -->
+                <div class="glass-panel p-8 hover:border-primary/50 transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="flex justify-between items-start mb-6">
-                        <div class="p-3 bg-white/5 rounded-lg border border-white/10 group-hover:border-accent group-hover:bg-accent/10 transition-colors">
-                            <i data-lucide="brain" class="w-8 h-8 text-white group-hover:text-accent group-hover:scale-110 transition-all"></i>
+                        <div class="p-3 bg-secondary rounded-lg border border-border group-hover:border-primary group-hover:bg-primary/10 transition-colors">
+                            <i data-lucide="brain" class="w-8 h-8 text-foreground group-hover:text-primary group-hover:scale-110 transition-all"></i>
                         </div>
-                        <span class="text-[10px] uppercase tracking-widest text-gray-400 border border-white/10 bg-white/5 px-2 py-1 rounded">Fundamentals</span>
+                        <span class="text-[10px] uppercase tracking-widest text-muted-foreground border border-border bg-muted px-2 py-1 rounded">Fundamentals</span>
                     </div>
-                    <h3 class="text-2xl md:text-3xl font-tall font-bold mb-3 group-hover:text-accent transition-colors text-white">Machine Learning & AI</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Implementing intelligent algorithms and AI strategies.</p>
+                    <h3 class="text-2xl md:text-3xl font-display font-bold mb-3 group-hover:text-primary transition-colors text-foreground">Machine Learning & AI</h3>
+                    <p class="text-muted-foreground text-sm leading-relaxed">Implementing intelligent algorithms and AI strategies.</p>
                 </div>
 
-                <div class="glass-panel p-8 hover-border-accent transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <!-- Cert Card 4 -->
+                <div class="glass-panel p-8 hover:border-primary/50 transition-all group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
                     <div class="flex justify-between items-start mb-6">
-                        <div class="p-3 bg-white/5 rounded-lg border border-white/10 group-hover:border-accent group-hover:bg-accent/10 transition-colors">
-                            <i data-lucide="code" class="w-8 h-8 text-white group-hover:text-accent group-hover:scale-110 transition-all"></i>
+                        <div class="p-3 bg-secondary rounded-lg border border-border group-hover:border-primary group-hover:bg-primary/10 transition-colors">
+                            <i data-lucide="code" class="w-8 h-8 text-foreground group-hover:text-primary group-hover:scale-110 transition-all"></i>
                         </div>
-                        <span class="text-[10px] uppercase tracking-widest text-gray-400 border border-white/10 bg-white/5 px-2 py-1 rounded">Job Sim</span>
+                        <span class="text-[10px] uppercase tracking-widest text-muted-foreground border border-border bg-muted px-2 py-1 rounded">Job Sim</span>
                     </div>
-                    <h3 class="text-2xl md:text-3xl font-tall font-bold mb-3 group-hover:text-accent transition-colors text-white">Datacom Software Dev</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Practical simulation of real-world software development scenarios.</p>
+                    <h3 class="text-2xl md:text-3xl font-display font-bold mb-3 group-hover:text-primary transition-colors text-foreground">Datacom Software Dev</h3>
+                    <p class="text-muted-foreground text-sm leading-relaxed">Practical simulation of real-world software development scenarios.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="py-24 md:py-40 px-6 border-t border-white/5 relative overflow-hidden bg-black/20">
+    <!-- Footer -->
+    <footer class="py-24 md:py-40 px-6 border-t border-border relative overflow-hidden bg-background">
         <div class="max-w-7xl mx-auto text-center relative z-10">
-            <h2 class="text-5xl md:text-[10rem] font-tall font-bold mb-16 text-white/5 hover:text-white/20 transition-colors cursor-default leading-none whitespace-nowrap">
+            <h2 class="text-5xl md:text-[10rem] font-display font-bold mb-16 text-muted hover:text-foreground transition-colors cursor-default leading-none whitespace-nowrap">
                 ADITYA SINGH
             </h2>
             
             <div class="flex flex-wrap justify-center gap-8 mb-16">
-                <a href="mailto:www.adisng@gmail.com" class="magnetic text-sm uppercase tracking-widest text-gray-400 hover:text-accent transition-colors flex items-center gap-2">
+                <a href="mailto:www.adisng@gmail.com" class="magnetic text-sm uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
                     <i data-lucide="mail" class="w-4 h-4"></i> Email
                 </a>
-                <a href="https://linkedin.com/in/patialapapi03" target="_blank" class="magnetic text-sm uppercase tracking-widest text-gray-400 hover:text-accent transition-colors flex items-center gap-2">
+                <a href="https://linkedin.com/in/patialapapi03" target="_blank" class="magnetic text-sm uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
                     <i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn
                 </a>
-                <a href="https://github.com/adisng" target="_blank" class="magnetic text-sm uppercase tracking-widest text-gray-400 hover:text-accent transition-colors flex items-center gap-2">
+                <a href="https://github.com/adisng" target="_blank" class="magnetic text-sm uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
                     <i data-lucide="github" class="w-4 h-4"></i> GitHub
                 </a>
             </div>
             
-            <div class="text-[10px] font-mono text-gray-700 flex justify-between items-center border-t border-white/5 pt-8">
+            <div class="text-[10px] font-mono text-muted-foreground flex justify-between items-center border-t border-border pt-8">
                 <span>© 2025 ALL RIGHTS RESERVED</span>
                 <span>RAIPUR, INDIA</span>
             </div>
         </div>
     </footer>
 
+    <!-- AI Widget Button -->
     <div id="ai-widget-btn" class="magnetic" title="Chat with Joji">
-        <i data-lucide="dog" class="w-8 h-8 text-accent"></i>
-        <div class="absolute inset-0 rounded-full border border-accent/50 animate-ping"></div>
+        <i data-lucide="dog" class="w-6 h-6"></i>
+        <div class="absolute inset-0 rounded-full border border-primary/50 animate-ping"></div>
     </div>
 
+    <!-- Chat Window (Styled as Shadcn Popover/Card) -->
     <div id="ai-chat-window">
-        <div class="p-5 border-b border-white/10 flex justify-between items-center bg-black/40">
-            <div class="text-xs font-mono font-bold text-accent flex items-center gap-2">
-                <i data-lucide="dog" class="w-4 h-4"></i>
+        <div class="p-4 border-b border-border flex justify-between items-center bg-muted/50">
+            <div class="text-sm font-medium text-foreground flex items-center gap-2">
+                <i data-lucide="dog" class="w-4 h-4 text-primary"></i>
                 JOJI (AI DOG)
             </div>
-            <i data-lucide="x" class="w-5 h-5 text-gray-500 hover:text-white cursor-pointer transition-colors" id="close-chat"></i>
+            <button id="close-chat" class="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
         </div>
         
-        <div class="h-[400px] overflow-y-auto p-5 flex flex-col gap-4" id="chat-messages">
-            <div class="self-start bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 max-w-[85%] shadow-lg">
-                <p class="text-xs text-gray-300 leading-relaxed font-light">
+        <div class="h-[400px] overflow-y-auto p-4 flex flex-col gap-4" id="chat-messages">
+            <div class="self-start bg-secondary p-3 rounded-lg rounded-tl-none text-sm text-secondary-foreground shadow-sm border border-border">
+                <p>
                     Woof! I'm Joji, Aditya's digital dog 🐕. I can help you navigate this site or even change the colors for you. Just ask me to "switch to cyan"!
                 </p>
             </div>
         </div>
 
-        <div class="p-4 bg-black/80 border-t border-white/10 absolute bottom-0 w-full backdrop-blur-md">
-            <div class="relative">
-                <input type="text" id="ai-input" class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs text-white placeholder-gray-500 outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-mono" placeholder="Type here..." autocomplete="off">
-                <button id="send-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-accent transition-colors">
+        <div class="p-4 border-t border-border bg-card">
+            <div class="relative flex items-center">
+                <input type="text" id="ai-input" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pr-10" placeholder="Type here..." autocomplete="off">
+                <button id="send-btn" class="absolute right-3 p-1 text-muted-foreground hover:text-primary transition-colors">
                     <i data-lucide="send" class="w-4 h-4"></i>
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="architect-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="glass-panel w-full max-w-2xl mx-4 relative transform scale-95 transition-transform duration-300 p-0 overflow-hidden" id="architect-content">
-            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-gradient-to-r from-accent/10 to-transparent">
-                <div class="flex items-center gap-3">
-                    <div class="p-2 bg-accent/20 rounded-lg">
-                        <i data-lucide="cpu" class="w-6 h-6 text-accent"></i>
-                    </div>
+    <!-- Architect Modal (Styled as Shadcn Dialog) -->
+    <div id="architect-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-background/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+        <div class="w-full max-w-lg border border-border bg-card p-6 shadow-lg duration-200 sm:rounded-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all" id="architect-content">
+            
+            <div class="flex flex-col space-y-1.5 text-center sm:text-left mb-6">
+                <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="text-xl font-tall font-bold text-white">Project Architect</h3>
-                        <p class="text-xs font-mono text-gray-400 uppercase tracking-wider">Powered by Gemini 2.5</p>
+                        <h3 class="text-lg font-semibold leading-none tracking-tight text-foreground">Project Architect</h3>
+                        <p class="text-sm text-muted-foreground mt-1.5">Powered by Gemini 2.5</p>
                     </div>
+                    <button onclick="toggleArchitect()" class="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                        <span class="sr-only">Close</span>
+                    </button>
                 </div>
-                <button onclick="toggleArchitect()" class="p-2 hover:bg-white/10 rounded-full transition-colors">
-                    <i data-lucide="x" class="w-6 h-6 text-gray-400 hover:text-white"></i>
-                </button>
             </div>
 
-            <div class="p-8 max-h-[70vh] overflow-y-auto">
-                <div id="architect-input-section" class="space-y-6">
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Have an idea? Describe it below. I'll analyze it and generate a 
-                        <span class="text-accent font-bold">Tech Stack</span>, 
-                        <span class="text-accent font-bold">Project Name</span>, and 
-                        <span class="text-accent font-bold">Execution Plan</span> tailored to modern standards.
+            <div class="max-h-[60vh] overflow-y-auto">
+                <div id="architect-input-section" class="space-y-4">
+                    <p class="text-sm text-muted-foreground">
+                        Have an idea? Describe it below. I'll analyze it and generate a <span class="text-primary font-bold">Tech Stack</span>, <span class="text-primary font-bold">Project Name</span>, and <span class="text-primary font-bold">Execution Plan</span> tailored to modern standards.
                     </p>
-                    <textarea id="project-idea" rows="4" class="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-white placeholder-gray-600 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all resize-none font-mono text-sm" placeholder="e.g. A real-time dashboard for tracking satellite debris using WebGL..."></textarea>
+                    <textarea id="project-idea" rows="4" class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none" placeholder="e.g. A real-time dashboard for tracking satellite debris using WebGL..."></textarea>
                     
-                    <button onclick="generateProjectPlan()" id="generate-btn" class="w-full py-4 bg-white text-black font-bold tracking-widest rounded-xl hover:bg-accent hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex justify-center items-center gap-2">
+                    <button onclick="generateProjectPlan()" id="generate-btn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full gap-2">
                         <span>INITIATE ANALYSIS</span>
                         <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
                     </button>
                 </div>
 
                 <div id="architect-loading" class="hidden py-12 flex flex-col items-center justify-center space-y-4">
-                    <div class="w-12 h-12 border-4 border-white/10 border-t-accent rounded-full animate-spin"></div>
-                    <p class="font-mono text-xs text-accent animate-pulse">Computing optimum architecture...</p>
+                    <div class="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin"></div>
+                    <p class="text-sm text-muted-foreground animate-pulse">Computing optimum architecture...</p>
                 </div>
 
-                <div id="architect-result" class="hidden space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div id="architect-result" class="hidden space-y-6">
+                    <!-- Results injected here by JS -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Disco Overlay -->
-    <div id="disco-overlay" class="fixed inset-0 z-[200] pointer-events-none opacity-0 transition-opacity duration-500 flex items-center justify-center hidden">
-        <!-- 3D Cat Container -->
-        <div id="disco-cat-container" class="relative w-64 h-64 md:w-96 md:h-96 rounded-full border-8 border-white/20 shadow-[0_0_100px_rgba(255,255,255,0.5)] bg-black/30 backdrop-blur-sm overflow-hidden">
-            <!-- Canvas will be injected here by JS -->
-        </div>
-    </div>
-
     <script>
-        const apiKey = "AIzaSyASpNE0W0_i6ZrS_65TAdm3dUHL_qk2Y-I"; 
+        const apiKey = ""; 
 
         lucide.createIcons();
 
-        const state = {
-            r: 0.13, g: 0.82, b: 0.93
-        };
+        // Color State
+        const state = { r: 0.13, g: 0.82, b: 0.93 };
 
+        // Shadcn/Tailwind Theme Mapping
         const themes = {
-            'cyan': { hex: '#22d3ee', rgb: '34, 211, 238' },     
-            'purple': { hex: '#c084fc', rgb: '192, 132, 252' },  
-            'green': { hex: '#4ade80', rgb: '74, 222, 128' },    
-            'orange': { hex: '#fb923c', rgb: '251, 146, 60' },   
-            'rose': { hex: '#fb7185', rgb: '251, 113, 133' }     
+            'cyan':   { hex: '#22d3ee', primary: '189 88% 53%' },      
+            'purple': { hex: '#c084fc', primary: '270 95% 75%' },   
+            'green':  { hex: '#4ade80', primary: '142 71% 58%' },     
+            'orange': { hex: '#fb923c', primary: '24 94% 61%' },    
+            'rose':   { hex: '#fb7185', primary: '344 93% 71%' }      
         };
         
         let currentThemeIndex = 0;
@@ -804,17 +767,20 @@
 
         let currentProjectData = null;
 
-        window.setTheme = function(hex, rgb) {
+        window.setTheme = function(hex, primaryHsl) {
             const root = document.documentElement;
-            root.style.setProperty('--accent-secondary', hex);
-            root.style.setProperty('--accent-rgb', rgb);
-
-            const r = parseInt(hex.slice(1, 3), 16) / 255;
-            const g = parseInt(hex.slice(3, 5), 16) / 255;
-            const b = parseInt(hex.slice(5, 7), 16) / 255;
+            // Update Shadcn variable
+            root.style.setProperty('--primary', primaryHsl);
             
+            // Update old CSS vars for compatibility
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            root.style.setProperty('--accent-rgb', `${r}, ${g}, ${b}`);
+
+            // WebGL transition
             gsap.to(state, {
-                r: r, g: g, b: b,
+                r: r / 255, g: g / 255, b: b / 255,
                 duration: 1,
                 ease: "power2.out"
             });
@@ -824,12 +790,16 @@
             currentThemeIndex = (currentThemeIndex + 1) % themeKeys.length;
             const key = themeKeys[currentThemeIndex];
             const theme = themes[key];
-            window.setTheme(theme.hex, theme.rgb);
+            window.setTheme(theme.hex, theme.primary);
             
-            const btn = document.querySelector('button[onclick="cycleTheme()"] i');
-            gsap.fromTo(btn, {rotate: 0}, {rotate: 360, duration: 0.5});
+            // Rotate all sparkles icons
+            const btns = document.querySelectorAll('button[onclick="cycleTheme()"] i');
+            btns.forEach(btn => {
+                gsap.fromTo(btn, {rotate: 0}, {rotate: 360, duration: 0.5});
+            });
         }
 
+        // --- LENIS SCROLL ---
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -852,6 +822,7 @@
             menu.classList.toggle('translate-x-full');
         }
 
+        // --- TEXT ANIMATIONS ---
         document.addEventListener('DOMContentLoaded', () => {
             const revealTexts = document.querySelectorAll('.reveal-text');
             
@@ -885,6 +856,7 @@
             );
         });
 
+        // --- CUSTOM CURSOR ---
         const cursorDot = document.getElementById('cursor-dot');
         const cursorRing = document.getElementById('cursor-ring');
         const magneticElements = document.querySelectorAll('.magnetic');
@@ -939,6 +911,7 @@
             });
         });
 
+        // --- 3D TILT EFFECT ---
         function handleTilt(e, card) {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -957,6 +930,7 @@
             card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         }
 
+        // --- DRAGGABLE WINDOW ---
         function makeDraggable(element) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             const header = element.querySelector('.draggable-handle');
@@ -995,8 +969,8 @@
             makeDraggable(draggableWindow);
         }
 
+        // --- WEBGL BACKGROUND ---
         const scene = new THREE.Scene();
-
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         
@@ -1133,6 +1107,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
+        // --- CHAT & ARCHITECT ---
         const widgetBtn = document.getElementById('ai-widget-btn');
         const chatWindow = document.getElementById('ai-chat-window');
         const closeChat = document.getElementById('close-chat');
@@ -1180,7 +1155,7 @@
 
             try {
                 const data = await fetchWithRetry(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${AIzaSyASpNE0W0_i6ZrS_65TAdm3dUHL_qk2Y-I}`, 
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, 
                     {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -1200,7 +1175,7 @@
                     const colorName = themeMatch[1].toLowerCase();
                     const theme = themes[colorName];
                     if (theme) {
-                        window.setTheme(theme.hex, theme.rgb);
+                        window.setTheme(theme.hex, theme.primary);
                     }
                     reply = reply.replace(/\[THEME:\w+\]/, '');
                 }
@@ -1220,10 +1195,10 @@
             div.id = id;
             
             if (sender === 'user') {
-                div.className = "self-end bg-accent/10 border border-accent/20 p-3 rounded-2xl rounded-tr-none max-w-[85%] text-xs text-white";
+                div.className = "self-end bg-primary/20 border border-primary/30 p-3 rounded-lg rounded-tr-none max-w-[85%] text-sm text-foreground";
                 div.innerHTML = text;
             } else {
-                div.className = "self-start bg-white/5 border border-white/5 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-xs text-gray-300 leading-relaxed shadow-sm";
+                div.className = "self-start bg-secondary p-3 rounded-lg rounded-tl-none max-w-[85%] text-sm text-muted-foreground leading-relaxed shadow-sm border border-border";
                 div.innerHTML = text;
             }
             
@@ -1245,13 +1220,17 @@
             if (isOpen) {
                 architectModal.classList.remove('opacity-100', 'pointer-events-auto');
                 architectModal.classList.add('opacity-0', 'pointer-events-none');
-                architectContent.classList.remove('scale-100');
-                architectContent.classList.add('scale-95');
+                architectModal.setAttribute('data-state', 'closed');
+                
+                architectContent.classList.remove('scale-100', 'translate-y-0', 'opacity-100');
+                architectContent.classList.add('scale-95', 'translate-y-4', 'opacity-0');
             } else {
                 architectModal.classList.remove('opacity-0', 'pointer-events-none');
                 architectModal.classList.add('opacity-100', 'pointer-events-auto');
-                architectContent.classList.remove('scale-95');
-                architectContent.classList.add('scale-100');
+                architectModal.setAttribute('data-state', 'open');
+
+                architectContent.classList.remove('scale-95', 'translate-y-4', 'opacity-0');
+                architectContent.classList.add('scale-100', 'translate-y-0', 'opacity-100');
             }
         }
 
@@ -1280,7 +1259,7 @@
 
             try {
                 const data = await fetchWithRetry(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${AIzaSyASpNE0W0_i6ZrS_65TAdm3dUHL_qk2Y-I}`, 
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, 
                     {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -1303,45 +1282,45 @@
                 resultSection.classList.remove('hidden');
 
                 resultSection.innerHTML = `
-                    <div class="text-center mb-8">
-                        <div class="text-accent text-xs font-mono uppercase tracking-widest mb-2">Project Codename</div>
-                        <h2 class="text-4xl font-tall font-bold text-white mb-2">${result.name}</h2>
-                        <p class="text-gray-400 italic">"${result.pitch}"</p>
+                    <div class="text-center mb-6">
+                        <div class="text-primary text-xs font-mono uppercase tracking-widest mb-2">Project Codename</div>
+                        <h2 class="text-3xl font-display font-bold text-foreground mb-2">${result.name}</h2>
+                        <p class="text-muted-foreground italic text-sm">"${result.pitch}"</p>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="grid grid-cols-2 gap-3 mb-6">
                         ${result.stack.map(tech => `
-                            <div class="bg-white/5 border border-white/10 p-3 rounded-lg text-center">
-                                <span class="text-sm font-bold text-gray-200">${tech}</span>
+                            <div class="bg-secondary border border-border p-2 rounded-md text-center">
+                                <span class="text-sm font-bold text-secondary-foreground">${tech}</span>
                             </div>
                         `).join('')}
                     </div>
 
-                    <div class="bg-black/40 border border-white/5 rounded-xl p-6 mb-6">
-                        <h4 class="text-xs font-bold text-accent uppercase tracking-widest mb-4 border-b border-white/10 pb-2">Execution Protocol</h4>
-                        <ul class="space-y-3">
+                    <div class="bg-muted/50 border border-border rounded-lg p-4 mb-6">
+                        <h4 class="text-xs font-bold text-primary uppercase tracking-widest mb-3 border-b border-border pb-2">Execution Protocol</h4>
+                        <ul class="space-y-2">
                             ${result.plan.map(step => `
-                                <li class="flex gap-3 text-sm text-gray-300">
-                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-500 shrink-0"></i>
+                                <li class="flex gap-3 text-sm text-muted-foreground">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-green-500 shrink-0"></i>
                                     ${step}
                                 </li>
                             `).join('')}
                         </ul>
                     </div>
 
-                    <div class="border-t border-white/10 pt-6 mt-6">
-                        <h4 class="text-xs font-bold text-white uppercase tracking-widest mb-4">Send Proposal to Aditya</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <input type="text" id="user-name" class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:border-accent outline-none" placeholder="Your Name">
-                            <input type="email" id="user-email" class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:border-accent outline-none" placeholder="Your Email">
+                    <div class="pt-2">
+                        <h4 class="text-xs font-bold text-foreground uppercase tracking-widest mb-3">Send Proposal to Aditya</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                            <input type="text" id="user-name" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Your Name">
+                            <input type="email" id="user-email" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Your Email">
                         </div>
-                        <button onclick="sendProjectProposal()" class="w-full py-3 bg-accent text-black font-bold rounded-lg hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+                        <button onclick="sendProjectProposal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full gap-2">
                             <span>SEND PROPOSAL</span>
                             <i data-lucide="send" class="w-4 h-4"></i>
                         </button>
                     </div>
 
-                    <button onclick="resetArchitect()" class="w-full mt-4 py-2 text-xs text-gray-500 hover:text-white transition-colors">
+                    <button onclick="resetArchitect()" class="w-full mt-2 py-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
                         Discard & Start Over
                     </button>
                 `;
@@ -1377,188 +1356,6 @@
             document.getElementById('architect-input-section').classList.remove('hidden');
             document.getElementById('project-idea').value = '';
             currentProjectData = null;
-        }
-
-        let catRenderer, catScene, catCamera, catAnimationId, catMixer;
-
-        function releaseTheCat() {
-            const overlay = document.getElementById('disco-overlay');
-            const container = document.getElementById('disco-cat-container');
-            
-            // Check for file protocol which blocks 3D models
-            if (window.location.protocol === 'file:') {
-                alert("⚠️ SECURITY BLOCKED: Browsers cannot load 3D models directly from a file.\n\nPlease use a Local Server (like 'Live Server' in VS Code) to view this feature.");
-                // Fallback visual so they see something
-                container.innerHTML = '<div class="flex items-center justify-center h-full text-white text-center p-4 bg-red-900/50">Needs Local Server<br>(CORS Error)</div>';
-                
-                overlay.classList.remove('hidden');
-                overlay.classList.remove('opacity-0');
-                overlay.classList.add('opacity-100');
-                overlay.classList.remove('pointer-events-none'); 
-                overlay.classList.add('pointer-events-auto');
-                
-                // Cleanup logic still needed to close overlay
-                overlay.onclick = () => {
-                    overlay.classList.add('hidden');
-                    container.innerHTML = '';
-                };
-                return;
-            }
-
-            if (catRenderer) {
-                container.innerHTML = '';
-                cancelAnimationFrame(catAnimationId);
-            }
-
-            catScene = new THREE.Scene();
-            // Adjust camera to frame the cat better
-            catCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000); 
-            catCamera.position.set(0, 20, 80); // Higher and back
-            catCamera.lookAt(0, 10, 0); // Look at center
-
-            catRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            catRenderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(catRenderer.domElement);
-
-            // Lighting setup
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-            catScene.add(ambientLight);
-            
-            const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
-            dirLight.position.set(10, 20, 10);
-            catScene.add(dirLight);
-            
-            const backLight = new THREE.DirectionalLight(0x22d3ee, 0.5); // Cyan rim light
-            backLight.position.set(-10, 10, -10);
-            catScene.add(backLight);
-
-            // Texture Loading
-            const textureLoader = new THREE.TextureLoader();
-            // Using .png matching the FBX internal reference
-            const catTexture = textureLoader.load('cat.png', 
-                () => console.log("Texture loaded"), 
-                undefined, 
-                (err) => console.error("Texture error. Ensure 'cat.png' is in folder.")
-            );
-
-            // Model Loading
-            const loader = new THREE.FBXLoader();
-            // Vital: Tell loader to look in current folder for any internal references
-            loader.setResourcePath('./'); 
-            
-            loader.load('cat.fbx', (object) => {
-                console.log("Cat model loaded!");
-                
-                object.traverse((child) => {
-                    if (child.isMesh) {
-                        // Apply texture manually to ensure it works
-                        child.material.map = catTexture;
-                        child.material.needsUpdate = true;
-                    }
-                });
-
-                if (object.animations && object.animations.length) {
-                    catMixer = new THREE.AnimationMixer(object);
-                    const action = catMixer.clipAction(object.animations[0]);
-                    action.play();
-                }
-
-                // Scale and Position Adjustments
-                object.scale.set(0.35, 0.35, 0.35); 
-                object.position.y = -20; // Lower it to fit in circle
-                object.position.x = 0;
-                
-                catScene.add(object);
-            }, (xhr) => {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-            }, (error) => {
-                console.error("Error loading FBX:", error);
-                const errorMsg = document.createElement('div');
-                errorMsg.className = "absolute inset-0 flex flex-col items-center justify-center text-white font-mono text-xs text-center p-4 bg-black/50";
-                errorMsg.innerHTML = `<span class="text-red-400 font-bold">Error Loading Model</span><br>Check Console (F12)`;
-                container.appendChild(errorMsg);
-            });
-
-            const animateCat = () => {
-                // Use a dedicated clock for the mixer
-                if (!window.catClock) window.catClock = new THREE.Clock();
-                
-                const delta = window.catClock.getDelta();
-                if (catMixer) catMixer.update(delta);
-                
-                // Slight idle rotation if no animation
-                if (catScene.children.length > 3) { // lights + model
-                   // catScene.children[3].rotation.y += 0.01; 
-                }
-
-                catRenderer.render(catScene, catCamera);
-                catAnimationId = requestAnimationFrame(animateCat);
-            };
-            animateCat();
-
-            overlay.classList.remove('hidden');
-            overlay.classList.remove('pointer-events-none'); 
-            overlay.classList.add('pointer-events-auto');
-            
-            void overlay.offsetWidth; 
-            overlay.classList.remove('opacity-0');
-            overlay.classList.add('opacity-100');
-
-            gsap.fromTo(container, 
-                { y: -window.innerHeight, scale: 0.5 },
-                { y: 0, scale: 1, duration: 1.5, ease: "elastic.out(1, 0.5)" }
-            );
-
-            const colors = [
-                'rgba(255, 0, 0, 0.4)', 'rgba(255, 165, 0, 0.4)', 'rgba(255, 255, 0, 0.4)',
-                'rgba(0, 128, 0, 0.4)', 'rgba(0, 0, 255, 0.4)', 'rgba(128, 0, 128, 0.4)',
-                'rgba(255, 192, 203, 0.4)'
-            ];
-            
-            let discoInterval;
-            let startTimeout;
-            let endTimeout;
-
-            const stopParty = () => {
-                if (startTimeout) clearTimeout(startTimeout);
-                if (endTimeout) clearTimeout(endTimeout);
-                if (discoInterval) clearInterval(discoInterval);
-                
-                overlay.classList.remove('opacity-100');
-                overlay.classList.add('opacity-0');
-                
-                overlay.classList.remove('pointer-events-auto');
-                overlay.classList.add('pointer-events-none');
-                
-                gsap.killTweensOf(container);
-
-                setTimeout(() => {
-                    overlay.classList.add('hidden');
-                    overlay.style.backgroundColor = 'transparent';
-                    
-                    cancelAnimationFrame(catAnimationId);
-                    if(catRenderer) {
-                        catRenderer.dispose();
-                        container.innerHTML = '';
-                        catRenderer = null;
-                        catScene = null;
-                        catMixer = null;
-                    }
-                    overlay.onclick = null;
-                }, 500); 
-            };
-
-            overlay.onclick = stopParty;
-
-            startTimeout = setTimeout(() => {
-                let colorIndex = 0;
-                discoInterval = setInterval(() => {
-                    overlay.style.backgroundColor = colors[colorIndex];
-                    colorIndex = (colorIndex + 1) % colors.length;
-                }, 250); 
-            }, 8000);
-
-            endTimeout = setTimeout(stopParty, 11000);
         }
 
         gsap.registerPlugin(ScrollTrigger);
