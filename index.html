@@ -237,26 +237,6 @@
         .draggable-handle { cursor: grab; }
         .draggable-handle:active { cursor: grabbing; }
 
-        /* AI Widget */
-        #ai-widget-btn {
-            position: fixed; bottom: 2rem; right: 2rem;
-            width: 3.5rem; height: 3.5rem;
-            border-radius: 9999px;
-            background: hsl(var(--background));
-            border: 1px solid hsl(var(--border));
-            color: hsl(var(--primary));
-            z-index: 90;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
-        #ai-widget-btn:hover {
-            transform: scale(1.1);
-            border-color: hsl(var(--primary));
-            box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.3);
-            background: hsl(var(--muted));
-        }
-
         /* Chat Window */
         #ai-chat-window {
             position: fixed; bottom: 7rem; right: 5vw;
@@ -271,13 +251,13 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             pointer-events: none;
         }
-        @media (min-width: 768px) { #ai-chat-window { right: 2rem; width: 400px; } }
+        @media (min-width: 768px) { #ai-chat-window { right: 5rem; width: 400px; } }
         #ai-chat-window.open { height: 600px; max-height: 75vh; opacity: 1; pointer-events: all; }
 
-        /* Floating Sidebar */
+        /* Floating Sidebar (Right Aligned) */
         .floating-sidebar {
             position: fixed;
-            left: 2rem;
+            right: 2rem; /* Moved to Right */
             top: 50%;
             transform: translateY(-50%);
             z-index: 50;
@@ -353,28 +333,32 @@
 
     <div id="webgl-container"></div>
 
-    <!-- Floating Sidebar (Shadcn Style) -->
+    <!-- Floating Sidebar (Right Aligned) -->
     <aside class="floating-sidebar flex-col gap-4 p-2 rounded-2xl border border-border bg-card/50 backdrop-blur-md shadow-xl transition-all duration-300">
         <a href="#about" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="About">
             <i data-lucide="user" class="w-5 h-5"></i>
-            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">About Me</span>
+            <span class="absolute right-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">About Me</span>
         </a>
         <a href="#experience" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="Experience">
             <i data-lucide="briefcase" class="w-5 h-5"></i>
-            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Experience</span>
+            <span class="absolute right-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Experience</span>
         </a>
         <a href="#services" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="Services">
             <i data-lucide="zap" class="w-5 h-5"></i>
-            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Services</span>
+            <span class="absolute right-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Services</span>
         </a>
         <a href="#education" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="Education">
             <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Education</span>
+            <span class="absolute right-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Education</span>
         </a>
         <div class="h-px w-full bg-border my-1"></div>
+        <button onclick="toggleChat()" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="AI Chat">
+            <i data-lucide="bot" class="w-5 h-5"></i>
+            <span class="absolute right-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">AI Assistant</span>
+        </button>
         <a href="mailto:www.adisng@gmail.com" class="p-3 rounded-xl hover:bg-primary hover:text-primary-foreground text-muted-foreground transition-all group relative" title="Contact">
             <i data-lucide="mail" class="w-5 h-5"></i>
-            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Contact</span>
+            <span class="absolute right-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Contact</span>
         </a>
     </aside>
 
@@ -402,7 +386,7 @@
     </div>
 
     <!-- Header -->
-    <header class="fixed top-0 w-full z-40 px-6 lg:pl-32 py-4 transition-all duration-300 bg-gradient-to-b from-background via-background/80 to-transparent">
+    <header class="fixed top-0 w-full z-40 px-6 lg:pr-32 py-4 transition-all duration-300 bg-gradient-to-b from-background via-background/80 to-transparent">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="#" class="magnetic z-50 group">
                 <div class="font-bold text-2xl tracking-widest relative flex items-center gap-1 font-display text-foreground">
@@ -437,7 +421,7 @@
     </header>
 
     <!-- About Section -->
-    <section id="about" class="relative min-h-screen flex items-center justify-center px-6 lg:pl-32 pt-0 overflow-hidden">
+    <section id="about" class="relative min-h-screen flex items-center justify-center px-6 lg:pr-32 pt-0 overflow-hidden">
         <div class="relative z-20 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1 relative">
                 <!-- Badge -->
@@ -548,7 +532,7 @@
     </div>
 
     <!-- Experience Section -->
-    <section id="experience" class="py-24 md:py-40 px-6 lg:pl-32 relative">
+    <section id="experience" class="py-24 md:py-40 px-6 lg:pr-32 relative">
         <div class="max-w-5xl mx-auto">
             <div class="flex items-end justify-between mb-16 md:mb-24">
                 <h2 class="text-5xl md:text-8xl font-display font-bold text-foreground tracking-tight">Experience</h2>
@@ -585,7 +569,7 @@
     </section>
 
     <!-- Services Section (Formerly Certifications) -->
-    <section id="services" class="py-24 md:py-40 px-6 lg:pl-32 relative">
+    <section id="services" class="py-24 md:py-40 px-6 lg:pr-32 relative">
         <div class="max-w-6xl mx-auto">
             <div class="flex items-end justify-between mb-16 md:mb-24">
                 <h2 class="text-5xl md:text-8xl font-display font-bold text-foreground tracking-tight">Services</h2>
@@ -645,7 +629,7 @@
     </section>
 
     <!-- Education Section -->
-    <section id="education" class="py-24 md:py-40 px-6 lg:pl-32 relative">
+    <section id="education" class="py-24 md:py-40 px-6 lg:pr-32 relative">
         <div class="max-w-5xl mx-auto">
             <div class="flex items-end justify-between mb-16 md:mb-24">
                 <h2 class="text-5xl md:text-8xl font-display font-bold text-foreground tracking-tight">Education</h2>
@@ -691,7 +675,7 @@
     </section>
 
     <!-- Contact Form Section -->
-    <section id="contact" class="py-24 md:py-40 px-6 lg:pl-32 relative">
+    <section id="contact" class="py-24 md:py-40 px-6 lg:pr-32 relative">
         <div class="max-w-xl mx-auto">
             <div class="flex items-end justify-between mb-12">
                 <h2 class="text-4xl md:text-6xl font-display font-bold text-foreground tracking-tight">Get in Touch</h2>
@@ -737,7 +721,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-24 md:py-40 px-6 lg:pl-32 border-t border-border relative overflow-hidden bg-background">
+    <footer class="py-24 md:py-40 px-6 lg:pr-32 border-t border-border relative overflow-hidden bg-background">
         <div class="max-w-7xl mx-auto text-center relative z-10">
             <h2 class="text-5xl md:text-[10rem] font-display font-bold mb-16 text-muted hover:text-foreground transition-colors cursor-default leading-none whitespace-nowrap">
                 ADITYA SINGH
@@ -761,12 +745,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- AI Widget Button (New Icon) -->
-    <button id="ai-widget-btn" class="magnetic" title="Chat with AI Assistant">
-        <i data-lucide="bot" class="w-6 h-6"></i>
-        <div class="absolute inset-0 rounded-full border border-primary/50 animate-ping"></div>
-    </button>
 
     <!-- Chat Window (Styled with Selector and Prompt Form) -->
     <div id="ai-chat-window">
@@ -810,7 +788,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <h3 class="text-lg font-semibold leading-none tracking-tight text-foreground">Project Architect</h3>
-                        <p class="text-sm text-muted-foreground mt-1.5">Powered by Gemini </p>
+                        <p class="text-sm text-muted-foreground mt-1.5">Powered by Gemini 2.5</p>
                     </div>
                     <button onclick="toggleArchitect()" class="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
                         <i data-lucide="x" class="w-4 h-4"></i>
@@ -1235,7 +1213,6 @@
         });
 
         // --- CHAT & ARCHITECT ---
-        const widgetBtn = document.getElementById('ai-widget-btn');
         const chatWindow = document.getElementById('ai-chat-window');
         const closeChat = document.getElementById('close-chat');
         const aiInput = document.getElementById('ai-input');
@@ -1253,7 +1230,6 @@
             chatWindow.classList.toggle('open');
         }
 
-        widgetBtn.addEventListener('click', toggleChat);
         closeChat.addEventListener('click', toggleChat);
 
         async function fetchWithRetry(url, options, retries = 3, backoff = 1000) {
