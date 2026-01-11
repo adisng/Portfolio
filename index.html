@@ -70,6 +70,13 @@
                         sm: "calc(var(--radius) - 4px)",
                     },
                     keyframes: {
+                        "color-spin": {
+                            "0%": { borderTopColor: "hsl(186 100% 50%)" },   /* Cyan */
+                            "25%": { borderTopColor: "hsl(270 95% 75%)" },   /* Purple */
+                            "50%": { borderTopColor: "hsl(142 71% 58%)" },   /* Green */
+                            "75%": { borderTopColor: "hsl(24 94% 61%)" },    /* Orange */
+                            "100%": { borderTopColor: "hsl(186 100% 50%)" }  /* Back to Cyan */
+                        },
                         "accordion-down": {
                             from: { height: 0 },
                             to: { height: "var(--radix-accordion-content-height)" },
@@ -80,6 +87,7 @@
                         },
                     },
                     animation: {
+                        "color-spin": "spin 1s linear infinite, color-spin 4s linear infinite",
                         "accordion-down": "accordion-down 0.2s ease-out",
                         "accordion-up": "accordion-up 0.2s ease-out",
                     },
@@ -266,6 +274,21 @@
         @media (min-width: 768px) { #ai-chat-window { right: 2rem; width: 400px; } }
         #ai-chat-window.open { height: 600px; max-height: 75vh; opacity: 1; pointer-events: all; }
 
+        /* Floating Sidebar */
+        .floating-sidebar {
+            position: fixed;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 50;
+            display: none;
+        }
+        @media (min-width: 1024px) {
+            .floating-sidebar {
+                display: flex;
+            }
+        }
+
         /* Marquee */
         .marquee-container {
             position: relative; width: 100%; overflow: hidden;
@@ -329,6 +352,31 @@
     <div id="cursor-ring"></div>
 
     <div id="webgl-container"></div>
+
+    <!-- Floating Sidebar (Shadcn Style) -->
+    <aside class="floating-sidebar flex-col gap-4 p-2 rounded-2xl border border-border bg-card/50 backdrop-blur-md shadow-xl transition-all duration-300">
+        <a href="#about" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="About">
+            <i data-lucide="user" class="w-5 h-5"></i>
+            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">About Me</span>
+        </a>
+        <a href="#experience" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="Experience">
+            <i data-lucide="briefcase" class="w-5 h-5"></i>
+            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Experience</span>
+        </a>
+        <a href="#services" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="Services">
+            <i data-lucide="zap" class="w-5 h-5"></i>
+            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Services</span>
+        </a>
+        <a href="#education" class="p-3 rounded-xl hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all group relative" title="Education">
+            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Education</span>
+        </a>
+        <div class="h-px w-full bg-border my-1"></div>
+        <a href="mailto:www.adisng@gmail.com" class="p-3 rounded-xl hover:bg-primary hover:text-primary-foreground text-muted-foreground transition-all group relative" title="Contact">
+            <i data-lucide="mail" class="w-5 h-5"></i>
+            <span class="absolute left-14 top-1/2 -translate-y-1/2 px-2 py-1 bg-popover border border-border rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-popover-foreground">Contact</span>
+        </a>
+    </aside>
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="fixed inset-0 bg-background/95 backdrop-blur-xl z-50 transform translate-x-full flex flex-col justify-center items-center gap-8 text-center">
@@ -734,13 +782,41 @@
                     </button>
                 </div>
 
-                <div id="architect-loading" class="hidden py-12 flex flex-col items-center justify-center space-y-4">
-                    <div class="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin"></div>
-                    <p class="text-sm text-muted-foreground animate-pulse">Computing optimum architecture...</p>
+                <div id="architect-loading" class="hidden py-8 flex flex-col items-center justify-center space-y-6 w-full">
+                    <div class="w-12 h-12 border-4 border-muted rounded-full animate-color-spin"></div>
+                    
+                    <div class="w-full space-y-4 px-4">
+                        <!-- Skeleton UI -->
+                        <div class="flex flex-col items-center space-y-2">
+                            <div class="h-6 w-1/3 bg-muted rounded animate-pulse"></div>
+                            <div class="h-4 w-1/2 bg-muted rounded animate-pulse"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="h-8 bg-muted rounded animate-pulse"></div>
+                            <div class="h-8 bg-muted rounded animate-pulse"></div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="h-4 w-full bg-muted rounded animate-pulse"></div>
+                            <div class="h-4 w-5/6 bg-muted rounded animate-pulse"></div>
+                            <div class="h-4 w-4/6 bg-muted rounded animate-pulse"></div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-muted-foreground animate-pulse uppercase tracking-widest">Designing Architecture...</p>
                 </div>
 
                 <div id="architect-result" class="hidden space-y-6">
                     <!-- Results injected here by JS -->
+                </div>
+
+                <div id="architect-success" class="hidden py-12 flex flex-col items-center justify-center space-y-4 text-center">
+                    <div class="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center text-green-500 mb-2">
+                        <i data-lucide="check" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-foreground">Proposal Sent!</h3>
+                    <p class="text-muted-foreground max-w-xs">I've received your project brief. I'll review the architecture and get back to you within 24 hours.</p>
+                    <button onclick="resetArchitect()" class="mt-4 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-8">
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
@@ -1346,6 +1422,11 @@
                 return;
             }
 
+            // Show Success Screen inside Modal
+            document.getElementById('architect-result').classList.add('hidden');
+            document.getElementById('architect-success').classList.remove('hidden');
+
+            // Still open mailto in background
             const subject = `Project Proposal: ${currentProjectData.name}`;
             const body = `Hi Aditya,%0D%0A%0D%0AI'm ${name} (${email}).%0D%0A%0D%0AI used your AI Architect to generate this project idea:%0D%0A%0D%0A---%0D%0APROJECT: ${currentProjectData.name}%0D%0APITCH: ${currentProjectData.pitch}%0D%0A%0D%0ATECH STACK:%0D%0A- ${currentProjectData.stack.join('%0D%0A- ')}%0D%0A%0D%0APLAN:%0D%0A- ${currentProjectData.plan.join('%0D%0A- ')}%0D%0A---%0D%0A%0D%0ALet's discuss this!`;
 
@@ -1353,10 +1434,12 @@
         }
 
         function resetArchitect() {
+            document.getElementById('architect-success').classList.add('hidden');
             document.getElementById('architect-result').classList.add('hidden');
             document.getElementById('architect-input-section').classList.remove('hidden');
             document.getElementById('project-idea').value = '';
             currentProjectData = null;
+            toggleArchitect(); // Close modal on reset/close
         }
 
         gsap.registerPlugin(ScrollTrigger);
